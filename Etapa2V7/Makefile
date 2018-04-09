@@ -17,7 +17,7 @@ parser.tab.o: parser.tab.c
 	gcc -c parser.tab.c
 
 parser.tab.c: parser.y
-	yacc -d parser.y
+	yacc -d -v parser.y
 
 clean:
 	rm etapa2.exe lex.yy.c parser.tab.c parser.tab.h *.o

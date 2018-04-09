@@ -47,129 +47,131 @@
 
 
 %%
-program: declist {printf("1\n");}
+program: declist {printf("program->declist\n");}
 	;
 	
-declist: dec declist
+declist: dec declist	{printf("declist->dec declist\n");}
 	|
 	;
 
-dec: DECL
-	|FUNCT {printf("1\n");}
+dec: DECL	{printf("-----------------dec->DECL-----------------------------------\n");}
+	|FUNCT {printf("------------------dec->FUNCT----------------------------------\n");}
 	;
 
 /*=============================================================*/
 /*====================Definição de funções=====================*/		   
 /*=============================================================*/		 
-FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY {printf("5\n");}
+FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY {printf("FUNCT->TYPE TK_IDENTIFIER'('LISTPARAM')' BODY\n");}
 		;
 	   	   
-LISTPARAM: PARAM RESTPARAM {printf("5\n");};
-           |
-		   ;
+LISTPARAM: PARAM RESTPARAM {printf("LISTPARAM-> PARAM RESTPARAM\n");}
+		|{printf("LISTPARAM-> vazio\n");}
+		;
 
-RESTPARAM: ',' PARAM RESTPARAM
-			|
-			;
+RESTPARAM: ',' PARAM RESTPARAM	{printf("RESTPARAM-> ',' PARAM RESTPARAM\n");}
+		|	{printf("RESTPARAM-> vazio\n");}
+		;
 
-PARAM: TYPE TK_IDENTIFIER;
+PARAM: TYPE TK_IDENTIFIER	{printf("PARAM-> TYPE TK_IDENTIFIER\n");}
+		;
 
 
 /*==============Bloco de comandos===============*/		   
 
-BODY: '{' BLCCOMAND '}' {printf("2\n");};
+BODY: '{' BLCCOMAND '}' {printf("BODY-> '{' BLCCOMAND '}'");}
+		;
 
-BLCCOMAND: COMAND RESTCOMAND {printf("AAA2\n");}
-		   |  
-		   ;
+BLCCOMAND: COMAND RESTCOMAND {printf("BLCCOMAND: COMAND RESTCOMAND\n");}
+		|	{printf("BLCCOMAND: vazio\n");}
+		;
 
-RESTCOMAND: ';' COMAND RESTCOMAND
-			|
-			;
+RESTCOMAND: ';' COMAND RESTCOMAND	{printf("RESTCOMAND: ';' COMAND RESTCOMAND\n");}
+		|	{printf("RESTCOMAND: vazio\n");}
+		;
 
 /*==============Comandos Simples===============*/	
 			
-COMAND: TK_IDENTIFIER '=' EXPRES {printf("7\n");}
-		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES {printf("7\n");}
-		|CONTROLFL {printf("7\n");}
-		|KW_READ TK_IDENTIFIER {printf("7\n");}/*variável escalar =  int, float, string, boolean*/
-		|KW_PRINT LISTPRINT
-		|KW_RETURN EXPRES
+COMAND: TK_IDENTIFIER '=' EXPRES {printf("\tCOMAND->TK_ID '=' EXPRES->\n");}
+		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES {printf("\tCOMAND->TK_ID '[' EXPRES ']' '=' EXPRES->\n");}
+		|CONTROLFL {printf("\tCOMAND: CONTROLFL\n");}
+		|KW_READ TK_IDENTIFIER {printf("\tCOMAND: KW_READ TK_IDENTIFIER\n");}/*variável escalar =  int, float, string, boolean*/
+		|KW_PRINT LISTPRINT	{printf("\tCOMAND: KW_PRINT LISTPRINT\n");}
+		|KW_RETURN EXPRES	{printf("\tCOMAND: KW_RETURN EXPRES\n");}
 		;
 	
-LISTPRINT: ELEMENT RESTELEMENT;
+LISTPRINT: ELEMENT RESTELEMENT	{printf("LISTPRINT: ELEMENT RESTELEMENT\n");}
+		;
 
-RESTELEMENT: ELEMENT RESTELEMENT
-			|
+RESTELEMENT: ELEMENT RESTELEMENT	{printf("RESTELEMENT: ELEMENT RESTELEMENT\n");}
+			|	{printf("RESTELEMENT: vazio\n");}
 			;
 			
-ELEMENT: LIT_STRING
-		 | EXPRES 
+ELEMENT: LIT_STRING	{printf("ELEMENT: LIT_STRING\n");}
+		 | EXPRES 	{printf("ELEMENT: EXPRES\n");}
 		 ;
 
 /*==============Controle de fluxo===============*/	
 		 
-CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE
-		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND
-		|KW_WHILE '('EXPRES')' BODY
-		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND
+CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{printf("CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE\n");}
+		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND			{printf("CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND\n");}
+		|KW_WHILE '('EXPRES')' BODY									{printf("CONTROLFL: KW_WHILE '('EXPRES')' BODY\n");}
+		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND	{printf("CONTROLFL: KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND\n");}
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
-EXPRES:  '(' EXPRES: ')' /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
-		|TK_IDENTIFIER
-		|TK_IDENTIFIER '[' EXPRES ']'
-		|LITERALINTEGER
-		|CARAC
-		|VARREAL
-		|EXPRES'*' EXPRES	
-		|EXPRES '+' EXPRES	
-		|EXPRES '-' EXPRES	
-		|EXPRES '/' EXPRES
-		| EXPRES '<' EXPRES
-		| EXPRES '>' EXPRES
-		| '!' EXPRES 	
-		| EXPRES OPERATOR_LE EXPRES
-		| EXPRES OPERATOR_GE EXPRES
-		| EXPRES OPERATOR_EQ EXPRES
-		| EXPRES OPERATOR_NE EXPRES
-		| EXPRES OPERATOR_AND EXPRES 
-		| EXPRES OPERATOR_OR EXPRES 
-		| TK_IDENTIFIER '(' LSTARG ')'
-		|'#'TK_IDENTIFIER
-		|'&'TK_IDENTIFIER
+EXPRES:  '(' EXPRES: ')' {printf("EXPRES->'(' EXPRES: ')'\n");} /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
+		|TK_IDENTIFIER	{printf("EXPRES->TK_IDENTIFIER\n");}
+		|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
+		|LITERALINTEGER	{printf("EXPRES->LITERALINTEGER\n");}
+		|CARAC	{printf("EXPRES->CARAC\n");}
+		|VARREAL	{printf("EXPRES->ARREAL\n");}
+		|EXPRES'*' EXPRES	{printf("EXPRES->EXPRES'*' EXPRES\n");}
+		|EXPRES '+' EXPRES	{printf("EXPRES->EXPRES '+' EXPRES\n");}
+		|EXPRES '-' EXPRES	{printf("EXPRES->EXPRES '-' EXPRES\n");}
+		|EXPRES '/' EXPRES	{printf("EXPRES->EXPRES '/' EXPRES\n");}
+		| EXPRES '<' EXPRES	{printf("EXPRES->EXPRES '<' EXPRES\n");}
+		| EXPRES '>' EXPRES	{printf("EXPRES->EXPRES '>' EXPRES\n");}
+		| '!' EXPRES	{printf("EXPRES->'!' EXPRES\n");}
+		| EXPRES OPERATOR_LE EXPRES	{printf("EXPRES->EXPRES OPERATOR_LE EXPRES	\n");}
+		| EXPRES OPERATOR_GE EXPRES	{printf("EXPRES->EXPRES OPERATOR_GE EXPRES	\n");}
+		| EXPRES OPERATOR_EQ EXPRES	{printf("EXPRES->EXPRES OPERATOR_EQ EXPRES	\n");}
+		| EXPRES OPERATOR_NE EXPRES	{printf("EXPRES->EXPRES OPERATOR_NE EXPRES	\n");}
+		| EXPRES OPERATOR_AND EXPRES {printf("EXPRES->EXPRES OPERATOR_AND EXPRES\n");}
+		| EXPRES OPERATOR_OR EXPRES	{printf("EXPRES->EXPRES OPERATOR_OR EXPRES\n");}
+		| TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}
+		|'#'TK_IDENTIFIER	{printf("EXPRES->'#'TK_IDENTIFIER\n");}
+		|'&'TK_IDENTIFIER	{printf("EXPRES->'&'TK_IDENTIFIER\n");}
 		;
 		
-LSTARG: ',' ARG LSTARG
-		|
+LSTARG: EXPRES ARGTAIL	{printf("LSTARG: EXPRES ARGTAIL\n");}
 		;		
 		
-ARG:	'&'  TK_IDENTIFIER
-		|'#' TK_IDENTIFIER
+ARGTAIL: ',' EXPRES ARGTAIL
+		|
 		;
 
 /*=============================================================*/
 /*==============Declarações de variáveis globais===============*/		   
 /*=============================================================*/
 
-DECL: TYPE TK_IDENTIFIER '=' INILIT';'
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'
-	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	  
+DECL: TYPE TK_IDENTIFIER '=' INILIT';'	{printf("DECL: TYPE TK_IDENTIFIER '=' INILIT';'\n");}
+	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'	{printf("DECL: TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'\n");}
+	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'	{printf("DECL: TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'\n");}
+	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	{printf("DECL: TYPE '#'TK_IDENTIFIER '=' INILIT';'\n");}
 	  ;
 	  
-TYPE: KW_CHAR
-      |KW_FLOAT
-	  |KW_INT
+TYPE: KW_CHAR	{printf("TYPE: KW_CHAR\n");}
+      |KW_FLOAT	{printf("TYPE: KW_FLOAT\n");}
+	  |KW_INT	{printf("TYPE: KW_INT\n");}
 	  ;
 	  
-INILIT: CARAC
-		|LITERALINTEGER
-		|VARREAL
+INILIT: CARAC	{printf("INILIT: CARAC\n");}
+		|LITERALINTEGER	{printf("INILIT: LITERALINTEGER\n");}
+		|VARREAL	{printf("INILIT: VARREAL\n");}
 		;
 
-RESTINILIT: INILIT RESTINILIT
-			|
+RESTINILIT: INILIT RESTINILIT	{printf("RESTINILIT:: VARREAL\n");}
+			|	{printf("RESTINILIT: Vazio\n");}
 			;
 			
 
@@ -177,14 +179,14 @@ RESTINILIT: INILIT RESTINILIT
 /*========================DEBUG AREA===========================*/		   
 /*=============================================================*/
 
-VARREAL: LIT_REAL
+VARREAL: LIT_REAL	
 		;
 
-LITERALINTEGER: LIT_INTEGER
+LITERALINTEGER: LIT_INTEGER	
 		;
 		
-CARAC: LIT_CHAR
-		;
+CARAC: LIT_CHAR	
+		;	
 	  
 %%
 void yyerror(char *msg)
