@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	}
 	*/
 	yyparse();
-	hashprint();
+	/*hashprint();*/
 
 	return 0;
 }

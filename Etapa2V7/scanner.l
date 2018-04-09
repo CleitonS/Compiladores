@@ -1,6 +1,6 @@
 %{
 #include "hash.c"
-#include "parser.tab.h"
+#include "y.tab.h"
 #include <stdio.h>
 
 	int countLine = 1;

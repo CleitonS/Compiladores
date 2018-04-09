@@ -35,143 +35,150 @@
 %token TOKEN_ERROR
 
 /*Prioridade de operações, resolve alguns reduce*/	
-
+/*%left '{' '[' '('*/
 %left OPERATOR_AND OPERATOR_OR
 %left OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NE
 %left '<' '>' '!'
 %left '-' '+'
 %left '*' '/'  
 
+%nonassoc IDENTF
 %nonassoc IFELSE
 %nonassoc KW_ELSE
 
 
 %%
-program: declist {printf("program->declist\n");}
+program: declist 
 	;
 	
-declist: dec declist	{printf("declist->dec declist\n");}
+declist: dec declist	
 	|
 	;
 
-dec: DECL	{printf("-----------------dec->DECL-----------------------------------\n");}
-	|FUNCT {printf("------------------dec->FUNCT----------------------------------\n");}
+dec: DECL	
+	|FUNCT 
 	;
 
 /*=============================================================*/
 /*====================Definição de funções=====================*/		   
 /*=============================================================*/		 
-FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY {printf("FUNCT->TYPE TK_IDENTIFIER'('LISTPARAM')' BODY\n");}
+FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY 
 		;
 	   	   
-LISTPARAM: PARAM RESTPARAM {printf("LISTPARAM-> PARAM RESTPARAM\n");}
-		|{printf("LISTPARAM-> vazio\n");}
+LISTPARAM: PARAM RESTPARAM 
+		|
 		;
 
-RESTPARAM: ',' PARAM RESTPARAM	{printf("RESTPARAM-> ',' PARAM RESTPARAM\n");}
-		|	{printf("RESTPARAM-> vazio\n");}
+RESTPARAM: ',' PARAM RESTPARAM	
+		|	
 		;
 
-PARAM: TYPE TK_IDENTIFIER	{printf("PARAM-> TYPE TK_IDENTIFIER\n");}
+PARAM: TYPE TK_IDENTIFIER	
 		;
 
 
 /*==============Bloco de comandos===============*/		   
 
-BODY: '{' BLCCOMAND '}' {printf("BODY-> '{' BLCCOMAND '}'");}
+BODY: '{' BLCCOMAND '}' 
 		;
 
-BLCCOMAND: COMAND RESTCOMAND {printf("BLCCOMAND: COMAND RESTCOMAND\n");}
-		|	{printf("BLCCOMAND: vazio\n");}
+BLCCOMAND: COMAND RESTCOMAND 
 		;
 
-RESTCOMAND: ';' COMAND RESTCOMAND	{printf("RESTCOMAND: ';' COMAND RESTCOMAND\n");}
-		|	{printf("RESTCOMAND: vazio\n");}
+RESTCOMAND: ';' COMAND RESTCOMAND	
+		|	
 		;
 
 /*==============Comandos Simples===============*/	
 			
-COMAND: TK_IDENTIFIER '=' EXPRES {printf("\tCOMAND->TK_ID '=' EXPRES->\n");}
-		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES {printf("\tCOMAND->TK_ID '[' EXPRES ']' '=' EXPRES->\n");}
-		|CONTROLFL {printf("\tCOMAND: CONTROLFL\n");}
-		|KW_READ TK_IDENTIFIER {printf("\tCOMAND: KW_READ TK_IDENTIFIER\n");}/*variável escalar =  int, float, string, boolean*/
-		|KW_PRINT LISTPRINT	{printf("\tCOMAND: KW_PRINT LISTPRINT\n");}
-		|KW_RETURN EXPRES	{printf("\tCOMAND: KW_RETURN EXPRES\n");}
+COMAND: TK_IDENTIFIER '=' EXPRES 
+		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES 
+		|CONTROLFL 
+		|KW_READ TK_IDENTIFIER /*variável escalar =  int, float, string, boolean*/
+		|KW_PRINT LISTPRINT	
+		|KW_RETURN EXPRES	
+		|BODY
+		|
 		;
 	
-LISTPRINT: ELEMENT RESTELEMENT	{printf("LISTPRINT: ELEMENT RESTELEMENT\n");}
+LISTPRINT: ELEMENT RESTELEMENT	
 		;
 
-RESTELEMENT: ELEMENT RESTELEMENT	{printf("RESTELEMENT: ELEMENT RESTELEMENT\n");}
-			|	{printf("RESTELEMENT: vazio\n");}
+RESTELEMENT: ELEMENT RESTELEMENT	
+			|	
 			;
 			
-ELEMENT: LIT_STRING	{printf("ELEMENT: LIT_STRING\n");}
-		 | EXPRES 	{printf("ELEMENT: EXPRES\n");}
+ELEMENT: LIT_STRING	
+		 | EXPRES 	
 		 ;
 
 /*==============Controle de fluxo===============*/	
 		 
-CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{printf("CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE\n");}
-		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND			{printf("CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND\n");}
-		|KW_WHILE '('EXPRES')' BODY									{printf("CONTROLFL: KW_WHILE '('EXPRES')' BODY\n");}
-		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND	{printf("CONTROLFL: KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND\n");}
+CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			
+		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND			
+		|KW_WHILE '('EXPRES')' BODY				
+		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
-EXPRES:  '(' EXPRES: ')' {printf("EXPRES->'(' EXPRES: ')'\n");} /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
-		|TK_IDENTIFIER	{printf("EXPRES->TK_IDENTIFIER\n");}
-		|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
-		|LITERALINTEGER	{printf("EXPRES->LITERALINTEGER\n");}
-		|CARAC	{printf("EXPRES->CARAC\n");}
-		|VARREAL	{printf("EXPRES->ARREAL\n");}
-		|EXPRES'*' EXPRES	{printf("EXPRES->EXPRES'*' EXPRES\n");}
-		|EXPRES '+' EXPRES	{printf("EXPRES->EXPRES '+' EXPRES\n");}
-		|EXPRES '-' EXPRES	{printf("EXPRES->EXPRES '-' EXPRES\n");}
-		|EXPRES '/' EXPRES	{printf("EXPRES->EXPRES '/' EXPRES\n");}
-		| EXPRES '<' EXPRES	{printf("EXPRES->EXPRES '<' EXPRES\n");}
-		| EXPRES '>' EXPRES	{printf("EXPRES->EXPRES '>' EXPRES\n");}
-		| '!' EXPRES	{printf("EXPRES->'!' EXPRES\n");}
-		| EXPRES OPERATOR_LE EXPRES	{printf("EXPRES->EXPRES OPERATOR_LE EXPRES	\n");}
-		| EXPRES OPERATOR_GE EXPRES	{printf("EXPRES->EXPRES OPERATOR_GE EXPRES	\n");}
-		| EXPRES OPERATOR_EQ EXPRES	{printf("EXPRES->EXPRES OPERATOR_EQ EXPRES	\n");}
-		| EXPRES OPERATOR_NE EXPRES	{printf("EXPRES->EXPRES OPERATOR_NE EXPRES	\n");}
-		| EXPRES OPERATOR_AND EXPRES {printf("EXPRES->EXPRES OPERATOR_AND EXPRES\n");}
-		| EXPRES OPERATOR_OR EXPRES	{printf("EXPRES->EXPRES OPERATOR_OR EXPRES\n");}
-		| TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}
-		|'#'TK_IDENTIFIER	{printf("EXPRES->'#'TK_IDENTIFIER\n");}
-		|'&'TK_IDENTIFIER	{printf("EXPRES->'&'TK_IDENTIFIER\n");}
+EXPRES:  '(' EXPRES: ')'  /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
+		|TK_IDENTIFIER '[' BLIDENT		
+		|TK_IDENTIFIER '(' BLIDENT
+		|TK_IDENTIFIER	
+		/*|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
+		|TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}*/
+		|LITERALINTEGER	
+		|CARAC	
+		|VARREAL	
+		|EXPRES'*' EXPRES	
+		|EXPRES '+' EXPRES	
+		|EXPRES '-' EXPRES	
+		|EXPRES '/' EXPRES	
+		| EXPRES '<' EXPRES	
+		| EXPRES '>' EXPRES	
+		| '!' EXPRES	
+		| EXPRES OPERATOR_LE EXPRES	
+		| EXPRES OPERATOR_GE EXPRES	
+		| EXPRES OPERATOR_EQ EXPRES	
+		| EXPRES OPERATOR_NE EXPRES	
+		| EXPRES OPERATOR_AND EXPRES 
+		| EXPRES OPERATOR_OR EXPRES			
+		|'#'TK_IDENTIFIER	
+		|'&'TK_IDENTIFIER	
 		;
+
+BLIDENT:  EXPRES ']'
+        | LSTARG ')'
+	;
 		
-LSTARG: EXPRES ARGTAIL	{printf("LSTARG: EXPRES ARGTAIL\n");}
+LSTARG: EXPRES ARGTAIL	
 		;		
 		
 ARGTAIL: ',' EXPRES ARGTAIL
-		|
-		;
+	 |;
 
 /*=============================================================*/
 /*==============Declarações de variáveis globais===============*/		   
 /*=============================================================*/
 
-DECL: TYPE TK_IDENTIFIER '=' INILIT';'	{printf("DECL: TYPE TK_IDENTIFIER '=' INILIT';'\n");}
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'	{printf("DECL: TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'\n");}
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'	{printf("DECL: TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'\n");}
-	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	{printf("DECL: TYPE '#'TK_IDENTIFIER '=' INILIT';'\n");}
+DECL: TYPE TK_IDENTIFIER '=' INILIT';'	
+	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'	
+	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'	
+	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	
 	  ;
 	  
-TYPE: KW_CHAR	{printf("TYPE: KW_CHAR\n");}
-      |KW_FLOAT	{printf("TYPE: KW_FLOAT\n");}
-	  |KW_INT	{printf("TYPE: KW_INT\n");}
+TYPE: KW_CHAR	
+      |KW_FLOAT	
+	  |KW_INT	
 	  ;
 	  
-INILIT: CARAC	{printf("INILIT: CARAC\n");}
-		|LITERALINTEGER	{printf("INILIT: LITERALINTEGER\n");}
-		|VARREAL	{printf("INILIT: VARREAL\n");}
+INILIT: CARAC	
+		|LITERALINTEGER	
+		|VARREAL	
 		;
 
-RESTINILIT: INILIT RESTINILIT	{printf("RESTINILIT:: VARREAL\n");}
-			|	{printf("RESTINILIT: Vazio\n");}
+RESTINILIT: INILIT RESTINILIT	
+			|	
 			;
 			
 
