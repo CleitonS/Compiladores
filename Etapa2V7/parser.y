@@ -47,7 +47,7 @@
 
 
 %%
-program: declist
+program: declist {printf("1\n");}
 	;
 	
 declist: dec declist
@@ -55,15 +55,16 @@ declist: dec declist
 	;
 
 dec: DECL
-	|FUNCT;
+	|FUNCT {printf("1\n");}
+	;
 
 /*=============================================================*/
 /*====================Definição de funções=====================*/		   
 /*=============================================================*/		 
-FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY
+FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY {printf("5\n");}
 		;
 	   	   
-LISTPARAM: PARAM RESTPARAM
+LISTPARAM: PARAM RESTPARAM {printf("5\n");};
            |
 		   ;
 
@@ -76,10 +77,10 @@ PARAM: TYPE TK_IDENTIFIER;
 
 /*==============Bloco de comandos===============*/		   
 
-BODY: '{' BLCCOMAND '}';
+BODY: '{' BLCCOMAND '}' {printf("2\n");};
 
-BLCCOMAND: COMAND RESTCOMAND
-		   |
+BLCCOMAND: COMAND RESTCOMAND {printf("AAA2\n");}
+		   |  
 		   ;
 
 RESTCOMAND: ';' COMAND RESTCOMAND
@@ -88,17 +89,17 @@ RESTCOMAND: ';' COMAND RESTCOMAND
 
 /*==============Comandos Simples===============*/	
 			
-COMAND: TK_IDENTIFIER '=' EXPRES
-		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES
-		|CONTROLFL
-		|KW_READ TK_IDENTIFIER /*variável escalar =  int, float, string, boolean*/
+COMAND: TK_IDENTIFIER '=' EXPRES {printf("7\n");}
+		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES {printf("7\n");}
+		|CONTROLFL {printf("7\n");}
+		|KW_READ TK_IDENTIFIER {printf("7\n");}/*variável escalar =  int, float, string, boolean*/
 		|KW_PRINT LISTPRINT
 		|KW_RETURN EXPRES
 		;
-		
+	
 LISTPRINT: ELEMENT RESTELEMENT;
 
-RESTELEMENT: ' ' ELEMENT RESTELEMENT
+RESTELEMENT: ELEMENT RESTELEMENT
 			|
 			;
 			
