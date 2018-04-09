@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 extern int Running;
 extern FILE * yyin;
 extern char * yytext;

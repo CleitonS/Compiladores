@@ -1,10 +1,8 @@
 %{
-	#include<stdio.h>
-	#include <stdlib.h>
-	//#include "tokens.h"	
-	#include "main.c"
-	#include "parser.y"
-	#include "hash.c"
+#include "hash.c"
+#include "parser.tab.h"
+#include <stdio.h>
+
 	int countLine = 1;
 	int running = 1;
 	int isRunning(void);
@@ -24,6 +22,7 @@ then				{return KW_THEN;}
 else				{return KW_ELSE;}
 while				{return KW_WHILE;}
 for					{return KW_FOR;}
+to					{return KW_TO;}
 read				{return KW_READ;}
 return				{return KW_RETURN;}
 print				{return KW_PRINT;}
