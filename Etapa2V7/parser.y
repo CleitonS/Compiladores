@@ -117,7 +117,7 @@ CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
 EXPRES:  '(' EXPRES: ')' /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
 		|TK_IDENTIFIER
-		|TK_IDENTIFIER '[' EXPRES: ']'
+		|TK_IDENTIFIER '[' EXPRES ']'
 		|LITERALINTEGER
 		|CARAC
 		|VARREAL
@@ -135,6 +135,8 @@ EXPRES:  '(' EXPRES: ')' /* Isso é suficiente para garantir "As expressões ari
 		| EXPRES OPERATOR_AND EXPRES 
 		| EXPRES OPERATOR_OR EXPRES 
 		| TK_IDENTIFIER '(' LSTARG ')'
+		|'#'TK_IDENTIFIER
+		|'&'TK_IDENTIFIER
 		;
 		
 LSTARG: ',' ARG LSTARG

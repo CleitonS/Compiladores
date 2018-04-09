@@ -39,7 +39,7 @@ print				{return KW_PRINT;}
 [0-9]+				{hashinsert(SYMBOL_TYPE_LIT_INT,yytext);return LIT_INTEGER;}
 [0-9]+[.][0-9]+		{hashinsert(SYMBOL_TYPE_LIT_FLOAT,yytext);return LIT_REAL;}
 '.'					{hashinsert(SYMBOL_TYPE_LIT_CHAR,yytext);return LIT_CHAR;}	
-\".*\"				{hashinsert(SYMBOL_TYPE_LIT_STRING,yytext);return LIT_STRING;}
+\"[.^\ ]*\"				{hashinsert(SYMBOL_TYPE_LIT_STRING,yytext);return LIT_STRING;}
 
 [\,\;\:\(\)\[\]\{\}\+\-\*\/\<\>\=\!\&\$\#]		{return yytext[0];}
 [\n]				{countLine++;}	
