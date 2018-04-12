@@ -70,7 +70,8 @@ extern int yydebug;
      LIT_CHAR = 279,
      LIT_STRING = 280,
      TOKEN_ERROR = 281,
-     IFELSE = 282
+     IDENTF = 282,
+     IFELSE = 283
    };
 #endif
 

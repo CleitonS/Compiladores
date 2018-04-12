@@ -1,4 +1,25 @@
 int main()
   {
- print "a" i
+ while(a < a) {
+ a = a;
+ if (a > a ) then 
+ a = 1
+ else {
+ a = b > 1 ; 
+ if (a[a1 - a1] > c) then
+ a = a;
+c = c - (1*1+8*7)
+ }
+ }
+}
+
+
+int main2(int a){
+v[a-54-8/9] = l;
+
+if (a>1) then {ddd = d + 1};
+for (a = 10 to a>100)
+	a = 1;
+a = 1;
+
 }

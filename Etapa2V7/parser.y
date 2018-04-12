@@ -98,6 +98,7 @@ COMAND: TK_IDENTIFIER '=' EXPRES
 		|KW_PRINT LISTPRINT	
 		|KW_RETURN EXPRES	
 		|BODY
+		|TK_IDENTIFIER OPERATOR_EQ EXPRES	
 		|
 		;
 	
@@ -115,13 +116,13 @@ ELEMENT: LIT_STRING
 /*==============Controle de fluxo===============*/	
 		 
 CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			
-		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND			
-		|KW_WHILE '('EXPRES')' BODY				
+		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND 			
+		|KW_WHILE '('EXPRES')' COMAND				
 		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
-EXPRES:  '(' EXPRES: ')'  /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
+EXPRES:  '(' EXPRES ')'  /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
 		|TK_IDENTIFIER '[' BLIDENT		
 		|TK_IDENTIFIER '(' BLIDENT
 		|TK_IDENTIFIER	
