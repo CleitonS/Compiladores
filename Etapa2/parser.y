@@ -123,11 +123,11 @@ CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
 EXPRES:  '(' EXPRES ')'  /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
-		|TK_IDENTIFIER '[' BLIDENT		
-		|TK_IDENTIFIER '(' BLIDENT
+		/*|TK_IDENTIFIER '[' BLIDENT		*/
+		/*|TK_IDENTIFIER '(' BLIDENT*/
 		|TK_IDENTIFIER	
-		/*|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
-		|TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}*/
+		|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
+		|TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}
 		|LITERALINTEGER	
 		|CARAC	
 		|VARREAL	
@@ -147,11 +147,11 @@ EXPRES:  '(' EXPRES ')'  /* Isso é suficiente para garantir "As expressões ari
 		|'#'TK_IDENTIFIER	
 		|'&'TK_IDENTIFIER	
 		;
-
+/*
 BLIDENT:  EXPRES ']'
         | LSTARG ')'
 	;
-		
+		*/
 LSTARG: EXPRES ARGTAIL	
 		;		
 		
