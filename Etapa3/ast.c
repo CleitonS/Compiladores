@@ -1,4 +1,5 @@
-
+#include <stdlib.h>
+#include <stdio.h>
 #include "ast.h"
 
 AST *astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
@@ -20,9 +21,115 @@ void astPrint(AST *node, int level){
 	fprintf(stderr, "AST(");
 	switch(node->type);
 	{
-		case AST_SYMBOL: fprintf(stderr, "AST_SYMBOL, %s\n", node->symbol->text); break;
-		case AST_ADD: fprintf(stderr, "AST_ADD\n"); break;
-		case AST_SUB: fprintf(stderr, "AST_SUB\n"); break;
+		case AST_SYMBOL:
+			if(node->symbol)
+				if(node->symbol->text)
+					fprintf(TreeToFile,"%s",node->symbol->text);	
+			break; 
+		
+		case AST_IF:
+			fprintf(TreeToFile,"if ( ");
+			printAST_NODE(node->son[0]);				
+			fprintf(TreeToFile,") then\n");
+			printAST_NODE(node->son[1]);				
+			break;             
+											
+		case AST_ELSE:
+			fprintf(TreeToFile,"if ( ");
+			printAST_NODE(node->son[0]);				
+			fprintf(TreeToFile,") then\n");
+			printAST_NODE(node->son[1]);				
+			fprintf(TreeToFile,"else \n");
+			printAST_NODE(node->son[2]);				
+			break;                      
+											
+		case AST_WHIL:
+			fprintf(TreeToFile,"while ( ");
+			printAST_NODE(node->son[0]);				
+			fprintf(TreeToFile,") \n");
+			printAST_NODE(node->son[1]);				
+			break; 
+		
+		
+		case AST_SOMA:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"+ ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_SUBT:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"- ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_MULT:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"* ");
+			printAST_NODE(node->son[1]);		
+			break;                         
+											
+		case AST_MENO:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"< ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_MAIO:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"> ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_NEGA:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"! ");
+			break;             
+											
+		case AST_DIVI:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"/ ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_LEQU:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"<= ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_GEQU:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,">= ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_EQUA:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"== ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_NEQU:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"!= ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_AND:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"&& ");
+			printAST_NODE(node->son[1]);		
+			break;             
+											
+		case AST_OR:
+			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"|| ");
+			printAST_NODE(node->son[1]);		
+			break;    
+		
+		
+		
 		default: fprintf(stderr, "UNKNOWN\n");				
 	}
 	for (int i=0; i<MAX_SONS; i++)

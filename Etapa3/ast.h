@@ -46,4 +46,6 @@ AST *astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son
 
 void astPrint(AST *node, int level);
 
+FILE *TreeFile;
+
 #endif

@@ -7,6 +7,40 @@
     void yyerror(char *msg);
 %}
 
+%union{
+	AST* ast;
+	HASH * symbol;
+}
+
+%type<ast> program
+%type<ast> declist
+%type<ast> dec
+%type<ast> FUNCT
+%type<ast> LISTPARAM
+%type<ast> RESTPARAM
+%type<ast> PARAM
+%type<ast> BODY
+%type<ast> BLCCOMAND
+%type<ast> RESTCOMAND
+%type<ast> COMAND
+%type<ast> LISTPRINT
+%type<ast> RESTELEMENT
+%type<ast> ELEMENT
+%type<ast> CONTROLFL
+%type<ast> EXPRES
+%type<ast> LSTARG
+%type<ast> RESTARG
+%type<ast> DECL
+%type<ast> TYPE
+%type<ast> INILIT
+%type<ast> RESTINILIT
+%type<ast> VARREAL
+%type<ast> LITERALINTEGER
+%type<ast> CARAC
+
+
+ 
+
 %token KW_CHAR      
 %token KW_INT       
 %token KW_FLOAT     
@@ -183,7 +217,7 @@ RESTINILIT: INILIT RESTINILIT	{$$ = astCreate(AST_LINILIT,0,$1,$2,0,0);}
 /*=============================================================*/
 
 
-/*Precisamos dessa parte?*/
+/*Precisamos dessa parte?  R: Não, mas eu coloquei isso pra resolver alguns reduces na etapa anterior, se conseguir tirar sem dar reduce seria bom, reduziria a complexidade da árvore.*/
 VARREAL: LIT_REAL	
 		;
 
