@@ -34,12 +34,12 @@
 %type<ast> TYPE
 %type<ast> INILIT
 %type<ast> RESTINILIT
-%type<ast> VARREAL
-%type<ast> LITERALINTEGER
-%type<ast> CARAC
+%type<symbol> LIT_REAL
+%type<symbol> LIT_INTEGER
+%type<symbol> LIT_CHAR
+%type<symbol> TK_IDENTIFIER
+%type<symbol> LIT_STRING
 
-
- 
 
 %token KW_CHAR      
 %token KW_INT       
@@ -68,6 +68,7 @@
 %token LIT_STRING   
 %token TOKEN_ERROR
 
+
 /*Prioridade de operações, resolve alguns reduce*/	
 /*%left '{' '[' '('*/
 %left OPERATOR_AND OPERATOR_OR
@@ -82,68 +83,67 @@
 
 
 %%
-program: declist 
+program: declist  
 	;
 	
-declist: dec declist	
-	|
+declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);} 	
+	|  				  {$$ = 0;}	
 	;
 
 dec: DECL	
-	|FUNCT 
+	|FUNCT    
 	;
 
 /*=============================================================*/
 /*====================Definição de funções=====================*/		   
 /*=============================================================*/		 
-FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY 
+FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY    {$$ = astCreate(AST_FUNC,$2,$1,$4,$6,0);} 	
 		;
 	   	   
-LISTPARAM: PARAM RESTPARAM 
-		|
+LISTPARAM: PARAM RESTPARAM                       {$$ = astCreate(AST_LIST,0,$1,$2,0,0);} 	
+		|										 {$$ = 0;}	
 		;
 
-RESTPARAM: ',' PARAM RESTPARAM	
-		|	
+RESTPARAM: ',' PARAM RESTPARAM	                 {$$ = astCreate(AST_REST,0,$2,$3,0,0);}
+		|										 {$$ = 0;}	
 		;
 
-PARAM: TYPE TK_IDENTIFIER	
+PARAM: TYPE TK_IDENTIFIER	                     {$$ = astCreate(AST_PARAM,$2,$1,0,0,0);}
 		;
 
 
 /*==============Bloco de comandos===============*/		   
 
-BODY: '{' BLCCOMAND '}' 
+BODY: '{' BLCCOMAND '}' 						 {$$ = astCreate(AST_BLCOM,0,$2,0,0,0);}
 		;
 
-BLCCOMAND: COMAND RESTCOMAND 
+BLCCOMAND: COMAND RESTCOMAND    				{$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);}
 		;
 
-RESTCOMAND: ';' COMAND RESTCOMAND	
-		|	
+RESTCOMAND: ';' COMAND RESTCOMAND				{$$ = astCreate(AST_RESTLINE,0,$2,$3,0,0);}
+		|										{$$ = 0;}	
 		;
 
 /*==============Comandos Simples===============*/	
 			
-COMAND: TK_IDENTIFIER '=' EXPRES 
-		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES 
-		|CONTROLFL 
-		|KW_READ TK_IDENTIFIER /*variável escalar =  int, float, string, boolean*/
-		|KW_PRINT LISTPRINT	
-		|KW_RETURN EXPRES	
+COMAND: TK_IDENTIFIER '=' EXPRES                     {$$ = astCreate(AST_ATR,$1,$3,0,0,0);}
+		|TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES     {$$ = astCreate(AST_ATRVEC,$1,$3,$6,0,0);}
+		|CONTROLFL 								     {}
+		|KW_READ TK_IDENTIFIER                       {$$ = astCreate(AST_READ,$2,0,0,0,0);}	 
+		|KW_PRINT LISTPRINT	                         {$$ = astCreate(AST_PRI,0,$2,0,0,0);}	 
+		|KW_RETURN EXPRES						     {$$ = astCreate(AST_RET,0,$2,0,0,0);}
 		|BODY
-		|TK_IDENTIFIER OPERATOR_EQ EXPRES	
-		|
+		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);}
+		|										     {$$ = 0;}	
 		;
 	
-LISTPRINT: ELEMENT RESTELEMENT	
+LISTPRINT: ELEMENT RESTELEMENT	    {$$ = astCreate(AST_LIST,0,$1,$2,0,0);} 
 		;
-
-RESTELEMENT: ELEMENT RESTELEMENT	
-			|	
+RESTELEMENT: ELEMENT RESTELEMENT	{$$ = astCreate(AST_LIST,0,$1,$2,0,0);} 
+			|						{$$ = 0;}	
 			;
 			
-ELEMENT: LIT_STRING	
+ELEMENT: LIT_STRING	{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
 		 | EXPRES 	
 		 ;
 
@@ -152,63 +152,63 @@ ELEMENT: LIT_STRING
 CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{$$ = astCreate(AST_IF,0,$3,$6,0,0);} 
 		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND 			{$$ = astCreate(AST_IFE,0,$3,$6,$8,0);}
 		|KW_WHILE '('EXPRES')' COMAND				                {$$ = astCreate(AST_WHI,0,$3,$5,0,0);}
-		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,0,$3,$5,$7,$9);}
+		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);}
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
-EXPRES:  '(' EXPRES ')'  /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
-
-		|TK_IDENTIFIER	
+EXPRES:  '(' EXPRES ')' 				{$$ = astCreate(AST_SYMBOLPAR,$2,0,0,0,0);} /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
+		|TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}	
 		|TK_IDENTIFIER '[' EXPRES ']'	{$$ = astCreate(AST_VEC,$1,$3,0,0,0);}
 		|TK_IDENTIFIER '(' LSTARG ')'	{$$ = astCreate(AST_FUN,$1,$3,0,0,0);}
-		|LITERALINTEGER					{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);} /*existe distinção entre literal real, inteiro, char e string???*/
-		|CARAC	                        {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
-		|VARREAL	                    {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+		|LIT_INTEGER					{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);} /*existe distinção entre literal real, inteiro, char e string???*/
+		|LIT_CHAR	                    {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+		|LIT_REAL	                    {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
 		|EXPRES'*' EXPRES	            {$$ = astCreate(AST_MUL,0,$1,$3,0,0);}
 		|EXPRES '+' EXPRES	            {$$ = astCreate(AST_ADD,0,$1,$3,0,0);}
 		|EXPRES '-' EXPRES	            {$$ = astCreate(AST_SUB,0,$1,$3,0,0);}
 		|EXPRES '/' EXPRES	            {$$ = astCreate(AST_DIV,0,$1,$3,0,0);}
 		| EXPRES '<' EXPRES	            {$$ = astCreate(AST_LES,0,$1,$3,0,0);}
 		| EXPRES '>' EXPRES	            {$$ = astCreate(AST_GRE,0,$1,$3,0,0);}
-		| '!' EXPRES	                {$$ = astCreate(AST_NOT,0,$3,0,0,0);}
+		| '!' EXPRES	                {$$ = astCreate(AST_NOT,0,$2,0,0,0);}
 		| EXPRES OPERATOR_LE EXPRES	    {$$ = astCreate(AST_LEQ,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_GE EXPRES	    {$$ = astCreate(AST_GEQ,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_EQ EXPRES	    {$$ = astCreate(AST_EQU,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_NE EXPRES	    {$$ = astCreate(AST_NEQ,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_AND EXPRES    {$$ = astCreate(AST_AND,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_OR EXPRES		{$$ = astCreate(AST_OR,0,$1,$3,0,0);}	
-		|'#'TK_IDENTIFIER	            {$$ = astCreate(AST_POI,0,$2,0,0,0);}
-		|'&'TK_IDENTIFIER	            {$$ = astCreate(AST_ADD,0,$2,0,0,0);}
+		|'#'TK_IDENTIFIER	            {$$ = astCreate(AST_POI,$2,0,0,0,0);}
+		|'&'TK_IDENTIFIER	            {$$ = astCreate(AST_ADR,$2,0,0,0,0);}
 		;
 		
-LSTARG: EXPRES RESTARG	{$$ = astCreate(AST_LARG,0,$1,$2,0,0);}
+LSTARG: EXPRES RESTARG	{$$ = astCreate(AST_LIST,0,$1,$2,0,0);}
 		;		
 		
-RESTARG: ',' EXPRES RESTARG {$$ = astCreate(AST_RARG,0,$1,$2,0,0);}
-	 |;
+RESTARG: ',' EXPRES RESTARG {$$ = astCreate(AST_REST,0,$2,$3,0,0);}
+	 |                      {$$ = 0;}	
+	 ;
 
 /*=============================================================*/
 /*==============Declarações de variáveis globais===============*/		   
 /*=============================================================*/
 
-DECL: TYPE TK_IDENTIFIER '=' INILIT';'							{$$ = astCreate(AST_DEC,$2,$1,$4,0,0);}	  
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'	            {$$ = astCreate(AST_DEC,$2,$1,$4,0,0);}
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'	{$$ = astCreate(AST_DEC,$2,$1,$4,$7,0);}
-	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                    {$$ = astCreate(AST_DEC,$3,$1,$2,$5,0);} /*???*/
+DECL: TYPE TK_IDENTIFIER '=' INILIT';'						{$$ = astCreate(AST_DECINIT,$2,$4,0,0,0);}	  
+	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'';'	            {$$ = astCreate(AST_DECVEC,$2,$4,0,0,0);}
+	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'':' RESTINILIT';'	{$$ = astCreate(AST_DECVECLI,$2,$4,$7,0,0);}
+	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                {$$ = astCreate(AST_DECPOIT,$3,$5,0,0,0);} /*???*/
 	  ;
 	  
-TYPE: KW_CHAR	 {$$ = astCreate(AST_TYP,$1,0,0,0,0);}
-      |KW_FLOAT	 {$$ = astCreate(AST_TYP,$1,0,0,0,0);}
-	  |KW_INT	 {$$ = astCreate(AST_TYP,$1,0,0,0,0);}
+TYPE: KW_CHAR	 {$$ = $$1;}
+      |KW_FLOAT	 {$$ = $$1;}
+	  |KW_INT	 {$$ = $$1;}
 	  ;          
 	  
-INILIT: CARAC	         {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
-		|LITERALINTEGER	 {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
-		|VARREAL	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+INILIT: LIT_CHAR	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+		|LIT_INTEGER	 {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+		|LIT_REAL	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
 		;
 
 RESTINILIT: INILIT RESTINILIT	{$$ = astCreate(AST_LINILIT,0,$1,$2,0,0);}
-			|	
+			|	 				{$$ = 0;}	
 			;
 			
 
@@ -217,7 +217,11 @@ RESTINILIT: INILIT RESTINILIT	{$$ = astCreate(AST_LINILIT,0,$1,$2,0,0);}
 /*=============================================================*/
 
 
-/*Precisamos dessa parte?  R: Não, mas eu coloquei isso pra resolver alguns reduces na etapa anterior, se conseguir tirar sem dar reduce seria bom, reduziria a complexidade da árvore.*/
+/*Precisamos dessa parte?  
+R: Não, mas eu coloquei isso pra resolver alguns reduces na etapa anterior, se conseguir tirar sem dar reduce seria bom, reduziria a complexidade da árvore.
+R:Retirei essa parte e ajustei o código da etapa2 e não gerou mais conflitos, assim repliquei a mudança nessa etapa.
+*/
+/*
 VARREAL: LIT_REAL	
 		;
 
@@ -225,7 +229,7 @@ LITERALINTEGER: LIT_INTEGER
 		;
 		
 CARAC: LIT_CHAR	
-		;	
+		;	*/
 	  
 %%
 void yyerror(char *msg)

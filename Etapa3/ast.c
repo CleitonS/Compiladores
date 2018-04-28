@@ -34,7 +34,7 @@ void astPrint(AST *node, int level){
 			printAST_NODE(node->son[1]);				
 			break;             
 											
-		case AST_ELSE:
+		case AST_IFE:
 			fprintf(TreeToFile,"if ( ");
 			printAST_NODE(node->son[0]);				
 			fprintf(TreeToFile,") then\n");
@@ -43,7 +43,7 @@ void astPrint(AST *node, int level){
 			printAST_NODE(node->son[2]);				
 			break;                      
 											
-		case AST_WHIL:
+		case AST_WHI:
 			fprintf(TreeToFile,"while ( ");
 			printAST_NODE(node->son[0]);				
 			fprintf(TreeToFile,") \n");
@@ -51,66 +51,66 @@ void astPrint(AST *node, int level){
 			break; 
 		
 		
-		case AST_SOMA:
+		case AST_ADD:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"+ ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_SUBT:
+		case AST_SUB:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"- ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_MULT:
+		case AST_MUL:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"* ");
 			printAST_NODE(node->son[1]);		
 			break;                         
 											
-		case AST_MENO:
+		case AST_LES:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"< ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_MAIO:
+		case AST_GRE:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"> ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_NEGA:
+		case AST_NOT:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"! ");
 			break;             
 											
-		case AST_DIVI:
+		case AST_DIV:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"/ ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_LEQU:
+		case AST_LEQ:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"<= ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_GEQU:
+		case AST_GEQ:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,">= ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_EQUA:
+		case AST_EQU:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"== ");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
-		case AST_NEQU:
+		case AST_NEQ:
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"!= ");
 			printAST_NODE(node->son[1]);		
@@ -126,10 +126,98 @@ void astPrint(AST *node, int level){
 			printAST_NODE(node->son[0]);		
 			fprintf(TreeFile,"|| ");
 			printAST_NODE(node->son[1]);		
-			break;    
+			break;
+			
+		case AST_POI:
+			fprintf(TreeFile,"#");
+			printAST_NODE(node->son[0]);			
+			break;			
 		
+		case AST_ADR:
+			fprintf(TreeFile,"&");
+			printAST_NODE(node->son[0]);		
+			break;	
 		
+		case AST_VEC:
+			fprintf(TreeToFile,"%s",node->symbol->text);
+			fprintf(TreeFile,"[");
+			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,"]");		
+			break;
 		
+		case AST_FUN:
+			fprintf(TreeToFile,"%s",node->symbol->text);
+			fprintf(TreeFile,"(");
+			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,")");			
+			break;
+		
+		case AST_FOR:
+			fprintf(TreeFile,"FOR (");
+			fprintf(TreeToFile,"%s",node->symbol->text);
+			fprintf(TreeFile," = ");
+			printAST_NODE(node->son[0]);
+			fprintf(TreeFile," TO ");
+			printAST_NODE(node->son[1]);			
+			fprintf(TreeFile,") ");
+			printAST_NODE(node->son[2]);
+			fprintf(TreeFile,"\n");		
+			break;
+		
+		case AST_LINILIT:
+			printAST_NODE(node->son[0]);
+			fprintf(TreeFile," ");
+			printAST_NODE(node->son[1]);
+			break;
+		
+		case AST_REST:
+			break;
+		
+		case AST_SYMBOLPAR:
+			break;
+		
+		case AST_LIST:
+			break;
+		
+		case AST_ATR:
+			break;
+		
+		case AST_ATRVEC:
+			break;
+		
+		case AST_PRI:
+			break;
+		
+		case AST_FUND:
+			break;
+		
+		case AST_PARAM:
+			break;
+		
+		case AST_BLCOM:
+			break;
+		
+		case AST_LISTLINE:
+			break;
+		
+		case AST_RESTLINE:
+			break;
+		
+		case AST_COMPARE:
+			break;
+		
+		case AST_DECINIT:
+			break;
+		
+		case AST_DECVEC:
+			break;
+		
+		case AST_DECVECLI:
+			break;
+		
+		case AST_DECPOIT:
+			break;
+				
 		default: fprintf(stderr, "UNKNOWN\n");				
 	}
 	for (int i=0; i<MAX_SONS; i++)

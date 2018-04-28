@@ -128,9 +128,9 @@ EXPRES:  '(' EXPRES ')'  /* Isso é suficiente para garantir "As expressões ari
 		|TK_IDENTIFIER	
 		|TK_IDENTIFIER '[' EXPRES ']'	{printf("EXPRES->TK_IDENTIFIER '[' EXPRES ']'\n");}
 		|TK_IDENTIFIER '(' LSTARG ')'	{printf("EXPRES->TK_IDENTIFIER '(' LSTARG ')'\n");}
-		|LITERALINTEGER	
-		|CARAC	
-		|VARREAL	
+		|LIT_INTEGER	
+		|LIT_CHAR	
+		|LIT_REAL	
 		|EXPRES'*' EXPRES	
 		|EXPRES '+' EXPRES	
 		|EXPRES '-' EXPRES	
@@ -163,8 +163,8 @@ ARGTAIL: ',' EXPRES ARGTAIL
 /*=============================================================*/
 
 DECL: TYPE TK_IDENTIFIER '=' INILIT';'	
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'';'	
-	  |TYPE TK_IDENTIFIER'['LITERALINTEGER']'':' RESTINILIT';'	
+	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'';'	
+	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'':' RESTINILIT';'	
 	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	
 	  ;
 	  
@@ -173,9 +173,9 @@ TYPE: KW_CHAR
 	  |KW_INT	
 	  ;
 	  
-INILIT: CARAC	
-		|LITERALINTEGER	
-		|VARREAL	
+INILIT: LIT_CHAR	
+		|LIT_INTEGER	
+		|LIT_REAL	
 		;
 
 RESTINILIT: INILIT RESTINILIT	
@@ -186,7 +186,7 @@ RESTINILIT: INILIT RESTINILIT
 /*=============================================================*/
 /*========================DEBUG AREA===========================*/		   
 /*=============================================================*/
-
+/*
 VARREAL: LIT_REAL	
 		;
 
@@ -194,7 +194,7 @@ LITERALINTEGER: LIT_INTEGER
 		;
 		
 CARAC: LIT_CHAR	
-		;	
+		;*/	
 	  
 %%
 void yyerror(char *msg)
