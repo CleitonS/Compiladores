@@ -2,6 +2,7 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>
+	#include "ast.c"
     //#include "hash.h"
 	//#include "main.c"
     void yyerror(char *msg);
