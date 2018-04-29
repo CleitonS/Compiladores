@@ -3,16 +3,16 @@
     #include <stdio.h>
     #include <string.h>
 	#include "ast.c"
-    //#include "hash.h"
+    #include "hash.h"
 	//#include "main.c"
     void yyerror(char *msg);
 %}
 
 %union{
-	AST* ast;
-	HASH * symbol;
+	AST *ast;
+	hash * symbol;
 	int value;
-	char string[];
+	char *string;
 }
 
 %type<ast> program

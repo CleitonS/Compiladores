@@ -44,6 +44,8 @@
 #define AST_DECVECLI  39
 #define AST_DECPOIT	  40
 #define AST_READ	  41
+#define AST_RET		  42
+
 
 
 
@@ -52,13 +54,14 @@
 
 typedef struct ast_node{
 	int type;
-	HASH *symbol
+	hash *symbol;
 	struct ast_node *son[MAX_SONS];
 } AST;
 
-AST *astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
+AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 
-void astPrint(AST *node, int level);
+/*void astPrint(AST *node, int level);*/
+void printAST_NODE(AST *node);
 
 FILE *TreeFile;
 

@@ -1,3 +1,5 @@
+#ifndef _HASH_
+#define _HASH_
 #define HASHSIZE 50007
 #define SYMBOL_TYPE_ID 1
 #define SYMBOL_TYPE_LIT_INT 2
@@ -19,3 +21,4 @@ hash * hashinsert(int type, char *yytext);
 void hashprint(void);
 int hashadress(char *yytext);
 
+#endif

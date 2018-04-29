@@ -1,5 +1,6 @@
 %{
 #include "hash.c"
+#include "ast.c"
 /*#include "y.tab.h"*/
 #include "parser.tab.h"
 #include <stdio.h>

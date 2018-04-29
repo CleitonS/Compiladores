@@ -82,10 +82,10 @@ typedef union YYSTYPE
 /* Line 2058 of yacc.c  */
 #line 11 "parser.y"
 
-	AST* ast;
-	HASH * symbol;
+	AST *ast;
+	hash * symbol;
 	int value;
-	char string[];
+	char *string;
 
 
 /* Line 2058 of yacc.c  */

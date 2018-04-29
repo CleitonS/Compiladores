@@ -14,7 +14,7 @@ lex.yy.c: scanner.l
 	lex scanner.l
 	
 parser.tab.o: parser.tab.c
-	gcc -c parser.tab.c
+	gcc -c parser.tab.c 
 
 parser.tab.c: parser.y
 	yacc -d -v parser.y
