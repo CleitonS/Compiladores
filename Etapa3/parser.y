@@ -11,6 +11,8 @@
 %union{
 	AST* ast;
 	HASH * symbol;
+	int value;
+	char string[];
 }
 
 %type<ast> program
@@ -32,7 +34,7 @@
 %type<ast> LSTARG
 %type<ast> RESTARG
 %type<ast> DECL
-%type<ast> TYPE
+%type<value> TYPE
 %type<ast> INILIT
 %type<ast> RESTINILIT
 %type<symbol> LIT_REAL
@@ -40,6 +42,10 @@
 %type<symbol> LIT_CHAR
 %type<symbol> TK_IDENTIFIER
 %type<symbol> LIT_STRING
+%type<string> KW_CHAR      
+%type<string> KW_INT       
+%type<string> KW_FLOAT  
+
 
 
 %token KW_CHAR      
@@ -98,7 +104,7 @@ dec: DECL
 /*=============================================================*/
 /*====================Definição de funções=====================*/		   
 /*=============================================================*/		 
-FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY    {$$ = astCreate(AST_FUNC,$2,$1,$4,$6,0);} 	
+FUNCT: TYPE TK_IDENTIFIER'('LISTPARAM')' BODY    {$$ = astCreate(AST_FUND,$2,$1,$4,$6,0);} 	
 		;
 	   	   
 LISTPARAM: PARAM RESTPARAM                       {$$ = astCreate(AST_LIST,0,$1,$2,0,0);} 	
@@ -198,9 +204,9 @@ DECL: TYPE TK_IDENTIFIER '=' INILIT';'						{$$ = astCreate(AST_DECINIT,$2,$4,0,
 	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                {$$ = astCreate(AST_DECPOIT,$3,$5,0,0,0);} /*???*/
 	  ;
 	  
-TYPE: KW_CHAR	 {$$ = $$1;}
-      |KW_FLOAT	 {$$ = $$1;}
-	  |KW_INT	 {$$ = $$1;}
+TYPE: KW_CHAR	 {/*?*/}	  
+      |KW_FLOAT	 {/*?*/}	  
+	  |KW_INT	 {/*?*/}	  
 	  ;          
 	  
 INILIT: LIT_CHAR	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}

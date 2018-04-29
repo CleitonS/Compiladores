@@ -39,11 +39,11 @@
 #define AST_LISTLINE  34      /*SEPRADO É \N*/
 #define AST_RESTLINE  35      /*SEPRADOR ';' */
 #define AST_COMPARE   36      /*COMPARAÇÃO X == Y*/                     
-#defien AST_DECINIT   37
-#defien AST_DECVEC	  38
-#defien AST_DECVECLI  39
-#defien AST_DECPOIT	  40
-#defien AST_READ	  41
+#define AST_DECINIT   37
+#define AST_DECVEC	  38
+#define AST_DECVECLI  39
+#define AST_DECPOIT	  40
+#define AST_READ	  41
 
 
 
