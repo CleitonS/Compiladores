@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "ast.h"
 
-AST *astCreate(int type, HASH* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
 AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
 	AST *newNode;
 	newNode = (AST*) calloc(1, sizeof(AST));

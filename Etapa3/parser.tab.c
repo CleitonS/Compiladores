@@ -69,7 +69,7 @@
     #include <stdio.h>
     #include <string.h>
 	#include "ast.c"
-    //#include "hash.h"
+    #include "hash.h"
 	//#include "main.c"
     void yyerror(char *msg);
 
@@ -146,10 +146,10 @@ typedef union YYSTYPE
 /* Line 387 of yacc.c  */
 #line 11 "parser.y"
 
-	AST* ast;
-	HASH * symbol;
+	AST *ast;
+	hash * symbol;
 	int value;
-	char string[];
+	char *string;
 
 
 /* Line 387 of yacc.c  */
