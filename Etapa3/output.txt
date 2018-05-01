@@ -6,7 +6,7 @@ INT a = 0;
  CHAR c = 'x';
  CHAR d = 65;
  INT #pt = 0;
- INT  main (  ) { ;
+ INT main (  ) { ;
 a = 10;
  pt = &;
  i = #;

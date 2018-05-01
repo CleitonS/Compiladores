@@ -224,7 +224,7 @@ void printAST_NODE(AST *node){
 		
 		case AST_FUND:
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," ");
+			//fprintf(TreeFile," "); Isso gera um espaço indevido antes main em "INT main ()"
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," ( ");
 			printAST_NODE(node->son[1]);
@@ -253,7 +253,7 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_RESTLINE:
-			//fprintf(TreeFile,"; ");
+			//fprintf(TreeFile,"; "); Isso gera um ponto e vírgula indevido no começo das linhas dentro de uma função
 			printAST_NODE(node->son[0]);
 			fprintf(TreeFile," ");
 			printAST_NODE(node->son[1]);			
