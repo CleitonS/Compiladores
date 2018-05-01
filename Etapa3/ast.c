@@ -141,13 +141,13 @@ void printAST_NODE(AST *node){
 			break;
 			
 		case AST_POI:
-			fprintf(TreeFile,"#");
-			printAST_NODE(node->son[0]);			
+			fprintf(TreeFile,"#"); //possível problema aqui
+			printAST_NODE(node->son[0]);		
 			break;			
 		
 		case AST_ADR:
 			fprintf(TreeFile,"&"); //possível problema aqui
-			printAST_NODE(node->son[0]);		
+			printAST_NODE(node->son[0]);
 			break;	
 		
 		case AST_VEC:
@@ -172,7 +172,7 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile," TO ");
 			printAST_NODE(node->son[1]);			
 			fprintf(TreeFile,") ");
-			printAST_NODE(node->son[2]);
+			printAST_NODE(node->son[2]); //Possível problema aqui 
 			fprintf(TreeFile,"\n");			
 			break;
 		
@@ -296,7 +296,7 @@ void printAST_NODE(AST *node){
 		
 		case AST_DECPOIT:
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile,"#");
+			fprintf(TreeFile,"#"); //possível problema aqui
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[1]);
