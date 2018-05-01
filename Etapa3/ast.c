@@ -253,7 +253,7 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_RESTLINE:
-			fprintf(TreeFile,"; ");
+			//fprintf(TreeFile,"; ");
 			printAST_NODE(node->son[0]);
 			fprintf(TreeFile," ");
 			printAST_NODE(node->son[1]);			
