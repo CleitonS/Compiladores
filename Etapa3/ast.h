@@ -45,10 +45,10 @@
 #define AST_DECPOIT	  40
 #define AST_READ	  41
 #define AST_RET		  42
-
-
-
-
+#define AST_KCHAR	  43
+#define AST_KFLOAT    44 
+#define AST_KINT	  45
+#define AST_ROOT      100
 
 
 
@@ -58,11 +58,11 @@ typedef struct ast_node{
 	struct ast_node *son[MAX_SONS];
 } AST;
 
-AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
+//AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 
 /*void astPrint(AST *node, int level);*/
 void printAST_NODE(AST *node);
 
 FILE *TreeFile;
-
+AST *root;
 #endif

@@ -1,0 +1,6 @@
+INT a = 0;
+  INT i = 0;
+  INT  v [ 10 ] : 0 0 0 0 0 0 0 0 0 0 ;
+ INT  mat [ 10 ];
+  FLOAT f = 10.55;
+  

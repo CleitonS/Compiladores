@@ -1,3 +1,5 @@
+#ifndef _HASHC_
+#define _HASHC_
 #include "hash.h"
 #include "string.h"
 #include <stdio.h>
@@ -73,3 +75,4 @@ void hashprint()
 	
 }
 
+#endif

@@ -1,3 +1,4 @@
+
 %{
     #include <stdlib.h>
     #include <stdio.h>
@@ -6,6 +7,8 @@
     #include "hash.h"
 	//#include "main.c"
     void yyerror(char *msg);
+	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
+extern void printAST_NODE(AST *node);
 %}
 
 %union{
@@ -34,7 +37,7 @@
 %type<ast> LSTARG
 %type<ast> RESTARG
 %type<ast> DECL
-%type<value> TYPE
+%type<ast> TYPE
 %type<ast> INILIT
 %type<ast> RESTINILIT
 %type<symbol> LIT_REAL
@@ -90,7 +93,7 @@
 
 
 %%
-program: declist  
+program: declist	   {printAST_NODE($1);} 	
 	;
 	
 declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);} 	
@@ -163,7 +166,7 @@ CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{$$ = astCreate(AST_
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
-EXPRES:  '(' EXPRES ')' 				{$$ = astCreate(AST_SYMBOLPAR,$2,0,0,0,0);} /* Isso é suficiente para garantir "As expressões aritméticas podem ser formadas recursivamente com operadores aritméticos, assim como permitem o uso de parênteses para associatividade"?*/ 
+EXPRES:  '(' EXPRES ')' 				{$$ = astCreate(AST_SYMBOLPAR,0,$2,0,0,0);} 
 		|TK_IDENTIFIER					{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}	
 		|TK_IDENTIFIER '[' EXPRES ']'	{$$ = astCreate(AST_VEC,$1,$3,0,0,0);}
 		|TK_IDENTIFIER '(' LSTARG ')'	{$$ = astCreate(AST_FUN,$1,$3,0,0,0);}
@@ -198,15 +201,15 @@ RESTARG: ',' EXPRES RESTARG {$$ = astCreate(AST_REST,0,$2,$3,0,0);}
 /*==============Declarações de variáveis globais===============*/		   
 /*=============================================================*/
 
-DECL: TYPE TK_IDENTIFIER '=' INILIT';'						{$$ = astCreate(AST_DECINIT,$2,$4,0,0,0);}	  
-	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'';'	            {$$ = astCreate(AST_DECVEC,$2,$4,0,0,0);}
-	  |TYPE TK_IDENTIFIER'['LIT_INTEGER']'':' RESTINILIT';'	{$$ = astCreate(AST_DECVECLI,$2,$4,$7,0,0);}
+DECL: TYPE TK_IDENTIFIER '=' INILIT';'		{$$ = astCreate(AST_DECINIT,$2,$1,$4,0,0);}	  
+	  |TYPE TK_IDENTIFIER'['EXPRES']'';'	            {$$ = astCreate(AST_DECVEC,$2,$1,$4,0,0);}
+	  |TYPE TK_IDENTIFIER'['EXPRES']'':' RESTINILIT';'	{$$ = astCreate(AST_DECVECLI,$2,$1,$4,$7,0);}
 	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                {$$ = astCreate(AST_DECPOIT,$3,$5,0,0,0);} /*???*/
 	  ;
 	  
-TYPE: KW_CHAR	 {/*?*/}	  
-      |KW_FLOAT	 {/*?*/}	  
-	  |KW_INT	 {/*?*/}	  
+TYPE: KW_CHAR	 {$$ = astCreate(AST_KCHAR,0,0,0,0,0);}
+      |KW_FLOAT	 {$$ = astCreate(AST_KFLOAT,0,0,0,0,0);}
+	  |KW_INT	 {$$ = astCreate(AST_KINT,0,0,0,0,0);}
 	  ;          
 	  
 INILIT: LIT_CHAR	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
@@ -246,3 +249,5 @@ void yyerror(char *msg)
     
     exit(3);
 }
+
+

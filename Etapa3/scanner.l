@@ -1,6 +1,7 @@
+
 %{
 #include "hash.c"
-#include "ast.c"
+#include "ast.h"
 /*#include "y.tab.h"*/
 #include "parser.tab.h"
 #include <stdio.h>
@@ -75,3 +76,4 @@ int yywrap(void)
 	running = 0;	
 	return 1;
 } 
+
