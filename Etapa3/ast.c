@@ -204,6 +204,7 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,";\n");
 			break;
 		
 		case AST_ATRVEC:
@@ -212,7 +213,8 @@ void printAST_NODE(AST *node){
 			printAST_NODE(node->son[0]);			
 			fprintf(TreeFile," ] ");
 			fprintf(TreeFile," = ");
-			printAST_NODE(node->son[0]);			
+			printAST_NODE(node->son[0]);	
+			fprintf(TreeFile,";\n");			
 			break;
 		
 		case AST_PRI:
@@ -238,8 +240,10 @@ void printAST_NODE(AST *node){
 		
 		case AST_BLCOM:
 			fprintf(TreeFile,"{ ");
+			fprintf(TreeFile,";\n");
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," {");
+			fprintf(TreeFile," }");
+			fprintf(TreeFile,";\n");
 			break;
 		
 		case AST_LISTLINE:
@@ -267,17 +271,16 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[1]);
-			fprintf(TreeFile,";\n ");						
+			fprintf(TreeFile,";\n");						
 			
 			break;
 		
 		case AST_DECVEC:
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," ");
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," [ ");
 			printAST_NODE(node->son[1]);	
-			fprintf(TreeFile," ];\n ");						
+			fprintf(TreeFile," ];\n");						
 			break;
 		
 		case AST_DECVECLI:
@@ -293,10 +296,11 @@ void printAST_NODE(AST *node){
 		
 		case AST_DECPOIT:
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," #");
+			fprintf(TreeFile,"#");
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
-			printAST_NODE(node->son[1]);	
+			printAST_NODE(node->son[1]);
+			fprintf(TreeFile,";\n");			
 			break;
 			
 		case AST_READ:

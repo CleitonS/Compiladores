@@ -101,7 +101,7 @@ declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);}
 	;
 
 dec: DECL	
-	|FUNCT    
+	|FUNCT  
 	;
 
 /*=============================================================*/
@@ -204,7 +204,7 @@ RESTARG: ',' EXPRES RESTARG {$$ = astCreate(AST_REST,0,$2,$3,0,0);}
 DECL: TYPE TK_IDENTIFIER '=' INILIT';'		{$$ = astCreate(AST_DECINIT,$2,$1,$4,0,0);}	  
 	  |TYPE TK_IDENTIFIER'['EXPRES']'';'	            {$$ = astCreate(AST_DECVEC,$2,$1,$4,0,0);}
 	  |TYPE TK_IDENTIFIER'['EXPRES']'':' RESTINILIT';'	{$$ = astCreate(AST_DECVECLI,$2,$1,$4,$7,0);}
-	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                {$$ = astCreate(AST_DECPOIT,$3,$5,0,0,0);} /*???*/
+	  |TYPE '#'TK_IDENTIFIER '=' INILIT';'	                {$$ = astCreate(AST_DECPOIT,$3,$1,$5,0,0);} /*???*/
 	  ;
 	  
 TYPE: KW_CHAR	 {$$ = astCreate(AST_KCHAR,0,0,0,0,0);}

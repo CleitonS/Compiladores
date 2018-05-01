@@ -1881,7 +1881,7 @@ yyreduce:
   case 63:
 /* Line 1792 of yacc.c  */
 #line 207 "parser.y"
-    {(yyval.ast) = astCreate(AST_DECPOIT,(yyvsp[(3) - (6)].symbol),(yyvsp[(5) - (6)].ast),0,0,0);}
+    {(yyval.ast) = astCreate(AST_DECPOIT,(yyvsp[(3) - (6)].symbol),(yyvsp[(1) - (6)].ast),(yyvsp[(5) - (6)].ast),0,0);}
     break;
 
   case 64:
