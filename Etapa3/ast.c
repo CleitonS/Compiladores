@@ -173,7 +173,7 @@ void printAST_NODE(AST *node){
 			printAST_NODE(node->son[1]);			
 			fprintf(TreeFile,") ");
 			printAST_NODE(node->son[2]);
-			fprintf(TreeFile,"\n");		
+			fprintf(TreeFile,"\n");			
 			break;
 		
 		case AST_LINILIT:
@@ -240,7 +240,7 @@ void printAST_NODE(AST *node){
 		
 		case AST_BLCOM:
 			fprintf(TreeFile,"{ ");
-			fprintf(TreeFile,";\n");
+			fprintf(TreeFile,"\n");
 			printAST_NODE(node->son[0]);
 			fprintf(TreeFile," }");
 			fprintf(TreeFile,";\n");

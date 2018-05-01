@@ -6,7 +6,7 @@ FLOAT f = 10.55;
 CHAR c = 'x';
 CHAR d = 65;
 INT #pt = 0;
-INT main (  ) { ;
+INT main (  ) { 
 a = 10;
 pt = &;
  i = #;
