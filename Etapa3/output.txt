@@ -1,19 +1,55 @@
-INT a = 0;
-INT i = 0;
-INT  v [ 10 ] : 0 0 0 0 0 0 0 0 0 0 ;
-INT mat [ 10 ];
-FLOAT f = 10.55;
-CHAR c = 'x';
-CHAR d = 65;
-INT #pt = 0;
-INT main (  ) { 
+int a = 0;
+int i = 0;
+int  v [ 10 ] : 0 0 0 0 0 0 0 0 0 0 ;
+int mat [ 10 ];
+float f = 10.55;
+char c = 'x';
+char d = 65;
+int #pt = 0;
+int main (  ) { 
 a = 10;
 pt = &;
  i = #;
  v [ 2 ]  = v[10- 1];
  FOR (i = 1 TO 10)  PRINT i " " 
-        while ( i< 10) 
+  PRINT " Digite um numero: \n"  read  while ( i< 10) 
+a = incn(a , 1);
+ i = i+ 1;
+  PRINT "Incrementado algumas vezes fica " a "\n"  if ( a== 5) then
+ PRINT "Parou no meio\n"  if ( a== 11) then
+ if ( a== 11) then
+else 
+    { 
+  }
+ { 
+ }
+  }
+int incn ( int  x , int  n ) { 
+return x+ n  }
+int voidfunc (  ) { 
+ }
+int main (  ) { 
+while ( a< a) 
 { 
-i = i+ 1;
-y = i+ y;
-   }  }
+a = a;
+if ( a> a) then
+a = 1;
+else 
+{ 
+a = b> 1;
+if ( a[a1- a1]> c) then
+a = a;
+ c = c- ( 1* 1+ 8* 7 );
+  }
+  }
+ }
+int main2 ( int  a  ) { 
+v [ a- 54- 8/ 9 ]  = l;
+if ( a> 1) then
+{ 
+ddd = d+ 1;
+ }
+ FOR (a = 10 TO a> 100) a = 1;
+
+ a = 1;
+   }

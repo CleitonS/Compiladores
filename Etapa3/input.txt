@@ -8,7 +8,6 @@ char d = 65;
 int #pt = 0;
 
 
-
 int main()
   {
   a = 10;
@@ -17,13 +16,59 @@ int main()
   v[2] = v[10-1];
   for (i = 1 to 10)
     print i " ";
-	
-	;;;;;;;
-	
-	while (i <10){
-	i = i + 1;
-	y = i + y;
-	}
 
+  print " Digite um numero: \n";
+  read i;
+  while (i<10)
+    
+    a = incn(a,1);
+    i = i + 1
+    ;
+
+  print "Incrementado algumas vezes fica " a "\n";
+  if (a==5) then 
+    print "Parou no meio\n";
+  if (a==11) then
+    ;
+  if (a==11) then else
+    ;
+  ;;;
+  {;};
+  {}
   }
+
+int incn (int x, int n)
+  {
+  return x+n;
+  }
+
+int voidfunc()
+  {
+  }
+ 
+ int main()
+  {
+ while(a < a) {
+ a = a;
+ if (a > a ) then 
+ a = 1
+ else {
+ a = b > 1 ; 
+ if (a[a1 - a1] > c) then
+ a = a;
+c = c - (1*1+8*7)
+ }
+ }
+}
+
+
+int main2(int a){
+v[a-54-8/9] = l;
+
+if (a>1) then {ddd = d + 1};
+for (a = 10 to a>100)
+	a = 1;
+a = 1;
+
+}
 

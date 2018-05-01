@@ -304,25 +304,25 @@ void printAST_NODE(AST *node){
 			break;
 			
 		case AST_READ:
-			fprintf(TreeFile,"READ ");
+			fprintf(TreeFile,"read ");
 			printAST_NODE(node->son[0]);	
 			break;	
 			
 		case AST_RET:
-			fprintf(TreeFile,"RETURN ");
+			fprintf(TreeFile,"return ");
 			printAST_NODE(node->son[0]);	
 			break;
 			
 		case AST_KCHAR:
-			fprintf(TreeFile,"CHAR ");
+			fprintf(TreeFile,"char ");
 			break;
 						
 		case AST_KFLOAT:
-			fprintf(TreeFile,"FLOAT ");
+			fprintf(TreeFile,"float ");
 			break;
 						
 		case AST_KINT:
-			fprintf(TreeFile,"INT ");
+			fprintf(TreeFile,"int ");
 			break;
 
 			
