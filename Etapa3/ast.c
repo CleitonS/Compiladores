@@ -248,7 +248,7 @@ void printAST_NODE(AST *node){
 		
 		case AST_LISTLINE:
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," ");
+			//fprintf(TreeFile," "); Isso gera um espaço antes das atribuições
 			printAST_NODE(node->son[1]);	
 			break;
 		
