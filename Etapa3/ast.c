@@ -146,7 +146,7 @@ void printAST_NODE(AST *node){
 			break;			
 		
 		case AST_ADR:
-			fprintf(TreeFile,"&");
+			fprintf(TreeFile,"&"); //possível problema aqui
 			printAST_NODE(node->son[0]);		
 			break;	
 		
@@ -213,7 +213,7 @@ void printAST_NODE(AST *node){
 			printAST_NODE(node->son[0]);			
 			fprintf(TreeFile," ] ");
 			fprintf(TreeFile," = ");
-			printAST_NODE(node->son[0]);	
+			printAST_NODE(node->son[1]);	
 			fprintf(TreeFile,";\n");			
 			break;
 		
