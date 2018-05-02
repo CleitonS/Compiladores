@@ -307,12 +307,15 @@ void printAST_NODE(AST *node){
 			
 		case AST_READ:
 			fprintf(TreeFile,"read ");
-			printAST_NODE(node->son[0]);	
+			printAST_NODE(node->son[0]); //não faz nada	
+			fprintf(TreeFile,"%s",node->symbol->yytext); //resolve problema
+			fprintf(TreeFile,";\n");	
 			break;	
 			
 		case AST_RET:
 			fprintf(TreeFile,"return ");
-			printAST_NODE(node->son[0]);	
+			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,";\n");
 			break;
 			
 		case AST_KCHAR:
