@@ -141,13 +141,15 @@ void printAST_NODE(AST *node){
 			break;
 			
 		case AST_POI:
-			fprintf(TreeFile,"#"); //possível problema aqui
-			printAST_NODE(node->son[0]);		
+			fprintf(TreeFile,"#");
+			printAST_NODE(node->son[0]); //não faz nada nesse caso
+			fprintf(TreeFile,"%s",node->symbol->yytext);	//imprime o que tava faltando	
 			break;			
 		
 		case AST_ADR:
-			fprintf(TreeFile,"&"); //possível problema aqui
-			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,"&"); 
+			printAST_NODE(node->son[0]); //não faz nada nesse caso
+			fprintf(TreeFile,"%s",node->symbol->yytext); //imprime o que tava faltando
 			break;	
 		
 		case AST_VEC:

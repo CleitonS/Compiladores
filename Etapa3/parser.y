@@ -186,8 +186,8 @@ EXPRES:  '(' EXPRES ')' 				{$$ = astCreate(AST_SYMBOLPAR,0,$2,0,0,0);}
 		| EXPRES OPERATOR_NE EXPRES	    {$$ = astCreate(AST_NEQ,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_AND EXPRES    {$$ = astCreate(AST_AND,0,$1,$3,0,0);}
 		| EXPRES OPERATOR_OR EXPRES		{$$ = astCreate(AST_OR,0,$1,$3,0,0);}	
-		|'#'TK_IDENTIFIER	            {$$ = astCreate(AST_POI,$2,0,0,0,0);}
-		|'&'TK_IDENTIFIER	            {$$ = astCreate(AST_ADR,$2,0,0,0,0);}
+		|'#' TK_IDENTIFIER	            {$$ = astCreate(AST_POI,$2,0,0,0,0);}
+		|'&' TK_IDENTIFIER	            {$$ = astCreate(AST_ADR,$2,0,0,0,0);}
 		;
 		
 LSTARG: EXPRES RESTARG	{$$ = astCreate(AST_LIST,0,$1,$2,0,0);}
