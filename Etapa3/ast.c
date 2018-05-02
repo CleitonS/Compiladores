@@ -65,37 +65,37 @@ void printAST_NODE(AST *node){
 		
 		case AST_ADD:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"+ ");
+			fprintf(TreeFile,"+");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
 		case AST_SUB:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"- ");
+			fprintf(TreeFile,"-");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
 		case AST_MUL:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"* ");
+			fprintf(TreeFile,"*");
 			printAST_NODE(node->son[1]);		
 			break;                         
 											
 		case AST_LES:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"< ");
+			fprintf(TreeFile,"<");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
 		case AST_GRE:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"> ");
+			fprintf(TreeFile,">");
 			printAST_NODE(node->son[1]);		
 			break;             
 											
 		case AST_NOT:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"! ");
+			fprintf(TreeFile,"!");
 			break;             
 											
 		case AST_DIV:
@@ -136,7 +136,7 @@ void printAST_NODE(AST *node){
 											
 		case AST_OR:
 			printAST_NODE(node->son[0]);		
-			fprintf(TreeFile,"|| ");
+			fprintf(TreeFile,"||");
 			printAST_NODE(node->son[1]);		
 			break;
 			
@@ -222,6 +222,7 @@ void printAST_NODE(AST *node){
 		case AST_PRI:
 			fprintf(TreeFile," print ");
 			printAST_NODE(node->son[0]);
+			fprintf(TreeFile,";\n");
 			break;
 		
 		case AST_FUND:
