@@ -206,7 +206,7 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile,";\n");
+			//fprintf(TreeFile,";\n");
 			break;
 		
 		case AST_ATRVEC:
@@ -216,13 +216,13 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile," ] ");
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[1]);	
-			fprintf(TreeFile,";\n");			
+			//fprintf(TreeFile,";\n");			
 			break;
 		
 		case AST_PRI:
 			fprintf(TreeFile," print ");
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile,";\n");
+			//fprintf(TreeFile,";\n");
 			break;
 		
 		case AST_FUND:
@@ -256,7 +256,7 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_RESTLINE:
-			//fprintf(TreeFile,"; "); Isso gera um ponto e vírgula indevido no começo das linhas dentro de uma função
+			fprintf(TreeFile,";\n"); //Isso gera um ponto e vírgula indevido no começo das linhas dentro de uma função
 			printAST_NODE(node->son[0]);
 			fprintf(TreeFile," ");
 			printAST_NODE(node->son[1]);			
@@ -310,13 +310,13 @@ void printAST_NODE(AST *node){
 			fprintf(TreeFile,"read ");
 			printAST_NODE(node->son[0]); //não faz nada	
 			fprintf(TreeFile,"%s",node->symbol->yytext); //resolve problema
-			fprintf(TreeFile,";\n");	
+			//fprintf(TreeFile,";\n");	
 			break;	
 			
 		case AST_RET:
 			fprintf(TreeFile,"return ");
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile,";\n");
+			//fprintf(TreeFile,";\n");
 			break;
 			
 		case AST_KCHAR:
@@ -330,6 +330,10 @@ void printAST_NODE(AST *node){
 		case AST_KINT:
 			fprintf(TreeFile,"int ");
 			break;
+			
+		case AST_PV:
+			fprintf(TreeFile,";");
+			break;			
 
 			
 		default: fprintf(stderr, "UNKNOWN\n");				

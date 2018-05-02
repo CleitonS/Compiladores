@@ -48,6 +48,7 @@
 #define AST_KCHAR	  43
 #define AST_KFLOAT    44 
 #define AST_KINT	  45
+#define AST_PV  	  46	
 #define AST_ROOT      100
 
 
