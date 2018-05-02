@@ -167,13 +167,13 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_FOR:
-			fprintf(TreeFile,"FOR (");
+			fprintf(TreeFile,"for (");
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile," = ");
 			printAST_NODE(node->son[0]);
-			fprintf(TreeFile," TO ");
+			fprintf(TreeFile," to ");
 			printAST_NODE(node->son[1]);			
-			fprintf(TreeFile,") ");
+			fprintf(TreeFile,")\n ");
 			printAST_NODE(node->son[2]); //Possível problema aqui 
 			fprintf(TreeFile,"\n");			
 			break;
@@ -220,7 +220,7 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_PRI:
-			fprintf(TreeFile," PRINT ");
+			fprintf(TreeFile," print ");
 			printAST_NODE(node->son[0]);
 			break;
 		

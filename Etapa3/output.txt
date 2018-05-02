@@ -11,13 +11,14 @@ a = 10;
 pt = &a;
  i = #pt;
  v [ 2 ]  = v[10- 1];
- FOR (i = 1 TO 10)  PRINT i " " 
-  PRINT " Digite um numero: \n"  read i;
+ for (i = 1 to 10)
+  print i " " 
+  print " Digite um numero: \n"  read i;
  while ( i< 10) 
 a = incn(a , 1);
  i = i+ 1;
-  PRINT "Incrementado algumas vezes fica " a "\n"  if ( a== 5) then
- PRINT "Parou no meio\n"  if ( a== 11) then
+  print "Incrementado algumas vezes fica " a "\n"  if ( a== 5) then
+ print "Parou no meio\n"  if ( a== 11) then
  if ( a== 11) then
 else 
     { 
@@ -51,7 +52,8 @@ if ( a> 1) then
 { 
 ddd = d+ 1;
  }
- FOR (a = 10 TO a> 100) a = 1;
+ for (a = 10 to a> 100)
+ a = 1;
 
  a = 1;
    }
