@@ -22,15 +22,13 @@ AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son
 	return newNode;	
 }
 
-void printAST_NODE(AST *node){
-	printf("p0\n");
+void printAST_NODE(AST *node){	
 	if (!node) return;
 	/*
 	for (int i=0;1<level;i++)
 		fprintf(stderr, "  ");
 	fprintf(stderr, "AST(");
 	*/
-	printf("p1\n");
 	switch(node->type)
 	{
 		case AST_SYMBOL:

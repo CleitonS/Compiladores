@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 			printf("linha: %d token %d\n",getLineNumber(), test);
 	}
 	*/
-	printf("Chamando parset\n");
+	printf("Chamando parser\n");
 	yyparse();
 	printf("Imprimindo AST\n");
 	/*printAST_NODE(root);*/
