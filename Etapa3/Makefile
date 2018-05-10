@@ -1,5 +1,5 @@
-etapa2: parser.tab.o lex.yy.o main.o
-	gcc -o etapa2 parser.tab.o lex.yy.o main.o 
+etapa3: y.tab.o lex.yy.o main.o
+	gcc -o etapa3 y.tab.o lex.yy.o main.o 
 
 main.o: main.c
 	gcc -c main.c
@@ -13,11 +13,11 @@ lex.yy.o: lex.yy.c
 lex.yy.c: scanner.l
 	lex scanner.l
 	
-parser.tab.o: parser.tab.c
-	gcc -c parser.tab.c 
+y.tab.o: y.tab.c
+	gcc -c y.tab.c
 
-parser.tab.c: parser.y
+y.tab.c: parser.y
 	yacc -d -v parser.y
 
 clean:
-	rm etapa2.exe lex.yy.c parser.tab.c parser.tab.h *.o
+	rm etapa3.exe lex.yy.c y.tab.c parser.tab.h *.o
