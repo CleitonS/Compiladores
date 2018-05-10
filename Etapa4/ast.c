@@ -8,11 +8,15 @@ extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, A
 extern void printAST_NODE(AST *node);
 extern FILE *TreeFile;
 extern AST *root;
+extern getLineNumber();
+
+
 
 AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
 	AST *newNode;
 	newNode = (AST*) calloc(1, sizeof(AST));
 	newNode->type = type;
+	newNode->lineNumber = getLineNumber();
 	newNode->symbol = symbol;
 	newNode->son[0] = son0;
 	newNode->son[1] = son1;

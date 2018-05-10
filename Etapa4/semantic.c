@@ -10,7 +10,7 @@ void set_declarations(AST *node){
 		node->type == AST_FUND)
 	{
 		if (node->symbol->type != SYMBOL_TYPE_ID)
-			fprintf(stderr, "Semantic error: Symbol '%s' already declared.\n", node->symbol->yytext);		
+			fprintf(stderr, "Semantic error: Symbol '%s' already declared. Line %d \n", node->symbol->yytext, node->lineNumber);		
 		else{
 			switch(node->type){
 				case AST_DECINIT:
@@ -38,3 +38,27 @@ void set_declarations(AST *node){
 	for (int i=0; i<MAX_SONS; i++)
 		set_declarations(node->son[i]);	
 }
+
+void check_operands(AST *node){
+	int i;
+	if(!node) return;
+	for (int i=0; i<MAX_SONS; i++)
+		check_operands(node->son[i]);	
+	if(node->type == AST_ADD || 
+	   node->type == AST_SUB){
+		if(!node->son[0] || !node->son[1]) 
+			fprintf(stderr, "Operator error: undefined operator in line %d \n", node->lineNumber );		
+		
+		
+		
+		
+	}
+	
+}
+
+
+
+
+
+
+
