@@ -806,7 +806,7 @@ YY_RULE_SETUP
 case 25:
 YY_RULE_SETUP
 #line 45 "scanner.l"
-{yylval.symbol = hashinsert(1,yytext);return LIT_STRING;}
+{yylval.symbol = hashinsert(SYMBOL_TYPE_ID,yytext);return LIT_STRING;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP

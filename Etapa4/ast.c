@@ -39,8 +39,14 @@ void printAST_NODE(AST *node){
 			if(node->symbol)
 				if(node->symbol->yytext)
 					fprintf(TreeFile,"%s",node->symbol->yytext);	
-			break; 
-		
+			break;
+			
+		case AST_SYMBSTRING:
+			if(node->symbol)
+				if(node->symbol->yytext)
+					fprintf(TreeFile,"%s",node->symbol->yytext);	
+			break;
+			
 		case AST_IF:
 			fprintf(TreeFile,"if ( ");
 			printAST_NODE(node->son[0]);				

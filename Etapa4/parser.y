@@ -94,8 +94,10 @@ extern void printAST_NODE(AST *node);
 
 
 %%
-program: declist	   {printAST_NODE($1);
-						set_declarations($1);} 	
+program: declist	   {printAST_NODE($1);						
+						set_declarations($1);
+						check_undeclarations($1);
+						check_operands($1);} 	
 	;
 	
 declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);} 	
@@ -155,7 +157,7 @@ RESTELEMENT: ELEMENT RESTELEMENT	{$$ = astCreate(AST_LIST,0,$1,$2,0,0);}
 			|						{$$ = 0;}	
 			;
 			
-ELEMENT: LIT_STRING	{$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
+ELEMENT: LIT_STRING	{$$ = astCreate(AST_SYMBSTRING,$1,0,0,0,0);}
 		 | EXPRES 	
 		 ;
 
