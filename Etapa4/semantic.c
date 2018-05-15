@@ -46,7 +46,8 @@ void check_undeclarations(AST *node){
 	for (int i=0; i<MAX_SONS; i++)
 		check_undeclarations(node->son[i]);
 	
-	if(node->type == AST_SYMBOL && 
+
+	if(node->symbol != 0 &&
 	   node->symbol->type == SYMBOL_TYPE_ID){
 	   fprintf(stderr, "Semantic error: Symbol '%s' not declared. Line %d \n", node->symbol->yytext, node->lineNumber);		
 	}	
