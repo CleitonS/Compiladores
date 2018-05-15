@@ -49,7 +49,7 @@ print				{return KW_PRINT;}
 [ \t]
 .					{return TOKEN_ERROR;}
 
-<COMMENT>"*/"		{BEGIN(INITIAL);}
+<COMMENT>.*"*/"		{BEGIN(INITIAL);}
 <COMMENT>[\n]		{countLine++;}
 <COMMENT>.*			{}
 

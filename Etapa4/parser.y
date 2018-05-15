@@ -147,7 +147,7 @@ COMAND: TK_IDENTIFIER '=' EXPRES                     {$$ = astCreate(AST_ATR,$1,
 		|KW_PRINT LISTPRINT	                         {$$ = astCreate(AST_PRI,0,$2,0,0,0);}	 
 		|KW_RETURN EXPRES						     {$$ = astCreate(AST_RET,0,$2,0,0,0);}
 		|BODY										 
-		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);}
+		|EXPRES OPERATOR_EQ EXPRES		     		{$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} /*Antes estava: TK_IDENTIFIER OPERATOR_EQ EXPRES  ???*/
 		|										     {$$ = 0;}	
 		;
 	
@@ -214,7 +214,7 @@ DECL: TYPE TK_IDENTIFIER '=' INILIT';'		{$$ = astCreate(AST_DECINIT,$2,$1,$4,0,0
 TYPE: KW_CHAR	 {$$ = astCreate(AST_KCHAR,0,0,0,0,0);}
       |KW_FLOAT	 {$$ = astCreate(AST_KFLOAT,0,0,0,0,0);}
 	  |KW_INT	 {$$ = astCreate(AST_KINT,0,0,0,0,0);}
-	  ;          
+	  ;         	  
 	  
 INILIT: LIT_CHAR	     {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}
 		|LIT_INTEGER	 {$$ = astCreate(AST_SYMBOL,$1,0,0,0,0);}

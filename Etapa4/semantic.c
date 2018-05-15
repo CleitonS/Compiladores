@@ -11,8 +11,10 @@ void set_declarations(AST *node){
 		node->type == AST_DECPOIT  ||
 		node->type == AST_FUND)
 	{
-		if (node->symbol->type != SYMBOL_TYPE_ID)
+		if (node->symbol->type != SYMBOL_TYPE_ID){
 			fprintf(stderr, "Semantic error: Symbol '%s' already declared. Line %d \n", node->symbol->yytext, node->lineNumber);		
+			exit(4);
+		}
 		else{
 			switch(node->type){
 				case AST_DECINIT:
@@ -49,7 +51,8 @@ void check_undeclarations(AST *node){
 
 	if(node->symbol != 0 &&
 	   node->symbol->type == SYMBOL_TYPE_ID){
-	   fprintf(stderr, "Semantic error: Symbol '%s' not declared. Line %d \n", node->symbol->yytext, node->lineNumber);		
+	   fprintf(stderr, "Semantic error: Symbol '%s' not declared. Line %d \n", node->symbol->yytext, node->lineNumber);	
+	   exit(-4);
 	}	
 }
 
@@ -58,30 +61,44 @@ void check_operands(AST *node){
 	if(!node) return;
 	for (int i=0; i<MAX_SONS; i++)
 		check_operands(node->son[i]);	
-	if(node->type == AST_ADD || 
-	   node->type == AST_SUB){
-		if(!node->son[0] || !node->son[1]) 
+	if(node->type == AST_ADD || node->type == AST_SUB){
+		if(!node->son[0] || !node->son[1]) {
 			fprintf(stderr, "Operator error: undefined operator in line %d \n", node->lineNumber );		
+			exit(4);
+		}
 		
 		num_pointers = 0;
-		if(check_number_pointer(node) > 1 )
+		if(check_number_pointer(node) > 1 ){
 			fprintf(stderr, "Operator error: multiple sums with pointer in line %d \n", node->lineNumber );					
+			exit(4);
+		}
 	}	
-	if(node->type == AST_MUL || 
-	   node->type == AST_DIV){
-		if(!node->son[0] || !node->son[1]) 
+	if(node->type == AST_MUL || node->type == AST_DIV){
+		if(!node->son[0] || !node->son[1]){ 
 			fprintf(stderr, "Operator error: undefined operator in line %d \n", node->lineNumber );				   
-		   
+			exit(4);
+		}
 		num_pointers = 0;
-		if(check_number_pointer(node) > 0 )
+		if(check_number_pointer(node) > 0 ){
 			fprintf(stderr, "Operator error: operation invalid with pointer in line %d \n", node->lineNumber );					
-			
+			exit(4);
+		}		
 	}
+	if (node->type == AST_VEC || node->type == AST_ATRVEC){						
+		if(node->symbol == 0 || node->symbol->type != SYMBOL_TYPE_VECTOR){
+			fprintf(stderr, "Operator error: pointer operation with not pointer in line %d \n", node->lineNumber );					
+			exit(4);
+		}			
+	}
+	
+	
+	
 }
 
 int check_number_pointer(AST *node){
 	if(!node) return;
-	if (node->type == AST_POI)
+	if (node->symbol != NULL &&
+		node->symbol->type == SYMBOL_TYPE_POINTER)
 		num_pointers++;
 	for (int i=0; i<MAX_SONS; i++)
 		check_number_pointer(node->son[i]);		
