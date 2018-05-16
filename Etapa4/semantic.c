@@ -56,6 +56,52 @@ void check_undeclarations(AST *node){
 	}	
 }
 
+int contArg;
+void set_NumArg(AST *node){
+	AST *nodeAux;
+
+	if(!node) return;	
+	if (node->type == AST_FUND){
+		contArg = 0;
+		nodeAux = node->son[1];
+		while (nodeAux != 0){
+			contArg++;
+			if(nodeAux -> son[1] != 0)
+				nodeAux = nodeAux -> son[1];
+			else 
+				nodeAux = 0;
+		}
+		node->symbol->NumArg = contArg;
+	}
+
+	for (int i=0; i<MAX_SONS; i++)
+		set_NumArg(node->son[i]);		
+}
+
+void check_NumArg(AST *node){
+	AST *nodeAux;
+
+	if(!node) return;	
+	if (node->type == AST_FUN){
+		contArg = 0;
+		nodeAux = node->son[0];
+		while (nodeAux != 0){
+			contArg++;
+			if(nodeAux -> son[1] != 0)
+				nodeAux = nodeAux -> son[1];
+			else 
+				nodeAux = 0;
+		}		
+		if(node->symbol->NumArg != contArg){
+			fprintf(stderr, "Argument error: Number of arguments incorrect in line %d \n", node->lineNumber );		
+			exit(4);
+		}
+			
+	}
+	for (int i=0; i<MAX_SONS; i++)
+		check_NumArg(node->son[i]);		
+}
+
 void check_operands(AST *node){
 	int i;
 	if(!node) return;
@@ -84,12 +130,33 @@ void check_operands(AST *node){
 			exit(4);
 		}		
 	}
+	/*Verifica se todos os ponteiros tem indice -->  p[1]*/
 	if (node->type == AST_VEC || node->type == AST_ATRVEC){						
 		if(node->symbol == 0 || node->symbol->type != SYMBOL_TYPE_VECTOR){
 			fprintf(stderr, "Operator error: pointer operation with not pointer in line %d \n", node->lineNumber );					
 			exit(4);
 		}			
 	}
+	
+	/*Verifica se alguma variavel que não é ponteiro esta sendo acessado como tal*/
+	if (node->type == AST_FOR || node->type == AST_ATR){						
+		if(node->symbol == 0 || node->symbol->type != SYMBOL_TYPE_ESCALAR){
+			fprintf(stderr, "Operator error: escalar operation with not escalar in line %d \n", node->lineNumber );					
+			exit(4);
+		}			
+	}
+	
+	if (node-> type == AST_FUN){
+		if(node->symbol == 0 || node->symbol->type != SYMBOL_TYPE_FUNCTION){
+			fprintf(stderr, "Operator error: incorrect function call in line %d \n", node->lineNumber );					
+			exit(4);
+		}					
+	}
+	
+	
+
+	
+	
 	
 	
 	

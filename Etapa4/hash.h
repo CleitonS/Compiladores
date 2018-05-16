@@ -17,6 +17,7 @@ typedef struct hash_node
 {
 	int type;
 	char *yytext;
+	int NumArg;
 	struct hash_node *next;
 
 }hash;

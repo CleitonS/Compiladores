@@ -97,6 +97,8 @@ extern void printAST_NODE(AST *node);
 program: declist	   {printAST_NODE($1);						
 						set_declarations($1);
 						check_undeclarations($1);
+						set_NumArg($1);
+						check_NumArg($1);
 						check_operands($1);} 	
 	;
 	
@@ -147,7 +149,8 @@ COMAND: TK_IDENTIFIER '=' EXPRES                     {$$ = astCreate(AST_ATR,$1,
 		|KW_PRINT LISTPRINT	                         {$$ = astCreate(AST_PRI,0,$2,0,0,0);}	 
 		|KW_RETURN EXPRES						     {$$ = astCreate(AST_RET,0,$2,0,0,0);}
 		|BODY										 
-		|EXPRES OPERATOR_EQ EXPRES		     		{$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} /*Antes estava: TK_IDENTIFIER OPERATOR_EQ EXPRES  ???*/
+		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} /*Antes estava: TK_IDENTIFIER OPERATOR_EQ EXPRES  ???*/
+		|TK_IDENTIFIER '(' LSTARG ')'				 {$$ = astCreate(AST_FUN,$1,$3,0,0,0);}
 		|										     {$$ = 0;}	
 		;
 	
@@ -166,7 +169,7 @@ ELEMENT: LIT_STRING	{$$ = astCreate(AST_SYMBSTRING,$1,0,0,0,0);}
 CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{$$ = astCreate(AST_IF,0,$3,$6,0,0);} 
 		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND 			{$$ = astCreate(AST_IFE,0,$3,$6,$8,0);}
 		|KW_WHILE '('EXPRES')' COMAND				                {$$ = astCreate(AST_WHI,0,$3,$5,0,0);}
-		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);}
+		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);} /*FOR pode ser com um vetor???*/
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	
@@ -195,6 +198,7 @@ EXPRES:  '(' EXPRES ')' 				{$$ = astCreate(AST_SYMBOLPAR,0,$2,0,0,0);}
 		;
 		
 LSTARG: EXPRES RESTARG	{$$ = astCreate(AST_LIST,0,$1,$2,0,0);}
+		|				{$$ = 0;}	
 		;		
 		
 RESTARG: ',' EXPRES RESTARG {$$ = astCreate(AST_REST,0,$2,$3,0,0);}

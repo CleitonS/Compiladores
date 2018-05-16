@@ -13,7 +13,7 @@ extern getLineNumber();
 
 
 AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3){
-	AST *newNode;
+	AST *newNode;	
 	newNode = (AST*) calloc(1, sizeof(AST));
 	newNode->type = type;
 	newNode->lineNumber = getLineNumber();
@@ -21,8 +21,7 @@ AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son
 	newNode->son[0] = son0;
 	newNode->son[1] = son1;
 	newNode->son[2] = son2;
-	newNode->son[3] = son3;
-	
+	newNode->son[3] = son3;	
 	return newNode;	
 }
 
@@ -170,7 +169,8 @@ void printAST_NODE(AST *node){
 		case AST_FUN:
 			fprintf(TreeFile,"%s",node->symbol->yytext);
 			fprintf(TreeFile,"(");
-			printAST_NODE(node->son[0]);
+			if(node->son[0] != 0)
+				printAST_NODE(node->son[0]);
 			fprintf(TreeFile,")");			
 			break;
 		
@@ -205,9 +205,11 @@ void printAST_NODE(AST *node){
 			break;
 		
 		case AST_LIST:
-			printAST_NODE(node->son[0]);
+			if (node->son[0] != 0)
+				printAST_NODE(node->son[0]);
 			fprintf(TreeFile," ");
-			printAST_NODE(node->son[1]);		
+			if(node->son[1] != 0)
+				printAST_NODE(node->son[1]);		
 			break;
 		
 		case AST_ATR:
