@@ -7,6 +7,7 @@
     #include "hash.h"
 	#include "semantic.c"
 	//#include "main.c"
+	int yylex();
     void yyerror(char *msg);
 	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 extern void printAST_NODE(AST *node);

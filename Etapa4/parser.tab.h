@@ -80,7 +80,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 15 "parser.y"
+#line 16 "parser.y"
 
 	AST *ast;
 	hash * symbol;

@@ -8,7 +8,7 @@ extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, A
 extern void printAST_NODE(AST *node);
 extern FILE *TreeFile;
 extern AST *root;
-extern getLineNumber();
+extern int getLineNumber();
 
 
 

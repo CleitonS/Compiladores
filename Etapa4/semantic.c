@@ -163,7 +163,7 @@ void check_operands(AST *node){
 }
 
 int check_number_pointer(AST *node){
-	if(!node) return;
+	if(!node) return 0;
 	if (node->symbol != NULL &&
 		node->symbol->type == SYMBOL_TYPE_POINTER)
 		num_pointers++;

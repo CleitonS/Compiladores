@@ -8,6 +8,7 @@ extern int getLineNumber();
 extern int yylex();
 extern void hashprint();
 extern FILE *TreeFile;
+int yyparse ();
 #include "ast.h"
 /*
 extern AST *root;
