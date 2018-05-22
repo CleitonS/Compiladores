@@ -18,7 +18,6 @@ extern void printAST_NODE(AST *node);
 int main(int argc, char *argv[])
 {	
 
-	int test;
 	yyin = fopen(argv[1], "r"); 
 	if (yyin == NULL)
 	{

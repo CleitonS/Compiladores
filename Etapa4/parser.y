@@ -10,7 +10,7 @@
 	int yylex();
     void yyerror(char *msg);
 	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
-extern void printAST_NODE(AST *node);
+    extern void printAST_NODE(AST *node);
 %}
 
 %union{
@@ -95,7 +95,8 @@ extern void printAST_NODE(AST *node);
 
 
 %%
-program: declist	   {printAST_NODE($1);						
+program: declist	   { printf("Em decList");
+                        printAST_NODE($1);						
 						set_declarations($1);
 						check_undeclarations($1);
 						set_NumArg($1);

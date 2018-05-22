@@ -1,4 +1,6 @@
-
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <string.h>
 #include "semantic.h"
 
 int num_pointers;
@@ -103,7 +105,6 @@ void check_NumArg(AST *node){
 }
 
 void check_operands(AST *node){
-	int i;
 	if(!node) return;
 	for (int i=0; i<MAX_SONS; i++)
 		check_operands(node->son[i]);	

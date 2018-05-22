@@ -61,9 +61,9 @@ typedef struct ast_node{
 	struct ast_node *son[MAX_SONS];
 } AST;
 
-//AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
+AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 
-/*void astPrint(AST *node, int level);*/
+void astPrint(AST *node, int level);
 void printAST_NODE(AST *node);
 
 FILE *TreeFile;
