@@ -11,27 +11,8 @@
 	
 	
 	int main(int c, int c){  
-	c = 0;
-	mat[1] = 0;
-	
-	main(c,c);
-
-
-/*	v[1] = 0;
-	v[1 + 1] = 0;
-	v[1 * 1] = 0;
-	v[1 / 1] = 0;
-	v[pt + 1] = 0;
-	v[pt + pt] = 0;
-	v[pt - 1] = 0;
-	v[pt - pt] = 0;
-	v[pt * pt] = 0;
-	v[pt / pt] = 0;
-	v[pt / 1] = 0;
-	v[pt * 1] = 0;
-	v[(1 * 1) + (1 / 1) + pt ] = 0;
-	c[1] = 0;
-   */
-
+	print "teste";
+	print "asd";
+	main(c,a);
 	
 	}

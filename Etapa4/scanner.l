@@ -42,7 +42,7 @@ print				{return KW_PRINT;}
 [0-9]+				{yylval.symbol = hashinsert(SYMBOL_TYPE_LIT_INT,yytext);return LIT_INTEGER;}
 [0-9]+[.][0-9]+		{yylval.symbol = hashinsert(SYMBOL_TYPE_LIT_FLOAT,yytext);return LIT_REAL;}
 '.'					{yylval.symbol = hashinsert(SYMBOL_TYPE_LIT_CHAR,yytext);return LIT_CHAR;}	
-\"([^\"\\\n]|\\[\"\\n])+\"			{yylval.symbol = hashinsert(SYMBOL_TYPE_ID,yytext);return LIT_STRING;}
+\"([^\"\\\n]|\\[\"\\n])+\"			{yylval.symbol = hashinsert(SYMBOL_TYPE_LIT_STRING,yytext);return LIT_STRING;}
 
 [\,\;\:\(\)\[\]\{\}\+\-\*\/\<\>\=\!\&\$\#]		{return yytext[0];}
 [\n]				{countLine++;}	
