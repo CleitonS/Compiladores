@@ -1,5 +1,11 @@
 int a = 0;
 int b = 1;
-int main (  ) { 
-c = 0;
+int c = 1;
+int #pt = 0;
+int  v [ 10 ] : 0 0 0 0 0 0 0 0 0 0 ;
+int mat [ 10 ];
+int main ( int  c , int  c ) { 
+ print "teste" ;
+ print "asd"  ;
+main(c , a) ;
   }
