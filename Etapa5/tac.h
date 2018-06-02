@@ -21,20 +21,20 @@
 typedef struct tac
 {
 		int type;
-		HASH* res;
-		HASH* op1;
-		HASH* op2;
+		hash* res;
+		hash* op1;
+		hash* op2;
 		struct tac *prev;
 		struct tac *next;
 } TAC;
 
-TAC* tacCreate(int type, HASH* res, HASH* op1, HASH op2);
+TAC* tacCreate(int type, hash* res, hash* op1, hash* op2);
 void tacPrintSingle(TAC* tac);
 void tacPrintBack(TAC* tac);
 TAC* tacReserve(TAC*last);
-void tacPrintForward(TAC*tac)
+void tacPrintForward(TAC* tac);
 TAC* tacJoin(TAC*l1, TAC*l2);
-TAC* codeGenerator(AST* node)
+TAC* codeGenerator(AST* node);
 
 
 #endif

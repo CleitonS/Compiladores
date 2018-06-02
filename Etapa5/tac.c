@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <stlib.h>	
+#include <stdlib.h>	
 #include "tac.h"
 
-TAC* tacCreate(int type, HASH* res, HASH* op1, HASH op2)
+TAC* tacCreate(int type, hash* res, hash* op1, hash* op2)
 {
 	TAC* newtac = 0;
 	newtac = (TAC*) calloc(1,sizeof(TAC));
@@ -17,7 +17,7 @@ TAC* tacCreate(int type, HASH* res, HASH* op1, HASH op2)
 
 void tacPrintSingle(TAC*tac)
 {
-	if (tac!) return ; //return 0 ??
+	if (!tac) return ; //return 0 ??
 	if (tac->type == TAC_SYMBOL) return ; //return 0 ??
 	fprint(stderr, "TAC(");
 	switch (tac->type)
@@ -34,11 +34,11 @@ void tacPrintSingle(TAC*tac)
 		case TAC_LABEL: fprintf(stderr, "TAC_LABEL"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
-	if (tac->res) fprintf(stderr, ",%s"), tac->res->text);
+	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
 	else fprintf(stderr, ",0");
-	if (tac->op1) fprintf(stderr, ",%s"), tac->op1->text);
+	if (tac->op1) fprintf(stderr, ",%s", tac->op1->yytext);
 	else fprintf(stderr, ",0");
-	if (tac->op2) fprintf(stderr, ",%s"), tac->op2->text);
+	if (tac->op2) fprintf(stderr, ",%s", tac->op2->yytext);
 	else fprintf(stderr, ",0");
 	fprintf(stderr,")\n");
 }
@@ -63,7 +63,7 @@ void tacPrintForward(TAC*tac)
 {
 	if(!tac) return;
 	tacPrintSingle(tac);
-	tacPrintForward(tac->)next);
+	tacPrintForward(tac->next);
 }
 
 
@@ -87,7 +87,7 @@ TAC* codeGenerator(AST* node)
 		code[i] = codeGenerator(node->son[i]);
 	switch(node->type)
 	{
-		case	AST_SYMBOL: tacCreate(TAC_SYMBOL,node->symbol,0,0)
+		case	AST_SYMBOL: tacCreate(TAC_SYMBOL,node->symbol,0,0);
 			break;
 		case	AST_ADD: result = makeBinOp(TAC_ADD,code[0],code[1]);
 			break;
@@ -97,13 +97,13 @@ TAC* codeGenerator(AST* node)
 			break;
 		case	AST_DIV: result = makeBinOp(TAC_DIV,code[0],code[1]);
 			break;
-		case	AST_LESS: result = makeBinOp(TAC_LESS,code[0],code[1]);
+		case	AST_LES: result = makeBinOp(TAC_LESS,code[0],code[1]);
 			break;
-		case	AST_GREATER: result = makeBinOp(TAC_GREATER,code[0],code[1]);
+		case	AST_GRE: result = makeBinOp(TAC_GREATER,code[0],code[1]);
 			break;			
-		case	AST_ASS: result = tacJoin(code[0], tacCreate(TAC_ASS, node_symbol, code[0]?code[0]->res:0,0));
+		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node_symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
-		case 	AST_IFTE: result = makeIfThen(code[0],code[1]);
+		case 	AST_IFE: result = makeIfThen(code[0],code[1]);
 		default: result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]);
 	}
 	return result;

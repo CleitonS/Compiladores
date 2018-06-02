@@ -82,7 +82,7 @@ hash* makeTemp(void)
 	static char buffer[64];
 	
 	sprintf(buffer,"%d",serialNumber++);
-	hashInsert(SYMBOL_SCALAR,buffer);
+	hashInsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
 hash* makeLabel(void)
@@ -91,7 +91,7 @@ hash* makeLabel(void)
 	static char buffer[64];
 	
 	sprintf(buffer,"_Etapa5%d", serialNumber++);
-	return hashInsert(SYMBOL_SCALAR,buffer);
+	return hashInsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
 #endif
