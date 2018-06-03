@@ -1,9 +1,6 @@
-#ifndef _HASHC_
-#define _HASHC_
+//#ifndef _HASHC_
+//#define _HASHC_
 #include "hash.h"
-#include "string.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 
 hash * Table[HASHSIZE];
@@ -82,7 +79,7 @@ hash* makeTemp(void)
 	static char buffer[64];
 	
 	sprintf(buffer,"%d",serialNumber++);
-	hashInsert(SYMBOL_TYPE_ESCALAR,buffer);
+	hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
 hash* makeLabel(void)
@@ -91,7 +88,7 @@ hash* makeLabel(void)
 	static char buffer[64];
 	
 	sprintf(buffer,"_Etapa5%d", serialNumber++);
-	return hashInsert(SYMBOL_TYPE_ESCALAR,buffer);
+	return hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
-#endif
+//#endif

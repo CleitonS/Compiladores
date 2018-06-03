@@ -1,5 +1,9 @@
 #ifndef _HASH_
 #define _HASH_
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define HASHSIZE 50007
 #define SYMBOL_TYPE_ID 1
 #define SYMBOL_TYPE_LIT_INT 2

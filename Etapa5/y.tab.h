@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_PARSER_TAB_H_INCLUDED
-# define YY_YY_PARSER_TAB_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -74,13 +74,41 @@ extern int yydebug;
      IFELSE = 283
    };
 #endif
+/* Tokens.  */
+#define KW_CHAR 258
+#define KW_INT 259
+#define KW_FLOAT 260
+#define KW_IF 261
+#define KW_THEN 262
+#define KW_ELSE 263
+#define KW_WHILE 264
+#define KW_FOR 265
+#define KW_TO 266
+#define KW_READ 267
+#define KW_RETURN 268
+#define KW_PRINT 269
+#define OPERATOR_LE 270
+#define OPERATOR_GE 271
+#define OPERATOR_EQ 272
+#define OPERATOR_NE 273
+#define OPERATOR_AND 274
+#define OPERATOR_OR 275
+#define TK_IDENTIFIER 276
+#define LIT_INTEGER 277
+#define LIT_REAL 278
+#define LIT_CHAR 279
+#define LIT_STRING 280
+#define TOKEN_ERROR 281
+#define IDENTF 282
+#define IFELSE 283
+
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 24 "parser.y"
+#line 26 "parser.y"
 
 	AST *ast;
 	hash * symbol;
@@ -89,7 +117,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 93 "parser.tab.h"
+#line 121 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -112,4 +140,4 @@ int yyparse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_YY_PARSER_TAB_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

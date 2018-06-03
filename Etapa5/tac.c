@@ -1,10 +1,8 @@
-#ifndef TAC_C
-#define TAC_C
+//#ifndef TAC_C
+//#define TAC_C
 
-#include <stdio.h>
-#include <stdlib.h>	
 #include "tac.h"
-#include "hash.h"
+
 
 TAC* tacCreate(int type, hash* res, hash* op1, hash* op2)
 {
@@ -54,7 +52,7 @@ void tacPrintBack(TAC* tac)
 		tacPrintBack(tac->prev);
 }
 
-TAC* tacReserve(TAC*last)
+TAC* tacReverse(TAC*last)
 {
 	TAC*tac = 0;
 	for (tac = last; tac->prev; tac = tac->prev)
@@ -115,7 +113,7 @@ TAC* codeGenerator(AST* node)
 	return result;
 }
 
-TAC* makeBinOP(int type, TAC* code0, TAC* code1)
+TAC* makeBinOp(int type, TAC* code0, TAC* code1)
 {
 	//tacJoin(code[0],tacJoin(code[1],tacCreate(TAC_ADD,makeTemp(),code[0]?code[0]->res:0,code[1]?code[1]->res:0)));
 	
@@ -128,7 +126,7 @@ TAC* makeIfThen(TAC *code0, TAC *code1){
 	TAC* newlabeltac = 0 ;
 	hash *newlabel = 0;
 	
-	newlabel = makelable();
+	newlabel = makeLabel();
 	newiftac = tacCreate(TAC_IFZ,newlabel,code0?code0->res:0,0);
 	newlabeltac = tacCreate(TAC_LABEL, newlabel,0,0);
 	
@@ -137,4 +135,4 @@ TAC* makeIfThen(TAC *code0, TAC *code1){
 }
 
 
-#endif
+//#endif

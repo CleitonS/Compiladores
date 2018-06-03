@@ -3,20 +3,22 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>
-	#include "ast.c"
+	//#include "ast.c"
+	#include "ast.h"
+	#include "y.tab.h"
     #include "hash.h"
 	#include "tac.h"
-	#include "tac.c"
+	//#include "tac.c"
 	#include "semantic.h"
-	#include "semantic.c"	
+	//#include "semantic.c"	
 	//#include "main.c"
 	int yylex();
     void yyerror(char *msg);
 	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 	extern void printAST_NODE(AST *node);
-	extern TAC* tacReserve(TAC*last);
-	extern TAC* codeGenerator(AST* node);
-	extern void tacPrintForward(TAC* tac);
+	//extern TAC* tacReverse(TAC*last);
+	//extern TAC* codeGenerator(AST* node);
+	//extern void tacPrintForward(TAC* tac);
 	
 	
 %}
