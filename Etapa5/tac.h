@@ -35,6 +35,7 @@ TAC* tacReserve(TAC*last);
 void tacPrintForward(TAC* tac);
 TAC* tacJoin(TAC*l1, TAC*l2);
 TAC* codeGenerator(AST* node);
-
+TAC* makeIfThen(TAC *code0, TAC *code1);
+TAC* makeBinOP(int type, TAC* code0, TAC* code1);
 
 #endif

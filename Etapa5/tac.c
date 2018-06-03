@@ -19,7 +19,7 @@ void tacPrintSingle(TAC*tac)
 {
 	if (!tac) return ; //return 0 ??
 	if (tac->type == TAC_SYMBOL) return ; //return 0 ??
-	fprint(stderr, "TAC(");
+	fprintf(stderr, "TAC(");
 	switch (tac->type)
 	{
 		case TAC_SYMBOL: fprintf(stderr, "TAC_SYMBOL"); break;
@@ -101,7 +101,7 @@ TAC* codeGenerator(AST* node)
 			break;
 		case	AST_GRE: result = makeBinOp(TAC_GREATER,code[0],code[1]);
 			break;			
-		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node_symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
+		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
 		case 	AST_IFE: result = makeIfThen(code[0],code[1]);
 		default: result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]);
@@ -113,19 +113,18 @@ TAC* makeBinOP(int type, TAC* code0, TAC* code1)
 {
 	//tacJoin(code[0],tacJoin(code[1],tacCreate(TAC_ADD,makeTemp(),code[0]?code[0]->res:0,code[1]?code[1]->res:0)));
 	
-	TAC* newtac = tacCreate(type, makeTemp(), code0?code->res:0,code1?code1->res:0);
+	TAC* newtac = tacCreate(type, makeTemp(), code0?code0->res:0,code1?code1->res:0);
 	tacJoin(code0,tacJoin(code1,newtac));
 }
 
-TAC *makeIfThen(TAC *code0, TAC *code1)
-{
+TAC* makeIfThen(TAC *code0, TAC *code1){
 	TAC* newiftac = 0 ;
 	TAC* newlabeltac = 0 ;
-	HASH *newlabel = 0;
+	hash *newlabel = 0;
 	
 	newlabel = makelable();
-	newiftac = tacCreate(TAC_IFZ,newlable,code0?code0->res:0,0);
-	newlabeltac = tacCreate(TAC_LABEL, newlabel,0,0)
+	newiftac = tacCreate(TAC_IFZ,newlabel,code0?code0->res:0,0);
+	newlabeltac = tacCreate(TAC_LABEL, newlabel,0,0);
 	
 	return tacJoin(tacJoin(tacJoin(code0,newiftac), code1),newlabeltac);
 	
