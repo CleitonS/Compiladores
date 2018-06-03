@@ -1,6 +1,10 @@
+#ifndef TAC_C
+#define TAC_C
+
 #include <stdio.h>
 #include <stdlib.h>	
 #include "tac.h"
+#include "hash.h"
 
 TAC* tacCreate(int type, hash* res, hash* op1, hash* op2)
 {
@@ -103,7 +107,9 @@ TAC* codeGenerator(AST* node)
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
-		case 	AST_IFE: result = makeIfThen(code[0],code[1]);
+		case 	AST_IF: result = makeIfThen(code[0],code[1]);
+			break;
+		//case 	AST_IFE: result = makeIfThenElse(code[0],code[1],code[2]);			
 		default: result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]);
 	}
 	return result;
@@ -129,3 +135,6 @@ TAC* makeIfThen(TAC *code0, TAC *code1){
 	return tacJoin(tacJoin(tacJoin(code0,newiftac), code1),newlabeltac);
 	
 }
+
+
+#endif

@@ -1,5 +1,5 @@
-#ifndef TAC_HEADER
-#define TAC_HEADER
+//#ifndef TAC_HEADER
+//#define TAC_HEADER
 
 #include <stdio.h>
 #include "hash.h"
@@ -38,4 +38,4 @@ TAC* codeGenerator(AST* node);
 TAC* makeIfThen(TAC *code0, TAC *code1);
 TAC* makeBinOP(int type, TAC* code0, TAC* code1);
 
-#endif
+//#endif
