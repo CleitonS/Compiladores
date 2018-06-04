@@ -54,7 +54,9 @@ void tacPrintBack(TAC* tac)
 
 TAC* tacReverse(TAC*last)
 {
+	fprintf(stderr, "TacReverse\n tacLast: %d",last);
 	TAC*tac = 0;
+	//if(!last) return 0;
 	for (tac = last; tac->prev; tac = tac->prev)
 		tac->prev->next = tac;
 	return tac;
@@ -63,6 +65,7 @@ TAC* tacReverse(TAC*last)
 
 void tacPrintForward(TAC*tac)
 {
+	fprintf(stderr, "printf\n");
 	if(!tac) return;
 	tacPrintSingle(tac);
 	tacPrintForward(tac->next);
@@ -81,12 +84,15 @@ TAC* tacJoin(TAC*l1, TAC*l2)
 
 TAC* codeGenerator(AST* node)
 {
+	fprintf(stderr, "CodeGenerator\n");
 	int i;
 	TAC* result = 0;
 	TAC* code[MAX_SONS];
-	if (!node) return 0;
+	if (!node) {fprintf(stderr, "primeiro return\n"); return 0;}
 	for (i=0; i<MAX_SONS; i++)
 		code[i] = codeGenerator(node->son[i]);
+	fprintf(stderr, "node->type: %d\n", node->type);
+	fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);
 	switch(node->type)
 	{
 		case	AST_SYMBOL: tacCreate(TAC_SYMBOL,node->symbol,0,0);
@@ -105,11 +111,14 @@ TAC* codeGenerator(AST* node)
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
+	case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[1]?code[1]->res:0,0)); fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);}
+			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
 			break;
 		//case 	AST_IFE: result = makeIfThenElse(code[0],code[1],code[2]);			
-		default: result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]);
+		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);}
 	}
+	fprintf(stderr, "ultimo return...%d\n ", result);
 	return result;
 }
 
