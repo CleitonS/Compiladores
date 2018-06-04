@@ -77,8 +77,11 @@ TAC* tacJoin(TAC*l1, TAC*l2)
 	TAC* aux = 0;
 	if (!l1) return l2;
 	if (!l2) return l1;
-	for (aux = l2 ; aux->prev; aux = aux->prev)
-		aux->prev = l1;
+	for (aux = l2 ; aux->prev; aux = aux->prev){
+		;}
+	aux->prev = l1;
+	//testar com e sem isso:
+	l1->next = tac; 
 	return l2;
 }
 
