@@ -1,6 +1,13 @@
-int a = 2;
+int a = 1;
+int i = 2;
 
-int b =102;
+int main(){
 
-int c = 55;
+a = i + 1;
+a = i - 4;
+a = i * 1;
+a = i / 1;
+
+
+}
 

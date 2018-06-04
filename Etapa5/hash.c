@@ -78,7 +78,7 @@ hash* makeTemp(void)
 	static int serialNumber = 0 ;
 	static char buffer[64];
 	
-	sprintf(buffer,"%d",serialNumber++);
+	sprintf(buffer,"_VarTemp%d",serialNumber++);
 	hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
