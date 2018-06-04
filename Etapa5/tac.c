@@ -55,7 +55,7 @@ void tacPrintBack(TAC* tac)
 TAC* tacReverse(TAC*last)
 {
 	fprintf(stderr, "TacReverse\n tacLast: %d",last);
-	TAC*tac = 0;
+	TAC *tac = 0;
 	//if(!last) return 0;
 	for (tac = last; tac->prev; tac = tac->prev)
 		tac->prev->next = tac;
