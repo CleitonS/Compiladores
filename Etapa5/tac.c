@@ -76,13 +76,14 @@ TAC* tacJoin(TAC*l1, TAC*l2)
 {
 	TAC* aux = 0;
 	if (!l1) return l2;
-	if (!l2) return l1;
+	if (!l2) return l1;		
 	for (aux = l2 ; aux->prev; aux = aux->prev){
 		;}
 	aux->prev = l1;
 	//testar com e sem isso:
-	l1->next = tac; 
+	//l1->next = tac; 
 	return l2;
+	
 }
 
 TAC* codeGenerator(AST* node)
@@ -98,7 +99,7 @@ TAC* codeGenerator(AST* node)
 	fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);
 	switch(node->type)
 	{
-		case	AST_SYMBOL: tacCreate(TAC_SYMBOL,node->symbol,0,0);
+		case	AST_SYMBOL: result = tacCreate(TAC_SYMBOL,node->symbol,0,0);
 			break;
 		case	AST_ADD: result = makeBinOp(TAC_ADD,code[0],code[1]);
 			break;
