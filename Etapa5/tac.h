@@ -15,7 +15,9 @@
 #define TAC_ASS 8
 #define TAC_IFZ 9
 #define TAC_LABEL 10
-
+#define TAC_JUMP 11
+#define TAC_EQUAL 12
+#define TAC_IFNZ 13
 
 
 typedef struct tac
@@ -37,5 +39,8 @@ TAC* tacJoin(TAC*l1, TAC*l2);
 TAC* codeGenerator(AST* node);
 TAC* makeIfThen(TAC *code0, TAC *code1);
 TAC* makeBinOp(int type, TAC* code0, TAC* code1);
+TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2);
+TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2);
+
 
 #endif

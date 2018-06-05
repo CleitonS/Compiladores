@@ -87,7 +87,7 @@ hash* makeLabel(void)
 	static int serialNumber = 0;
 	static char buffer[64];
 	
-	sprintf(buffer,"_Etapa5%d", serialNumber++);
+	sprintf(buffer,"_Label%d", serialNumber++);
 	return hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 

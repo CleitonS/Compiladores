@@ -34,6 +34,9 @@ void tacPrintSingle(TAC*tac)
 		case TAC_ASS: fprintf(stderr, "TAC_ASS"); break;
 		case TAC_IFZ: fprintf(stderr, "TAC_IFZ"); break;
 		case TAC_LABEL: fprintf(stderr, "TAC_LABEL"); break;
+		case TAC_JUMP: fprintf(stderr, "TAC_JUMP"); break;
+		case TAC_EQUAL: fprintf(stderr, "TAC_EQUAL"); break;
+		case TAC_IFNZ: fprintf(stderr, "TAC_IFNZ"); break;			
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -75,9 +78,10 @@ void tacPrintForward(TAC*tac)
 TAC* tacJoin(TAC*l1, TAC*l2)
 {
 	TAC* aux = 0;
-	if (!l1) return l2;
-	if (!l2) return l1;		
+	if (!l1){fprintf(stderr, "return l2\n"); return l2;}
+	if (!l2){return l1;}
 	for (aux = l2 ; aux->prev; aux = aux->prev){
+		//fprintf(stderr, "tacJoin %d\n", aux);
 		;}
 	aux->prev = l1;
 	//testar com e sem isso:
@@ -119,7 +123,10 @@ TAC* codeGenerator(AST* node)
 			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
 			break;
-		//case 	AST_IFE: result = makeIfThenElse(code[0],code[1],code[2]);			
+		case 	AST_IFE: result = makeIfThenElse(code[0],code[1],code[2]);
+			break;
+		case 	AST_FOR: result = makeFor(node->symbol,code[0],code[1],code[2]);
+			break;			
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
 	}
 	//fprintf(stderr, "ultimo return...%d\n ", result);
@@ -147,6 +154,47 @@ TAC* makeIfThen(TAC *code0, TAC *code1){
 	return tacJoin(tacJoin(tacJoin(code0,newiftac), code1),newlabeltac);
 	
 }
+
+TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2){
+	TAC* ifTac = 0 ;
+	TAC* JumpTac = 0 ;
+	TAC* elseLabelTac = 0 ;
+	TAC* endLabelTac = 0 ;
+	hash* elseLabel = makeLabel();
+	hash* endLabel = makeLabel();	
+	
+	ifTac = tacCreate(TAC_IFZ,elseLabel,code0?code0->res:0,0);
+	JumpTac = tacCreate(TAC_JUMP,endLabel,0,0);
+	
+	elseLabelTac = tacCreate(TAC_LABEL, elseLabel,0,0);
+	endLabelTac = tacCreate(TAC_LABEL, endLabel,0,0);
+	
+	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(code0, ifTac),code1 ),JumpTac ), elseLabelTac) , code2) , endLabelTac);	
+}
+
+TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2){
+	TAC* assTac = 0 ;
+	TAC* equalTac = 0 ;
+	TAC* addTac = 0 ;
+	TAC* JumpTac = 0 ;	
+	TAC* beginLabelTac = 0 ;	
+	TAC* ifTac = 0 ;
+	TAC* outLabelTac = 0 ;	
+	hash* beginLabel = makeLabel();
+	hash* outLabel = makeLabel();
+	hash* VarTemp = makeTemp();
+	
+	assTac = tacCreate(TAC_ASS, symbol, code0->res,0);
+	beginLabelTac = tacCreate(TAC_LABEL, beginLabel,0,0);
+	equalTac = tacCreate(TAC_EQUAL, VarTemp, symbol,code1->res);
+	ifTac = tacCreate(TAC_IFNZ,outLabel,VarTemp,0);
+	JumpTac = tacCreate(TAC_JUMP,beginLabel,0,0);
+	outLabelTac = tacCreate(TAC_LABEL, outLabel,0,0);
+	
+	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(assTac,beginLabelTac),equalTac),ifTac),code2), JumpTac), outLabelTac);
+}
+
+
 
 
 //#endif
