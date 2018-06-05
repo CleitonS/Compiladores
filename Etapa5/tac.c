@@ -36,7 +36,13 @@ void tacPrintSingle(TAC*tac)
 		case TAC_LABEL: fprintf(stderr, "TAC_LABEL"); break;
 		case TAC_JUMP: fprintf(stderr, "TAC_JUMP"); break;
 		case TAC_EQUAL: fprintf(stderr, "TAC_EQUAL"); break;
-		case TAC_IFNZ: fprintf(stderr, "TAC_IFNZ"); break;			
+		case TAC_IFNZ: fprintf(stderr, "TAC_IFNZ"); break;
+		case TAC_LEQ: fprintf(stderr, "TAC_LEQ"); break;
+		case TAC_GEQ: fprintf(stderr, "TAC_GEQ"); break;
+		case TAC_EQU: fprintf(stderr, "TAC_EQU"); break;
+		case TAC_NEQ: fprintf(stderr, "TAC_NEQ"); break;
+		case TAC_AND: fprintf(stderr, "TAC_NEQ"); break;
+		case TAC_OR: fprintf(stderr, "TAC_NEQ"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -116,6 +122,18 @@ TAC* codeGenerator(AST* node)
 		case	AST_LES: result = makeBinOp(TAC_LESS,code[0],code[1]);
 			break;
 		case	AST_GRE: result = makeBinOp(TAC_GREATER,code[0],code[1]);
+			break;
+		case	AST_LEQ: result = makeBinOp(TAC_LEQ,code[0],code[1]);
+			break;
+		case	AST_GEQ: result = makeBinOp(TAC_GEQ,code[0],code[1]);
+			break;
+		case	AST_EQU: result = makeBinOp(TAC_EQU,code[0],code[1]);
+			break;
+		case	AST_NEQ: result = makeBinOp(TAC_NEQ,code[0],code[1]);
+			break;
+		case 	AST_AND: result = makeBinOp(TAC_AND, code[0],code[1]);
+			break;
+		case 	AST_OR: result = makeBinOp(TAC_OR, code[0],code[1]);
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;

@@ -18,6 +18,12 @@
 #define TAC_JUMP 11
 #define TAC_EQUAL 12
 #define TAC_IFNZ 13
+#define TAC_LEQ 14
+#define TAC_GEQ 15
+#define TAC_EQU 16
+#define TAC_NEQ 17
+#define TAC_AND 18
+#define TAC_OR 19
 
 
 typedef struct tac
