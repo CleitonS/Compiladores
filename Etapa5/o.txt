@@ -1,6 +1,6 @@
 int a = 1;
 int i = 2;
+int d = 0;
 int main (  ) { 
-for (a = 1 to 5)
- a = 1
- }
+a = ( a>1 )!;
+  }

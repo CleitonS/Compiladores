@@ -45,6 +45,7 @@ void tacPrintSingle(TAC*tac)
 		case TAC_OR: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_WHI: fprintf(stderr, "TAC_WHI"); break;
 		case TAC_RET: fprintf(stderr, "TAC_RET"); break;
+		case TAC_NOT: fprintf(stderr, "TAC_NOT"); break;		
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -86,7 +87,7 @@ void tacPrintForward(TAC*tac)
 TAC* tacJoin(TAC*l1, TAC*l2)
 {
 	TAC* aux = 0;
-	if (!l1){fprintf(stderr, "return l2\n"); return l2;}
+	if (!l1){return l2;}
 	if (!l2){return l1;}
 	for (aux = l2 ; aux->prev; aux = aux->prev){
 		//fprintf(stderr, "tacJoin %d\n", aux);
@@ -136,6 +137,8 @@ TAC* codeGenerator(AST* node)
 		case 	AST_AND: result = makeBinOp(TAC_AND, code[0],code[1]);
 			break;
 		case 	AST_OR: result = makeBinOp(TAC_OR, code[0],code[1]);
+			break;	
+		case 	AST_NOT: result = tacJoin(code[0], tacCreate(TAC_NOT, makeTemp(), code[0]?code[0]->res:0, 0));
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
@@ -152,7 +155,6 @@ TAC* codeGenerator(AST* node)
 		case 	AST_RET: result = tacJoin(code[0], tacCreate(TAC_RET, code[0]?code[0]->res:0,0,0));
 			break;
 	
-	
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
 	}
 	//fprintf(stderr, "ultimo return...%d\n ", result);
@@ -164,7 +166,7 @@ TAC* makeBinOp(int type, TAC* code0, TAC* code1)
 	//tacJoin(code[0],tacJoin(code[1],tacCreate(TAC_ADD,makeTemp(),code[0]?code[0]->res:0,code[1]?code[1]->res:0)));
 	
 	TAC* newtac = tacCreate(type, makeTemp(), code0?code0->res:0,code1?code1->res:0);	
-	fprintf(stderr, "NewTac: %s\n", newtac->res->yytext);
+	//fprintf(stderr, "NewTac: %s\n", newtac->res->yytext);
 	tacJoin(code0,tacJoin(code1,newtac));
 }
 

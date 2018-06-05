@@ -26,6 +26,7 @@
 #define TAC_OR 19
 #define TAC_WHI 20
 #define TAC_RET 21
+#define TAC_NOT 22
 
 
 typedef struct tac
