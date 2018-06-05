@@ -44,6 +44,7 @@ void tacPrintSingle(TAC*tac)
 		case TAC_AND: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_OR: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_WHI: fprintf(stderr, "TAC_WHI"); break;
+		case TAC_RET: fprintf(stderr, "TAC_RET"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -147,6 +148,11 @@ TAC* codeGenerator(AST* node)
 		case 	AST_FOR: result = makeFor(node->symbol,code[0],code[1],code[2]);
 			break;
 		case 	AST_WHI: result = makeWhile(code[0],code[1]);
+			break;
+		case 	AST_RET: result = tacJoin(code[0], tacCreate(TAC_RET, code[0]?code[0]->res:0,0,0));
+			break;
+	
+	
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
 	}
 	//fprintf(stderr, "ultimo return...%d\n ", result);
@@ -195,7 +201,6 @@ TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2){
 TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2){
 	TAC* assTac = 0 ;
 	TAC* equalTac = 0 ;
-	TAC* addTac = 0 ;
 	TAC* JumpTac = 0 ;	
 	TAC* beginLabelTac = 0 ;	
 	TAC* ifTac = 0 ;

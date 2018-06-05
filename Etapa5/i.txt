@@ -19,8 +19,7 @@ if (a >= 1) then {d = d + 1};
 for (a = 1 to 5){
 	a = 1
 }
-}
 
-while(a <= 5) {
- a = a;
+return 0;
+
 }
