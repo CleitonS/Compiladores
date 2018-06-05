@@ -132,6 +132,8 @@ TAC* codeGenerator(AST* node)
 			break;
 		case	AST_EQU: result = makeBinOp(TAC_EQU,code[0],code[1]);
 			break;
+		case	AST_COMPARE: result = tacJoin(code[0], tacCreate(TAC_EQU, makeTemp(), node->symbol, code[0]?code[0]->res:0));
+			break;			
 		case	AST_NEQ: result = makeBinOp(TAC_NEQ,code[0],code[1]);
 			break;
 		case 	AST_AND: result = makeBinOp(TAC_AND, code[0],code[1]);
