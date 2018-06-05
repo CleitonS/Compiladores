@@ -43,6 +43,7 @@ void tacPrintSingle(TAC*tac)
 		case TAC_NEQ: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_AND: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_OR: fprintf(stderr, "TAC_NEQ"); break;
+		case TAC_WHI: fprintf(stderr, "TAC_WHI"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -137,14 +138,15 @@ TAC* codeGenerator(AST* node)
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
-	case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
+		case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
 			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
 			break;
 		case 	AST_IFE: result = makeIfThenElse(code[0],code[1],code[2]);
 			break;
 		case 	AST_FOR: result = makeFor(node->symbol,code[0],code[1],code[2]);
-			break;			
+			break;
+		case 	AST_WHI: result = makeWhile(code[0],code[1]);
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
 	}
 	//fprintf(stderr, "ultimo return...%d\n ", result);
@@ -210,6 +212,25 @@ TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2){
 	outLabelTac = tacCreate(TAC_LABEL, outLabel,0,0);
 	
 	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(assTac,beginLabelTac),equalTac),ifTac),code2), JumpTac), outLabelTac);
+}
+
+TAC* makeWhile(TAC *code0, TAC *code1){
+	TAC* iftac = 0;
+	TAC* labeltac1 = 0;
+	TAC* labeltac2 = 0;
+	TAC* jump = 0;
+	hash* newlabel1 = 0;
+	hash* newlabel2 = 0;
+	newlabel1 = makeLabel();
+	newlabel2 = makeLabel();
+	
+	iftac = tacCreate(TAC_IFNZ,newlabel2,code0?code0->res : 0, 0);
+	labeltac1 = tacCreate(TAC_LABEL,newlabel1,0,0);
+	labeltac2 = tacCreate(TAC_LABEL,newlabel2,0,0);
+	jump = tacCreate(TAC_JUMP,newlabel1,0,0);
+	
+	return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(labeltac1,code0),iftac),code1),jump),labeltac2);
+	
 }
 
 

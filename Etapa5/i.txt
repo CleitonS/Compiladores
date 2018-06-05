@@ -1,5 +1,6 @@
 int a = 1;
 int i = 2;
+int d = 0;
 
 int main(){
 /*
@@ -13,8 +14,13 @@ if( a > 1) then {
 	else{ i = 2;}
 */
 
-for (a = 1 to 5)
-	a = 1
+if (a >= 1) then {d = d + 1};
 
+for (a = 1 to 5){
+	a = 1
+}
 }
 
+while(a <= 5) {
+ a = a;
+}

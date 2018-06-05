@@ -24,6 +24,7 @@
 #define TAC_NEQ 17
 #define TAC_AND 18
 #define TAC_OR 19
+#define TAC_WHI 20
 
 
 typedef struct tac
@@ -47,6 +48,7 @@ TAC* makeIfThen(TAC *code0, TAC *code1);
 TAC* makeBinOp(int type, TAC* code0, TAC* code1);
 TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2);
 TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2);
+TAC* makeWhile(TAC *code0, TAC *code1);
 
 
 #endif
