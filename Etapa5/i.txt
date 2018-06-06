@@ -12,21 +12,27 @@ funcao...
 */
 
 
-
+/*
 int a = 1;
 int i = 2;
 int d = 0;
 int vec[3]: 1 2 3;
+*/
 
 int main(){
 	
-	/*int t = 4; /*deveria conseguir declarar uma variavel global?*/
+	/*int t = 4; /*deveria conseguir declarar uma variavel global????*/
+	
+	
+	
+	
+	
 	
 /*======== Atribuição a vetor =========================*/
-
+/*
 	
 	vec[a+1] = i * 5;
-
+*/
 /*==========================================================*/
 
 	
