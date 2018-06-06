@@ -27,6 +27,8 @@
 #define TAC_WHI 20
 #define TAC_RET 21
 #define TAC_NOT 22
+#define TAC_PRI 23
+
 
 
 typedef struct tac
@@ -51,6 +53,6 @@ TAC* makeBinOp(int type, TAC* code0, TAC* code1);
 TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2);
 TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2);
 TAC* makeWhile(TAC *code0, TAC *code1);
-
+TAC* makePrint(AST* node);
 
 #endif

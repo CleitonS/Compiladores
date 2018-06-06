@@ -2,4 +2,6 @@ int a = 1;
 int i = 2;
 int d = 0;
 int main (  ) { 
-a  == ( a>1 ) }
+ print "teste" "teste2" "teste3" ;
+ print "teste4" "teste5" "teste6"  ;
+  }
