@@ -1,7 +1,7 @@
 int a = 1;
 int i = 2;
 int d = 0;
+int  vec [ 3 ] : 1 2 3 ;
 int main (  ) { 
- print "teste" "teste2" "teste3" ;
- print "teste4" "teste5" "teste6"  ;
+vec [ a+1 ]  = i*5;
   }

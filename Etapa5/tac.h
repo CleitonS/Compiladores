@@ -28,7 +28,11 @@
 #define TAC_RET 21
 #define TAC_NOT 22
 #define TAC_PRI 23
-
+#define TAC_READ 24
+#define TAC_ATRVEC 25
+#define TAC_DECVECLI 26
+#define TAC_ZERO 27
+#define TAC_INC 28
 
 
 typedef struct tac
@@ -54,5 +58,7 @@ TAC* makeIfThenElse(TAC *code0, TAC *code1, TAC *code2);
 TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2);
 TAC* makeWhile(TAC *code0, TAC *code1);
 TAC* makePrint(AST* node);
+TAC* makeAtrVec(hash* symbol, TAC *code0, TAC *code1);
+TAC* makeDecVetInic(AST* node);
 
 #endif

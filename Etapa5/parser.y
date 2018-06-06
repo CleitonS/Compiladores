@@ -160,7 +160,7 @@ COMAND: TK_IDENTIFIER '=' EXPRES                     {$$ = astCreate(AST_ATR,$1,
 		|KW_READ TK_IDENTIFIER                       {$$ = astCreate(AST_READ,$2,0,0,0,0);}	 
 		|KW_PRINT LISTPRINT	                         {$$ = astCreate(AST_PRI,0,$2,0,0,0);}	 
 		|KW_RETURN EXPRES						     {$$ = astCreate(AST_RET,0,$2,0,0,0);}
-		|BODY										 
+		|BODY	
 		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} 
 		|TK_IDENTIFIER '(' LSTARG ')'				 {$$ = astCreate(AST_FUN,$1,$3,0,0,0);}
 		|										     {$$ = 0;}	

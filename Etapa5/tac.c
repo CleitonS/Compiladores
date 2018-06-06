@@ -47,7 +47,11 @@ void tacPrintSingle(TAC*tac)
 		case TAC_RET: fprintf(stderr, "TAC_RET"); break;
 		case TAC_NOT: fprintf(stderr, "TAC_NOT"); break;
 		case TAC_PRI: fprintf(stderr, "TAC_PRI"); break;		
-		
+		case TAC_READ: fprintf(stderr, "TAC_READ"); break;				
+		case TAC_ATRVEC: fprintf(stderr, "TAC_ATRVEC"); break;			
+		case TAC_DECVECLI: fprintf(stderr, "TAC_DECVECLI"); break;	
+		case TAC_INC: fprintf(stderr, "TAC_INC"); break;
+		case TAC_ZERO: fprintf(stderr, "TAC_ZERO"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -146,6 +150,8 @@ TAC* codeGenerator(AST* node)
 			break;			
 		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
 			break;
+		case	AST_ATRVEC: result = makeAtrVec(node->symbol,code[0],code[1]);
+			break;			
 		case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
 			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
@@ -160,6 +166,11 @@ TAC* codeGenerator(AST* node)
 			break;
 		case 	AST_PRI: result = makePrint(node);
 			break;
+		case 	AST_READ: result = tacCreate(TAC_READ, node->symbol, 0,0);
+			break;	
+		case 	AST_DECVECLI: result = makeDecVetInic(node);
+			break;	
+					
 	
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
 	}
@@ -257,6 +268,33 @@ TAC* makePrint(AST* node){
 		node = node->son[1];
 	}
 	return listTac;	
+}
+
+TAC* makeAtrVec(hash* symbol, TAC *code0, TAC *code1){
+	TAC* atrVecTac = 0;
+	
+	atrVecTac = tacCreate(TAC_ATRVEC,symbol, code0?code0->res:0, code1?code1->res:0 );
+	
+	return tacJoin(tacJoin(code0, code1), atrVecTac);
+}
+
+TAC* makeDecVetInic(AST* node){
+	hash* symbol = node->symbol;
+	TAC* zeroTac = 0;
+	TAC* incTac = 0;
+	TAC* listTac = 0;
+	hash* VarTemp = makeTemp();
+	zeroTac = tacCreate(TAC_ZERO,VarTemp, 0, 0 );	
+	listTac = tacJoin(listTac, zeroTac);
+	node = node->son[2];
+	while(node){
+		listTac = tacJoin(listTac, tacCreate(TAC_ATRVEC,symbol,VarTemp, node->son[0]->symbol));
+		incTac = tacCreate(TAC_INC,VarTemp, 0, 0 );
+		listTac = tacJoin(listTac, incTac);
+		node = node->son[1]?node->son[1]:0;
+	}
+	return listTac;
+	
 }
 
 
