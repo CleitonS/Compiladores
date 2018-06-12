@@ -1,0 +1,2339 @@
+Terminals unused in grammar
+
+   TOKEN_ERROR
+   IDENTF
+
+
+State 25 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: declist
+
+    2 declist: dec declist
+    3        | /* empty */
+
+    4 dec: DECL
+    5    | FUNCT
+
+    6 FUNCT: TYPE TK_IDENTIFIER '(' LISTPARAM ')' BODY
+
+    7 LISTPARAM: PARAM RESTPARAM
+    8          | /* empty */
+
+    9 RESTPARAM: ',' PARAM RESTPARAM
+   10          | /* empty */
+
+   11 PARAM: TYPE TK_IDENTIFIER
+
+   12 BODY: '{' BLCCOMAND '}'
+
+   13 BLCCOMAND: COMAND RESTCOMAND
+
+   14 RESTCOMAND: ';' COMAND RESTCOMAND
+   15           | /* empty */
+
+   16 COMAND: TK_IDENTIFIER '=' EXPRES
+   17       | TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES
+   18       | CONTROLFL
+   19       | KW_READ TK_IDENTIFIER
+   20       | KW_PRINT LISTPRINT
+   21       | KW_RETURN EXPRES
+   22       | BODY
+   23       | TK_IDENTIFIER OPERATOR_EQ EXPRES
+   24       | TK_IDENTIFIER '(' LSTARG ')'
+   25       | /* empty */
+
+   26 LISTPRINT: ELEMENT RESTELEMENT
+
+   27 RESTELEMENT: ELEMENT RESTELEMENT
+   28            | /* empty */
+
+   29 ELEMENT: LIT_STRING
+   30        | EXPRES
+
+   31 CONTROLFL: KW_IF '(' EXPRES ')' KW_THEN COMAND
+   32          | KW_IF '(' EXPRES ')' KW_THEN COMAND KW_ELSE COMAND
+   33          | KW_WHILE '(' EXPRES ')' COMAND
+   34          | KW_FOR '(' TK_IDENTIFIER '=' EXPRES KW_TO EXPRES ')' COMAND
+
+   35 EXPRES: '(' EXPRES ')'
+   36       | TK_IDENTIFIER
+   37       | TK_IDENTIFIER '[' EXPRES ']'
+   38       | TK_IDENTIFIER '(' LSTARG ')'
+   39       | LIT_INTEGER
+   40       | LIT_CHAR
+   41       | LIT_REAL
+   42       | EXPRES '*' EXPRES
+   43       | EXPRES '+' EXPRES
+   44       | EXPRES '-' EXPRES
+   45       | EXPRES '/' EXPRES
+   46       | EXPRES '<' EXPRES
+   47       | EXPRES '>' EXPRES
+   48       | '!' EXPRES
+   49       | EXPRES OPERATOR_LE EXPRES
+   50       | EXPRES OPERATOR_GE EXPRES
+   51       | EXPRES OPERATOR_EQ EXPRES
+   52       | EXPRES OPERATOR_NE EXPRES
+   53       | EXPRES OPERATOR_AND EXPRES
+   54       | EXPRES OPERATOR_OR EXPRES
+   55       | '#' TK_IDENTIFIER
+   56       | '&' TK_IDENTIFIER
+
+   57 LSTARG: EXPRES RESTARG
+   58       | /* empty */
+
+   59 RESTARG: ',' EXPRES RESTARG
+   60        | /* empty */
+
+   61 DECL: TYPE TK_IDENTIFIER '=' INILIT ';'
+   62     | TYPE TK_IDENTIFIER '[' EXPRES ']' ';'
+   63     | TYPE TK_IDENTIFIER '[' EXPRES ']' ':' RESTINILIT ';'
+   64     | TYPE '#' TK_IDENTIFIER '=' INILIT ';'
+
+   65 TYPE: KW_CHAR
+   66     | KW_FLOAT
+   67     | KW_INT
+
+   68 INILIT: LIT_CHAR
+   69       | LIT_INTEGER
+   70       | LIT_REAL
+
+   71 RESTINILIT: INILIT RESTINILIT
+   72           | /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 48
+'#' (35) 55 64
+'&' (38) 56
+'(' (40) 6 24 31 32 33 34 35 38
+')' (41) 6 24 31 32 33 34 35 38
+'*' (42) 42
+'+' (43) 43
+',' (44) 9 59
+'-' (45) 44
+'/' (47) 45
+':' (58) 63
+';' (59) 14 61 62 63 64
+'<' (60) 46
+'=' (61) 16 17 34 61 64
+'>' (62) 47
+'[' (91) 17 37 62 63
+']' (93) 17 37 62 63
+'{' (123) 12
+'}' (125) 12
+error (256)
+KW_CHAR (258) 65
+KW_INT (259) 67
+KW_FLOAT (260) 66
+KW_IF (261) 31 32
+KW_THEN (262) 31 32
+KW_ELSE (263) 32
+KW_WHILE (264) 33
+KW_FOR (265) 34
+KW_TO (266) 34
+KW_READ (267) 19
+KW_RETURN (268) 21
+KW_PRINT (269) 20
+OPERATOR_LE (270) 49
+OPERATOR_GE (271) 50
+OPERATOR_EQ (272) 23 51
+OPERATOR_NE (273) 52
+OPERATOR_AND (274) 53
+OPERATOR_OR (275) 54
+TK_IDENTIFIER (276) 6 11 16 17 19 23 24 34 36 37 38 55 56 61 62 63
+    64
+LIT_INTEGER (277) 39 69
+LIT_REAL (278) 41 70
+LIT_CHAR (279) 40 68
+LIT_STRING (280) 29
+TOKEN_ERROR (281)
+IDENTF (282)
+IFELSE (283)
+
+
+Nonterminals, with rules where they appear
+
+$accept (48)
+    on left: 0
+program (49)
+    on left: 1, on right: 0
+declist (50)
+    on left: 2 3, on right: 1 2
+dec (51)
+    on left: 4 5, on right: 2
+FUNCT (52)
+    on left: 6, on right: 5
+LISTPARAM (53)
+    on left: 7 8, on right: 6
+RESTPARAM (54)
+    on left: 9 10, on right: 7 9
+PARAM (55)
+    on left: 11, on right: 7 9
+BODY (56)
+    on left: 12, on right: 6 22
+BLCCOMAND (57)
+    on left: 13, on right: 12
+RESTCOMAND (58)
+    on left: 14 15, on right: 13 14
+COMAND (59)
+    on left: 16 17 18 19 20 21 22 23 24 25, on right: 13 14 31 32 33
+    34
+LISTPRINT (60)
+    on left: 26, on right: 20
+RESTELEMENT (61)
+    on left: 27 28, on right: 26 27
+ELEMENT (62)
+    on left: 29 30, on right: 26 27
+CONTROLFL (63)
+    on left: 31 32 33 34, on right: 18
+EXPRES (64)
+    on left: 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52
+    53 54 55 56, on right: 16 17 21 23 30 31 32 33 34 35 37 42 43 44
+    45 46 47 48 49 50 51 52 53 54 57 59 62 63
+LSTARG (65)
+    on left: 57 58, on right: 24 38
+RESTARG (66)
+    on left: 59 60, on right: 57 59
+DECL (67)
+    on left: 61 62 63 64, on right: 4
+TYPE (68)
+    on left: 65 66 67, on right: 6 11 61 62 63 64
+INILIT (69)
+    on left: 68 69 70, on right: 61 64 71
+RESTINILIT (70)
+    on left: 71 72, on right: 63 71
+
+
+State 0
+
+    0 $accept: . program $end
+
+    KW_CHAR   shift, and go to state 1
+    KW_INT    shift, and go to state 2
+    KW_FLOAT  shift, and go to state 3
+
+    $default  reduce using rule 3 (declist)
+
+    program  go to state 4
+    declist  go to state 5
+    dec      go to state 6
+    FUNCT    go to state 7
+    DECL     go to state 8
+    TYPE     go to state 9
+
+
+State 1
+
+   65 TYPE: KW_CHAR .
+
+    $default  reduce using rule 65 (TYPE)
+
+
+State 2
+
+   67 TYPE: KW_INT .
+
+    $default  reduce using rule 67 (TYPE)
+
+
+State 3
+
+   66 TYPE: KW_FLOAT .
+
+    $default  reduce using rule 66 (TYPE)
+
+
+State 4
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 10
+
+
+State 5
+
+    1 program: declist .
+
+    $default  reduce using rule 1 (program)
+
+
+State 6
+
+    2 declist: dec . declist
+
+    KW_CHAR   shift, and go to state 1
+    KW_INT    shift, and go to state 2
+    KW_FLOAT  shift, and go to state 3
+
+    $default  reduce using rule 3 (declist)
+
+    declist  go to state 11
+    dec      go to state 6
+    FUNCT    go to state 7
+    DECL     go to state 8
+    TYPE     go to state 9
+
+
+State 7
+
+    5 dec: FUNCT .
+
+    $default  reduce using rule 5 (dec)
+
+
+State 8
+
+    4 dec: DECL .
+
+    $default  reduce using rule 4 (dec)
+
+
+State 9
+
+    6 FUNCT: TYPE . TK_IDENTIFIER '(' LISTPARAM ')' BODY
+   61 DECL: TYPE . TK_IDENTIFIER '=' INILIT ';'
+   62     | TYPE . TK_IDENTIFIER '[' EXPRES ']' ';'
+   63     | TYPE . TK_IDENTIFIER '[' EXPRES ']' ':' RESTINILIT ';'
+   64     | TYPE . '#' TK_IDENTIFIER '=' INILIT ';'
+
+    TK_IDENTIFIER  shift, and go to state 12
+    '#'            shift, and go to state 13
+
+
+State 10
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 11
+
+    2 declist: dec declist .
+
+    $default  reduce using rule 2 (declist)
+
+
+State 12
+
+    6 FUNCT: TYPE TK_IDENTIFIER . '(' LISTPARAM ')' BODY
+   61 DECL: TYPE TK_IDENTIFIER . '=' INILIT ';'
+   62     | TYPE TK_IDENTIFIER . '[' EXPRES ']' ';'
+   63     | TYPE TK_IDENTIFIER . '[' EXPRES ']' ':' RESTINILIT ';'
+
+    '('  shift, and go to state 14
+    '='  shift, and go to state 15
+    '['  shift, and go to state 16
+
+
+State 13
+
+   64 DECL: TYPE '#' . TK_IDENTIFIER '=' INILIT ';'
+
+    TK_IDENTIFIER  shift, and go to state 17
+
+
+State 14
+
+    6 FUNCT: TYPE TK_IDENTIFIER '(' . LISTPARAM ')' BODY
+
+    KW_CHAR   shift, and go to state 1
+    KW_INT    shift, and go to state 2
+    KW_FLOAT  shift, and go to state 3
+
+    $default  reduce using rule 8 (LISTPARAM)
+
+    LISTPARAM  go to state 18
+    PARAM      go to state 19
+    TYPE       go to state 20
+
+
+State 15
+
+   61 DECL: TYPE TK_IDENTIFIER '=' . INILIT ';'
+
+    LIT_INTEGER  shift, and go to state 21
+    LIT_REAL     shift, and go to state 22
+    LIT_CHAR     shift, and go to state 23
+
+    INILIT  go to state 24
+
+
+State 16
+
+   62 DECL: TYPE TK_IDENTIFIER '[' . EXPRES ']' ';'
+   63     | TYPE TK_IDENTIFIER '[' . EXPRES ']' ':' RESTINILIT ';'
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 33
+
+
+State 17
+
+   64 DECL: TYPE '#' TK_IDENTIFIER . '=' INILIT ';'
+
+    '='  shift, and go to state 34
+
+
+State 18
+
+    6 FUNCT: TYPE TK_IDENTIFIER '(' LISTPARAM . ')' BODY
+
+    ')'  shift, and go to state 35
+
+
+State 19
+
+    7 LISTPARAM: PARAM . RESTPARAM
+
+    ','  shift, and go to state 36
+
+    $default  reduce using rule 10 (RESTPARAM)
+
+    RESTPARAM  go to state 37
+
+
+State 20
+
+   11 PARAM: TYPE . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 38
+
+
+State 21
+
+   69 INILIT: LIT_INTEGER .
+
+    $default  reduce using rule 69 (INILIT)
+
+
+State 22
+
+   70 INILIT: LIT_REAL .
+
+    $default  reduce using rule 70 (INILIT)
+
+
+State 23
+
+   68 INILIT: LIT_CHAR .
+
+    $default  reduce using rule 68 (INILIT)
+
+
+State 24
+
+   61 DECL: TYPE TK_IDENTIFIER '=' INILIT . ';'
+
+    ';'  shift, and go to state 39
+
+
+State 25
+
+   36 EXPRES: TK_IDENTIFIER .
+   37       | TK_IDENTIFIER . '[' EXPRES ']'
+   38       | TK_IDENTIFIER . '(' LSTARG ')'
+
+    '('  shift, and go to state 40
+    '['  shift, and go to state 41
+
+    '('       [reduce using rule 36 (EXPRES)]
+    $default  reduce using rule 36 (EXPRES)
+
+
+State 26
+
+   39 EXPRES: LIT_INTEGER .
+
+    $default  reduce using rule 39 (EXPRES)
+
+
+State 27
+
+   41 EXPRES: LIT_REAL .
+
+    $default  reduce using rule 41 (EXPRES)
+
+
+State 28
+
+   40 EXPRES: LIT_CHAR .
+
+    $default  reduce using rule 40 (EXPRES)
+
+
+State 29
+
+   48 EXPRES: '!' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 42
+
+
+State 30
+
+   35 EXPRES: '(' . EXPRES ')'
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 43
+
+
+State 31
+
+   55 EXPRES: '#' . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 44
+
+
+State 32
+
+   56 EXPRES: '&' . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 45
+
+
+State 33
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+   62 DECL: TYPE TK_IDENTIFIER '[' EXPRES . ']' ';'
+   63     | TYPE TK_IDENTIFIER '[' EXPRES . ']' ':' RESTINILIT ';'
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ']'           shift, and go to state 58
+
+
+State 34
+
+   64 DECL: TYPE '#' TK_IDENTIFIER '=' . INILIT ';'
+
+    LIT_INTEGER  shift, and go to state 21
+    LIT_REAL     shift, and go to state 22
+    LIT_CHAR     shift, and go to state 23
+
+    INILIT  go to state 59
+
+
+State 35
+
+    6 FUNCT: TYPE TK_IDENTIFIER '(' LISTPARAM ')' . BODY
+
+    '{'  shift, and go to state 60
+
+    BODY  go to state 61
+
+
+State 36
+
+    9 RESTPARAM: ',' . PARAM RESTPARAM
+
+    KW_CHAR   shift, and go to state 1
+    KW_INT    shift, and go to state 2
+    KW_FLOAT  shift, and go to state 3
+
+    PARAM  go to state 62
+    TYPE   go to state 20
+
+
+State 37
+
+    7 LISTPARAM: PARAM RESTPARAM .
+
+    $default  reduce using rule 7 (LISTPARAM)
+
+
+State 38
+
+   11 PARAM: TYPE TK_IDENTIFIER .
+
+    $default  reduce using rule 11 (PARAM)
+
+
+State 39
+
+   61 DECL: TYPE TK_IDENTIFIER '=' INILIT ';' .
+
+    $default  reduce using rule 61 (DECL)
+
+
+State 40
+
+   38 EXPRES: TK_IDENTIFIER '(' . LSTARG ')'
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    $default  reduce using rule 58 (LSTARG)
+
+    EXPRES  go to state 63
+    LSTARG  go to state 64
+
+
+State 41
+
+   37 EXPRES: TK_IDENTIFIER '[' . EXPRES ']'
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 65
+
+
+State 42
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   48       | '!' EXPRES .
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 48 (EXPRES)
+
+
+State 43
+
+   35 EXPRES: '(' EXPRES . ')'
+   42       | EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ')'           shift, and go to state 66
+
+
+State 44
+
+   55 EXPRES: '#' TK_IDENTIFIER .
+
+    $default  reduce using rule 55 (EXPRES)
+
+
+State 45
+
+   56 EXPRES: '&' TK_IDENTIFIER .
+
+    $default  reduce using rule 56 (EXPRES)
+
+
+State 46
+
+   49 EXPRES: EXPRES OPERATOR_LE . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 67
+
+
+State 47
+
+   50 EXPRES: EXPRES OPERATOR_GE . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 68
+
+
+State 48
+
+   51 EXPRES: EXPRES OPERATOR_EQ . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 69
+
+
+State 49
+
+   52 EXPRES: EXPRES OPERATOR_NE . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 70
+
+
+State 50
+
+   53 EXPRES: EXPRES OPERATOR_AND . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 71
+
+
+State 51
+
+   54 EXPRES: EXPRES OPERATOR_OR . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 72
+
+
+State 52
+
+   46 EXPRES: EXPRES '<' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 73
+
+
+State 53
+
+   47 EXPRES: EXPRES '>' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 74
+
+
+State 54
+
+   44 EXPRES: EXPRES '-' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 75
+
+
+State 55
+
+   43 EXPRES: EXPRES '+' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 76
+
+
+State 56
+
+   42 EXPRES: EXPRES '*' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 77
+
+
+State 57
+
+   45 EXPRES: EXPRES '/' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 78
+
+
+State 58
+
+   62 DECL: TYPE TK_IDENTIFIER '[' EXPRES ']' . ';'
+   63     | TYPE TK_IDENTIFIER '[' EXPRES ']' . ':' RESTINILIT ';'
+
+    ';'  shift, and go to state 79
+    ':'  shift, and go to state 80
+
+
+State 59
+
+   64 DECL: TYPE '#' TK_IDENTIFIER '=' INILIT . ';'
+
+    ';'  shift, and go to state 81
+
+
+State 60
+
+   12 BODY: '{' . BLCCOMAND '}'
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    BLCCOMAND  go to state 90
+    COMAND     go to state 91
+    CONTROLFL  go to state 92
+
+
+State 61
+
+    6 FUNCT: TYPE TK_IDENTIFIER '(' LISTPARAM ')' BODY .
+
+    $default  reduce using rule 6 (FUNCT)
+
+
+State 62
+
+    9 RESTPARAM: ',' PARAM . RESTPARAM
+
+    ','  shift, and go to state 36
+
+    $default  reduce using rule 10 (RESTPARAM)
+
+    RESTPARAM  go to state 93
+
+
+State 63
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+   57 LSTARG: EXPRES . RESTARG
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ','           shift, and go to state 94
+
+    $default  reduce using rule 60 (RESTARG)
+
+    RESTARG  go to state 95
+
+
+State 64
+
+   38 EXPRES: TK_IDENTIFIER '(' LSTARG . ')'
+
+    ')'  shift, and go to state 96
+
+
+State 65
+
+   37 EXPRES: TK_IDENTIFIER '[' EXPRES . ']'
+   42       | EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ']'           shift, and go to state 97
+
+
+State 66
+
+   35 EXPRES: '(' EXPRES ')' .
+
+    $default  reduce using rule 35 (EXPRES)
+
+
+State 67
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   49       | EXPRES OPERATOR_LE EXPRES .
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '<'  shift, and go to state 52
+    '>'  shift, and go to state 53
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 49 (EXPRES)
+
+
+State 68
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   50       | EXPRES OPERATOR_GE EXPRES .
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '<'  shift, and go to state 52
+    '>'  shift, and go to state 53
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 50 (EXPRES)
+
+
+State 69
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   51       | EXPRES OPERATOR_EQ EXPRES .
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '<'  shift, and go to state 52
+    '>'  shift, and go to state 53
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 51 (EXPRES)
+
+
+State 70
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   52       | EXPRES OPERATOR_NE EXPRES .
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '<'  shift, and go to state 52
+    '>'  shift, and go to state 53
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 52 (EXPRES)
+
+
+State 71
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   53       | EXPRES OPERATOR_AND EXPRES .
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE  shift, and go to state 46
+    OPERATOR_GE  shift, and go to state 47
+    OPERATOR_EQ  shift, and go to state 48
+    OPERATOR_NE  shift, and go to state 49
+    '<'          shift, and go to state 52
+    '>'          shift, and go to state 53
+    '-'          shift, and go to state 54
+    '+'          shift, and go to state 55
+    '*'          shift, and go to state 56
+    '/'          shift, and go to state 57
+
+    $default  reduce using rule 53 (EXPRES)
+
+
+State 72
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+   54       | EXPRES OPERATOR_OR EXPRES .
+
+    OPERATOR_LE  shift, and go to state 46
+    OPERATOR_GE  shift, and go to state 47
+    OPERATOR_EQ  shift, and go to state 48
+    OPERATOR_NE  shift, and go to state 49
+    '<'          shift, and go to state 52
+    '>'          shift, and go to state 53
+    '-'          shift, and go to state 54
+    '+'          shift, and go to state 55
+    '*'          shift, and go to state 56
+    '/'          shift, and go to state 57
+
+    $default  reduce using rule 54 (EXPRES)
+
+
+State 73
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   46       | EXPRES '<' EXPRES .
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 46 (EXPRES)
+
+
+State 74
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   47       | EXPRES '>' EXPRES .
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '-'  shift, and go to state 54
+    '+'  shift, and go to state 55
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 47 (EXPRES)
+
+
+State 75
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   44       | EXPRES '-' EXPRES .
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 44 (EXPRES)
+
+
+State 76
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   43       | EXPRES '+' EXPRES .
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    '*'  shift, and go to state 56
+    '/'  shift, and go to state 57
+
+    $default  reduce using rule 43 (EXPRES)
+
+
+State 77
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   42       | EXPRES '*' EXPRES .
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    $default  reduce using rule 42 (EXPRES)
+
+
+State 78
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   45       | EXPRES '/' EXPRES .
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    $default  reduce using rule 45 (EXPRES)
+
+
+State 79
+
+   62 DECL: TYPE TK_IDENTIFIER '[' EXPRES ']' ';' .
+
+    $default  reduce using rule 62 (DECL)
+
+
+State 80
+
+   63 DECL: TYPE TK_IDENTIFIER '[' EXPRES ']' ':' . RESTINILIT ';'
+
+    LIT_INTEGER  shift, and go to state 21
+    LIT_REAL     shift, and go to state 22
+    LIT_CHAR     shift, and go to state 23
+
+    $default  reduce using rule 72 (RESTINILIT)
+
+    INILIT      go to state 98
+    RESTINILIT  go to state 99
+
+
+State 81
+
+   64 DECL: TYPE '#' TK_IDENTIFIER '=' INILIT ';' .
+
+    $default  reduce using rule 64 (DECL)
+
+
+State 82
+
+   31 CONTROLFL: KW_IF . '(' EXPRES ')' KW_THEN COMAND
+   32          | KW_IF . '(' EXPRES ')' KW_THEN COMAND KW_ELSE COMAND
+
+    '('  shift, and go to state 100
+
+
+State 83
+
+   33 CONTROLFL: KW_WHILE . '(' EXPRES ')' COMAND
+
+    '('  shift, and go to state 101
+
+
+State 84
+
+   34 CONTROLFL: KW_FOR . '(' TK_IDENTIFIER '=' EXPRES KW_TO EXPRES ')' COMAND
+
+    '('  shift, and go to state 102
+
+
+State 85
+
+   19 COMAND: KW_READ . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 103
+
+
+State 86
+
+   21 COMAND: KW_RETURN . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 104
+
+
+State 87
+
+   20 COMAND: KW_PRINT . LISTPRINT
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    LIT_STRING     shift, and go to state 105
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    LISTPRINT  go to state 106
+    ELEMENT    go to state 107
+    EXPRES     go to state 108
+
+
+State 88
+
+   16 COMAND: TK_IDENTIFIER . '=' EXPRES
+   17       | TK_IDENTIFIER . '[' EXPRES ']' '=' EXPRES
+   23       | TK_IDENTIFIER . OPERATOR_EQ EXPRES
+   24       | TK_IDENTIFIER . '(' LSTARG ')'
+
+    OPERATOR_EQ  shift, and go to state 109
+    '('          shift, and go to state 110
+    '='          shift, and go to state 111
+    '['          shift, and go to state 112
+
+
+State 89
+
+   22 COMAND: BODY .
+
+    $default  reduce using rule 22 (COMAND)
+
+
+State 90
+
+   12 BODY: '{' BLCCOMAND . '}'
+
+    '}'  shift, and go to state 113
+
+
+State 91
+
+   13 BLCCOMAND: COMAND . RESTCOMAND
+
+    ';'  shift, and go to state 114
+
+    $default  reduce using rule 15 (RESTCOMAND)
+
+    RESTCOMAND  go to state 115
+
+
+State 92
+
+   18 COMAND: CONTROLFL .
+
+    $default  reduce using rule 18 (COMAND)
+
+
+State 93
+
+    9 RESTPARAM: ',' PARAM RESTPARAM .
+
+    $default  reduce using rule 9 (RESTPARAM)
+
+
+State 94
+
+   59 RESTARG: ',' . EXPRES RESTARG
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 116
+
+
+State 95
+
+   57 LSTARG: EXPRES RESTARG .
+
+    $default  reduce using rule 57 (LSTARG)
+
+
+State 96
+
+   38 EXPRES: TK_IDENTIFIER '(' LSTARG ')' .
+
+    $default  reduce using rule 38 (EXPRES)
+
+
+State 97
+
+   37 EXPRES: TK_IDENTIFIER '[' EXPRES ']' .
+
+    $default  reduce using rule 37 (EXPRES)
+
+
+State 98
+
+   71 RESTINILIT: INILIT . RESTINILIT
+
+    LIT_INTEGER  shift, and go to state 21
+    LIT_REAL     shift, and go to state 22
+    LIT_CHAR     shift, and go to state 23
+
+    $default  reduce using rule 72 (RESTINILIT)
+
+    INILIT      go to state 98
+    RESTINILIT  go to state 117
+
+
+State 99
+
+   63 DECL: TYPE TK_IDENTIFIER '[' EXPRES ']' ':' RESTINILIT . ';'
+
+    ';'  shift, and go to state 118
+
+
+State 100
+
+   31 CONTROLFL: KW_IF '(' . EXPRES ')' KW_THEN COMAND
+   32          | KW_IF '(' . EXPRES ')' KW_THEN COMAND KW_ELSE COMAND
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 119
+
+
+State 101
+
+   33 CONTROLFL: KW_WHILE '(' . EXPRES ')' COMAND
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 120
+
+
+State 102
+
+   34 CONTROLFL: KW_FOR '(' . TK_IDENTIFIER '=' EXPRES KW_TO EXPRES ')' COMAND
+
+    TK_IDENTIFIER  shift, and go to state 121
+
+
+State 103
+
+   19 COMAND: KW_READ TK_IDENTIFIER .
+
+    $default  reduce using rule 19 (COMAND)
+
+
+State 104
+
+   21 COMAND: KW_RETURN EXPRES .
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+    $default  reduce using rule 21 (COMAND)
+
+
+State 105
+
+   29 ELEMENT: LIT_STRING .
+
+    $default  reduce using rule 29 (ELEMENT)
+
+
+State 106
+
+   20 COMAND: KW_PRINT LISTPRINT .
+
+    $default  reduce using rule 20 (COMAND)
+
+
+State 107
+
+   26 LISTPRINT: ELEMENT . RESTELEMENT
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    LIT_STRING     shift, and go to state 105
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    $default  reduce using rule 28 (RESTELEMENT)
+
+    RESTELEMENT  go to state 122
+    ELEMENT      go to state 123
+    EXPRES       go to state 108
+
+
+State 108
+
+   30 ELEMENT: EXPRES .
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+    $default  reduce using rule 30 (ELEMENT)
+
+
+State 109
+
+   23 COMAND: TK_IDENTIFIER OPERATOR_EQ . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 124
+
+
+State 110
+
+   24 COMAND: TK_IDENTIFIER '(' . LSTARG ')'
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    $default  reduce using rule 58 (LSTARG)
+
+    EXPRES  go to state 63
+    LSTARG  go to state 125
+
+
+State 111
+
+   16 COMAND: TK_IDENTIFIER '=' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 126
+
+
+State 112
+
+   17 COMAND: TK_IDENTIFIER '[' . EXPRES ']' '=' EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 127
+
+
+State 113
+
+   12 BODY: '{' BLCCOMAND '}' .
+
+    $default  reduce using rule 12 (BODY)
+
+
+State 114
+
+   14 RESTCOMAND: ';' . COMAND RESTCOMAND
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    COMAND     go to state 128
+    CONTROLFL  go to state 92
+
+
+State 115
+
+   13 BLCCOMAND: COMAND RESTCOMAND .
+
+    $default  reduce using rule 13 (BLCCOMAND)
+
+
+State 116
+
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+   59 RESTARG: ',' EXPRES . RESTARG
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ','           shift, and go to state 94
+
+    $default  reduce using rule 60 (RESTARG)
+
+    RESTARG  go to state 129
+
+
+State 117
+
+   71 RESTINILIT: INILIT RESTINILIT .
+
+    $default  reduce using rule 71 (RESTINILIT)
+
+
+State 118
+
+   63 DECL: TYPE TK_IDENTIFIER '[' EXPRES ']' ':' RESTINILIT ';' .
+
+    $default  reduce using rule 63 (DECL)
+
+
+State 119
+
+   31 CONTROLFL: KW_IF '(' EXPRES . ')' KW_THEN COMAND
+   32          | KW_IF '(' EXPRES . ')' KW_THEN COMAND KW_ELSE COMAND
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ')'           shift, and go to state 130
+
+
+State 120
+
+   33 CONTROLFL: KW_WHILE '(' EXPRES . ')' COMAND
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ')'           shift, and go to state 131
+
+
+State 121
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER . '=' EXPRES KW_TO EXPRES ')' COMAND
+
+    '='  shift, and go to state 132
+
+
+State 122
+
+   26 LISTPRINT: ELEMENT RESTELEMENT .
+
+    $default  reduce using rule 26 (LISTPRINT)
+
+
+State 123
+
+   27 RESTELEMENT: ELEMENT . RESTELEMENT
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    LIT_STRING     shift, and go to state 105
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    $default  reduce using rule 28 (RESTELEMENT)
+
+    RESTELEMENT  go to state 133
+    ELEMENT      go to state 123
+    EXPRES       go to state 108
+
+
+State 124
+
+   23 COMAND: TK_IDENTIFIER OPERATOR_EQ EXPRES .
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+    $default  reduce using rule 23 (COMAND)
+
+
+State 125
+
+   24 COMAND: TK_IDENTIFIER '(' LSTARG . ')'
+
+    ')'  shift, and go to state 134
+
+
+State 126
+
+   16 COMAND: TK_IDENTIFIER '=' EXPRES .
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+    $default  reduce using rule 16 (COMAND)
+
+
+State 127
+
+   17 COMAND: TK_IDENTIFIER '[' EXPRES . ']' '=' EXPRES
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ']'           shift, and go to state 135
+
+
+State 128
+
+   14 RESTCOMAND: ';' COMAND . RESTCOMAND
+
+    ';'  shift, and go to state 114
+
+    $default  reduce using rule 15 (RESTCOMAND)
+
+    RESTCOMAND  go to state 136
+
+
+State 129
+
+   59 RESTARG: ',' EXPRES RESTARG .
+
+    $default  reduce using rule 59 (RESTARG)
+
+
+State 130
+
+   31 CONTROLFL: KW_IF '(' EXPRES ')' . KW_THEN COMAND
+   32          | KW_IF '(' EXPRES ')' . KW_THEN COMAND KW_ELSE COMAND
+
+    KW_THEN  shift, and go to state 137
+
+
+State 131
+
+   33 CONTROLFL: KW_WHILE '(' EXPRES ')' . COMAND
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    COMAND     go to state 138
+    CONTROLFL  go to state 92
+
+
+State 132
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' . EXPRES KW_TO EXPRES ')' COMAND
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 139
+
+
+State 133
+
+   27 RESTELEMENT: ELEMENT RESTELEMENT .
+
+    $default  reduce using rule 27 (RESTELEMENT)
+
+
+State 134
+
+   24 COMAND: TK_IDENTIFIER '(' LSTARG ')' .
+
+    $default  reduce using rule 24 (COMAND)
+
+
+State 135
+
+   17 COMAND: TK_IDENTIFIER '[' EXPRES ']' . '=' EXPRES
+
+    '='  shift, and go to state 140
+
+
+State 136
+
+   14 RESTCOMAND: ';' COMAND RESTCOMAND .
+
+    $default  reduce using rule 14 (RESTCOMAND)
+
+
+State 137
+
+   31 CONTROLFL: KW_IF '(' EXPRES ')' KW_THEN . COMAND
+   32          | KW_IF '(' EXPRES ')' KW_THEN . COMAND KW_ELSE COMAND
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    COMAND     go to state 141
+    CONTROLFL  go to state 92
+
+
+State 138
+
+   33 CONTROLFL: KW_WHILE '(' EXPRES ')' COMAND .
+
+    $default  reduce using rule 33 (CONTROLFL)
+
+
+State 139
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' EXPRES . KW_TO EXPRES ')' COMAND
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    KW_TO         shift, and go to state 142
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+
+State 140
+
+   17 COMAND: TK_IDENTIFIER '[' EXPRES ']' '=' . EXPRES
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 143
+
+
+State 141
+
+   31 CONTROLFL: KW_IF '(' EXPRES ')' KW_THEN COMAND .
+   32          | KW_IF '(' EXPRES ')' KW_THEN COMAND . KW_ELSE COMAND
+
+    KW_ELSE  shift, and go to state 144
+
+    $default  reduce using rule 31 (CONTROLFL)
+
+
+State 142
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' EXPRES KW_TO . EXPRES ')' COMAND
+
+    TK_IDENTIFIER  shift, and go to state 25
+    LIT_INTEGER    shift, and go to state 26
+    LIT_REAL       shift, and go to state 27
+    LIT_CHAR       shift, and go to state 28
+    '!'            shift, and go to state 29
+    '('            shift, and go to state 30
+    '#'            shift, and go to state 31
+    '&'            shift, and go to state 32
+
+    EXPRES  go to state 145
+
+
+State 143
+
+   17 COMAND: TK_IDENTIFIER '[' EXPRES ']' '=' EXPRES .
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+
+    $default  reduce using rule 17 (COMAND)
+
+
+State 144
+
+   32 CONTROLFL: KW_IF '(' EXPRES ')' KW_THEN COMAND KW_ELSE . COMAND
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    COMAND     go to state 146
+    CONTROLFL  go to state 92
+
+
+State 145
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' EXPRES KW_TO EXPRES . ')' COMAND
+   42 EXPRES: EXPRES . '*' EXPRES
+   43       | EXPRES . '+' EXPRES
+   44       | EXPRES . '-' EXPRES
+   45       | EXPRES . '/' EXPRES
+   46       | EXPRES . '<' EXPRES
+   47       | EXPRES . '>' EXPRES
+   49       | EXPRES . OPERATOR_LE EXPRES
+   50       | EXPRES . OPERATOR_GE EXPRES
+   51       | EXPRES . OPERATOR_EQ EXPRES
+   52       | EXPRES . OPERATOR_NE EXPRES
+   53       | EXPRES . OPERATOR_AND EXPRES
+   54       | EXPRES . OPERATOR_OR EXPRES
+
+    OPERATOR_LE   shift, and go to state 46
+    OPERATOR_GE   shift, and go to state 47
+    OPERATOR_EQ   shift, and go to state 48
+    OPERATOR_NE   shift, and go to state 49
+    OPERATOR_AND  shift, and go to state 50
+    OPERATOR_OR   shift, and go to state 51
+    '<'           shift, and go to state 52
+    '>'           shift, and go to state 53
+    '-'           shift, and go to state 54
+    '+'           shift, and go to state 55
+    '*'           shift, and go to state 56
+    '/'           shift, and go to state 57
+    ')'           shift, and go to state 147
+
+
+State 146
+
+   32 CONTROLFL: KW_IF '(' EXPRES ')' KW_THEN COMAND KW_ELSE COMAND .
+
+    $default  reduce using rule 32 (CONTROLFL)
+
+
+State 147
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' EXPRES KW_TO EXPRES ')' . COMAND
+
+    KW_IF          shift, and go to state 82
+    KW_WHILE       shift, and go to state 83
+    KW_FOR         shift, and go to state 84
+    KW_READ        shift, and go to state 85
+    KW_RETURN      shift, and go to state 86
+    KW_PRINT       shift, and go to state 87
+    TK_IDENTIFIER  shift, and go to state 88
+    '{'            shift, and go to state 60
+
+    $default  reduce using rule 25 (COMAND)
+
+    BODY       go to state 89
+    COMAND     go to state 148
+    CONTROLFL  go to state 92
+
+
+State 148
+
+   34 CONTROLFL: KW_FOR '(' TK_IDENTIFIER '=' EXPRES KW_TO EXPRES ')' COMAND .
+
+    $default  reduce using rule 34 (CONTROLFL)
