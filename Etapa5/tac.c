@@ -52,6 +52,13 @@ void tacPrintSingle(TAC*tac)
 		case TAC_DECVECLI: fprintf(stderr, "TAC_DECVECLI"); break;	
 		case TAC_INC: fprintf(stderr, "TAC_INC"); break;
 		case TAC_ZERO: fprintf(stderr, "TAC_ZERO"); break;
+		case TAC_FUNCALL: fprintf(stderr, "TAC_FUNCALL"); break;
+		case TAC_FUNDEF: fprintf(stderr, "TAC_FUNDEF"); break;
+		case TAC_FUNC_START: fprintf(stderr, "TAC_FUNC_START"); break;
+		case TAC_FUNC_END: fprintf(stderr, "TAC_FUNC_END"); break;
+		case TAC_ARG_RECEIVE: fprintf(stderr, "TAC_ARG_RECEIVE"); break;
+		case TAC_ARG_CALL: fprintf(stderr, "TAC_ARG_CALL"); break;
+		case TAC_CALL: fprintf(stderr, "TAC_CALL"); break;
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -148,7 +155,7 @@ TAC* codeGenerator(AST* node)
 			break;	
 		case 	AST_NOT: result = tacJoin(code[0], tacCreate(TAC_NOT, makeTemp(), code[0]?code[0]->res:0, 0));
 			break;			
-		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0)); //Era AST_ASS no professor, não sei qual o equivalente no nosso, botei atr.
+		case	AST_ATR: result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[0]?code[0]->res:0,0));
 			break;
 		case	AST_ATRVEC: result = makeAtrVec(node->symbol,code[0],code[1]);
 			break;			
@@ -169,7 +176,13 @@ TAC* codeGenerator(AST* node)
 		case 	AST_READ: result = tacCreate(TAC_READ, node->symbol, 0,0);
 			break;	
 		case 	AST_DECVECLI: result = makeDecVetInic(node);
-			break;	
+			break;
+		case	AST_BLCOM: result = code[0];
+			break;
+		case 	AST_FUN: result = makeFuncCall(node);
+			break;
+		case 	AST_FUND: result = makeFuncDef(node->son[0]->symbol, code[0], code[1], node);
+			break;
 					
 	
 		default: {result = tacJoin(tacJoin(tacJoin(code[0],code[1]),code[2]),code[3]); /*fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3])*/;}
@@ -295,6 +308,48 @@ TAC* makeDecVetInic(AST* node){
 	}
 	return listTac;
 	
+}
+
+TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, AST *funcDef){
+	AST* buff;
+	TAC* tacBuff = 0;
+	TAC* tacArg = 0;
+	TAC* params = 0;
+	//int i = 1;
+
+	TAC* funcBody = code1;
+	TAC* beginFunc = tacCreate(TAC_FUNC_START, identifier, 0, 0);
+
+	for(buff = funcDef->son[0]->son[1]; buff; buff = buff->son[1]){
+		tacBuff = codeGenerator(buff->son[0]);
+		tacArg = tacCreate(TAC_ARG_RECEIVE, tacBuff->res, 0, identifier); //esse controle com o int i serve pra controlar o número de argumentos, não sei como que fica no nosso... CONVERSAR SOBRE ISSO!!!
+		params = tacJoin(tacJoin(params,tacBuff), tacArg);
+		//i++;
+	}
+
+	TAC* endFunc = tacCreate(TAC_FUNC_END, identifier, 0, 0);
+	return tacJoin(tacJoin(tacJoin(beginFunc,params),funcBody), endFunc);
+}
+
+
+TAC* makeFuncCall(AST *funcCall){
+	TAC* tacCall = 0;	
+	TAC* params = 0;
+	AST* buff = 0;
+	TAC* tacBuff = 0;
+	TAC* tacArg = 0;
+	//int i = 1;
+	hash* func_name = funcCall->symbol;
+	for(buff = funcCall->son[0]; buff; buff = buff->son[1]){
+		tacBuff = codeGenerator(buff->son[0]);
+		tacArg = tacCreate(TAC_ARG_CALL, 0, tacBuff->res,func_name);
+		params = tacJoin(tacJoin(params,tacBuff),tacArg);
+		//i++;
+	}
+
+	hash* tempCall = makeTemp();
+	tacCall = tacCreate(TAC_CALL, tempCall, funcCall->symbol,0); //não sei se precisa
+	return tacJoin(params,tacCall);
 }
 
 

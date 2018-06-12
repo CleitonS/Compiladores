@@ -33,6 +33,13 @@
 #define TAC_DECVECLI 26
 #define TAC_ZERO 27
 #define TAC_INC 28
+#define TAC_FUNCALL 29
+#define TAC_FUNDEF 30
+#define TAC_FUNC_END 31
+#define TAC_FUNC_START 32
+#define TAC_ARG_RECEIVE 33
+#define TAC_ARG_CALL 34
+#define TAC_CALL 35
 
 
 typedef struct tac
@@ -60,5 +67,7 @@ TAC* makeWhile(TAC *code0, TAC *code1);
 TAC* makePrint(AST* node);
 TAC* makeAtrVec(hash* symbol, TAC *code0, TAC *code1);
 TAC* makeDecVetInic(AST* node);
+TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, AST *funcDef);
+TAC* makeFuncCall(AST *funcCall);
 
 #endif
