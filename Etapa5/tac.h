@@ -67,7 +67,7 @@ TAC* makeWhile(TAC *code0, TAC *code1);
 TAC* makePrint(AST* node);
 TAC* makeAtrVec(hash* symbol, TAC *code0, TAC *code1);
 TAC* makeDecVetInic(AST* node);
-TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, AST *funcDef);
+TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, TAC *code2, AST *funcDef);
 TAC* makeFuncCall(AST *funcCall);
 
 #endif

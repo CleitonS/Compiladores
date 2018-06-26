@@ -181,7 +181,7 @@ TAC* codeGenerator(AST* node)
 			break;
 		case 	AST_FUN: result = makeFuncCall(node);
 			break;
-		case 	AST_FUND: result = makeFuncDef(node->son[0]->symbol, code[0], code[1], node);
+		case 	AST_FUND: result = makeFuncDef(node->symbol, code[0], code[1], code[2], node);
 			break;
 					
 	
@@ -310,15 +310,18 @@ TAC* makeDecVetInic(AST* node){
 	
 }
 
-TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, AST *funcDef){
+TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, TAC *code2, AST *funcDef){
 	AST* buff;
 	TAC* tacBuff = 0;
 	TAC* tacArg = 0;
 	TAC* params = 0;
 	//int i = 1;
 
-	TAC* funcBody = code1;
+	
 	TAC* beginFunc = tacCreate(TAC_FUNC_START, identifier, 0, 0);
+	
+	
+	
 
 	for(buff = funcDef->son[0]->son[1]; buff; buff = buff->son[1]){
 		tacBuff = codeGenerator(buff->son[0]);
@@ -326,9 +329,12 @@ TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, AST *funcDef){
 		params = tacJoin(tacJoin(params,tacBuff), tacArg);
 		//i++;
 	}
+	
+	
+	
 
 	TAC* endFunc = tacCreate(TAC_FUNC_END, identifier, 0, 0);
-	return tacJoin(tacJoin(tacJoin(beginFunc,params),funcBody), endFunc);
+	return tacJoin(tacJoin(tacJoin(beginFunc,params),code2), endFunc);
 }
 
 
