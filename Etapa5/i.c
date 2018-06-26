@@ -19,11 +19,20 @@ int d = 0;
 int vec[3]: 1 2 3;
 */
 
+//#include <stdio.h>
 int x = 20;
 int y = 10;
 int z = 0;
+char text[] = "teste";
+
 int main(){
-	z = x / y;
+	if (x == 10)
+		x = 1;
+	else
+		x = 2;
+	
+	
+	/*printf("%s", text);*/
 	
 	
 	

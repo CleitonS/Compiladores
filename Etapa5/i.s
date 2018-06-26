@@ -13,6 +13,10 @@ y:
 	.align 4
 z:
 	.space 4
+	.globl	text
+	.data
+text:
+	.ascii "teste\0"
 	.def	__main;	.scl	2;	.type	32;	.endef
 	.text
 	.globl	main
@@ -27,11 +31,21 @@ main:
 	.seh_stackalloc	32
 	.seh_endprologue
 	call	__main
-	movl	x(%rip), %eax
-	movl	y(%rip), %ecx
 	
-	idivl	%ecx
-	movl	%eax, z(%rip)
+	
+	movl	x(%rip), %eax
+	cmpl	$10, %eax
+	jne	.L2
+	movl	$1, x(%rip)
+	jmp	.L3
+.L2:
+	movl	$2, x(%rip)
+.L3:
+
+
+
+
+
 	movl	$0, %eax
 	addq	$32, %rsp
 	popq	%rbp
