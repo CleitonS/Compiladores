@@ -79,7 +79,7 @@ hash* makeTemp(void)
 	static char buffer[64];
 	
 	sprintf(buffer,"_VarTemp%d",serialNumber++);
-	hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
+	return hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
 }
 
 hash* makeLabel(void)

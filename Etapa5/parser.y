@@ -16,6 +16,9 @@
     void yyerror(char *msg);
 	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
 	extern void printAST_NODE(AST *node);
+	extern int getLineNumber();
+	extern void set_NumArg(AST *node);
+	extern void check_NumArg(AST *node);
 	//extern TAC* tacReverse(TAC*last);
 	//extern TAC* codeGenerator(AST* node);
 	//extern void tacPrintForward(TAC* tac);

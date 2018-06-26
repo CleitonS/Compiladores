@@ -197,7 +197,7 @@ TAC* makeBinOp(int type, TAC* code0, TAC* code1)
 	
 	TAC* newtac = tacCreate(type, makeTemp(), code0?code0->res:0,code1?code1->res:0);	
 	//fprintf(stderr, "NewTac: %s\n", newtac->res->yytext);
-	tacJoin(code0,tacJoin(code1,newtac));
+	return tacJoin(code0,tacJoin(code1,newtac));
 }
 
 TAC* makeIfThen(TAC *code0, TAC *code1){
