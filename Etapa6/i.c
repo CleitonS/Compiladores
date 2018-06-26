@@ -19,12 +19,18 @@ int d = 0;
 int vec[3]: 1 2 3;
 */
 
-int x = 0;
+int x = 20;
+int y = 10;
+int z = 0;
 int main(){
+	z = x - y;
 	
 	
 	
- x = 5;
+	
+	
+	
+
 
 	
 	
