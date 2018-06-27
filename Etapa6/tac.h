@@ -40,6 +40,10 @@
 #define TAC_ARG_RECEIVE 33
 #define TAC_ARG_CALL 34
 #define TAC_CALL 35
+#define TAC_DECINIT 36
+#define TAC_DECVET 37
+#define TAC_ATRVECINI 38
+
 
 
 typedef struct tac
@@ -69,5 +73,6 @@ TAC* makeAtrVec(hash* symbol, TAC *code0, TAC *code1);
 TAC* makeDecVetInic(AST* node);
 TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, TAC *code2, AST *funcDef);
 TAC* makeFuncCall(AST *funcCall);
+TAC* makeDecVetNoInic(AST* node, TAC *code);
 
 #endif

@@ -20,11 +20,18 @@ int vec[3]: 1 2 3;
 */
 
 int x = 0;
+int teste(){
+print "TESTE DE FUNCAO";
+
+}
+
+
+
+
 int main(){
 	
+	teste();	
 	
-	
- x = 5;
 
 	
 	

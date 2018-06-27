@@ -159,7 +159,7 @@ TAC* codeGenerator(AST* node)
 			break;
 		case	AST_ATRVEC: result = makeAtrVec(node->symbol,code[0],code[1]);
 			break;			
-		case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_ASS, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
+		case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_DECINIT, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
 			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
 			break;

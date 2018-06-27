@@ -40,6 +40,7 @@
 #define TAC_ARG_RECEIVE 33
 #define TAC_ARG_CALL 34
 #define TAC_CALL 35
+#define TAC_DECINIT 36
 
 
 typedef struct tac

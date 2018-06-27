@@ -5,15 +5,6 @@ x:	.long	20
 y:	.long	10
 z:	.long	0
 
-##VETOR com inicializacao
-## w[3] = {1,2,3}
-w:				
-	.long	1   
-	.long	2
-	.long	3
-
-
-
 text: 	.ascii "teste\0"
 
 .PRINT_NUMBER: 	.ascii "%d\0"
