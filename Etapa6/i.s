@@ -1,15 +1,19 @@
 	.file	"i.c"
-	.globl	x
+	.globl	a
 	.data
-
-x:
+	.align 4
+a:
 	.long	1
-	.long	2
-	.long	3
+	.globl	b
+	.bss
+	.align 4
+b:
+	.space 4
+	.comm	c, 4, 2
 	.def	__main;	.scl	2;	.type	32;	.endef
 	.section .rdata,"dr"
 .LC0:
-	.ascii "VEC: %d - %d - %d\0"
+	.ascii "%d\12\0"
 	.text
 	.globl	main
 	.def	main;	.scl	2;	.type	32;	.endef
@@ -23,15 +27,26 @@ main:
 	.seh_stackalloc	32
 	.seh_endprologue
 	call	__main
-	movl	$0, x(%rip)
-	movl	$1, 4+x(%rip)
-	movl	$2, 8+x(%rip)
-	movl	8+x(%rip), %ecx
-	movl	4+x(%rip), %edx
-	movl	x(%rip), %eax
-	movl	%ecx, %r9d
-	movl	%edx, %r8d
-	movl	%eax, %edx
+	
+	
+	movl	a(%rip), %eax
+	testl	%eax, %eax
+	jne	.L2
+	movl	b(%rip), %eax
+	testl	%eax, %eax
+	je	.L3
+.L2:
+	movl	$1, %edx
+	jmp	.L4
+.L3:
+	movl	$0, %edx
+.L4:
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax
+	
+	
+	
 	leaq	.LC0(%rip), %rcx
 	call	printf
 	movl	$0, %eax

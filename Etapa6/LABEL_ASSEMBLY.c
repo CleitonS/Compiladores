@@ -22,9 +22,6 @@ text: 	.ascii "teste\0"
 
 
 
-.def	__main;	.scl	2;	.type	32;	.endef
-.text
-
 ##BEGIN FUNC
 	.def	main;	.scl	2;	.type	32;	.endef
 	.seh_proc	main
@@ -58,6 +55,71 @@ main:
 	movl	y(%rip), %ecx	##OP2
 	idivl	%ecx
 	movl	%eax, z(%rip)	##Res
+	
+##	c = a > b; 
+	movl	a(%rip), %edx
+	movl	b(%rip), %eax
+	cmpl	%eax, %edx
+	setg	%al
+	movzbl	%al, %edx
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax
+	
+##	c = a >= b; 
+	movl	a(%rip), %edx
+	movl	b(%rip), %eax
+	cmpl	%eax, %edx
+	setge	%al
+	movzbl	%al, %edx
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax	
+	
+##	c = a == b; 
+	movl	a(%rip), %edx
+	movl	b(%rip), %eax
+	cmpl	%eax, %edx
+	sete	%al
+	movzbl	%al, %edx
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax	
+
+
+## 	c = (a && b); 
+	movl	a(%rip), %eax
+	testl	%eax, %eax
+	je	.L2
+	movl	b(%rip), %eax
+	testl	%eax, %eax
+	je	.L2
+	movl	$1, %edx
+	jmp	.L3
+.L2:
+	movl	$0, %edx
+.L3:
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax
+	
+	
+## 	c = (a || b); 
+	movl	a(%rip), %eax
+	testl	%eax, %eax
+	jne	.L2
+	movl	b(%rip), %eax
+	testl	%eax, %eax
+	je	.L3
+.L2:
+	movl	$1, %edx
+	jmp	.L4
+.L3:
+	movl	$0, %edx
+.L4:
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax	
 	
 	
 	

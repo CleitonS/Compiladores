@@ -18,28 +18,18 @@ int i = 2;
 int d = 0;
 int vec[3]: 1 2 3;
 */
-
-
-
-int x[3];
-
-
-
-
+#include <stdio.h>
+int a = 1;
+int b = 0;
+int c;
 int main(){
-	x[0] = 0;
-	x[1] = 1;
-	x[2] = 2;
-	
-	
-	
-	
-	
+
+c = (a || b);
+
+printf("%d\n", c);
 	
 	
 
-
-	
 	
 	
 /*======== Atribuição a vetor =========================*/
