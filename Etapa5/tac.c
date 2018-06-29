@@ -315,23 +315,14 @@ TAC* makeFuncDef(hash* identifier, TAC *code0, TAC *code1, TAC *code2, AST *func
 	TAC* tacBuff = 0;
 	TAC* tacArg = 0;
 	TAC* params = 0;
-	//int i = 1;
-
-	
 	TAC* beginFunc = tacCreate(TAC_FUNC_START, identifier, 0, 0);
-	
-	
-	
 
 	for(buff = funcDef->son[0]->son[1]; buff; buff = buff->son[1]){
 		tacBuff = codeGenerator(buff->son[0]);
-		tacArg = tacCreate(TAC_ARG_RECEIVE, tacBuff->res, 0, identifier); //esse controle com o int i serve pra controlar o número de argumentos, não sei como que fica no nosso... CONVERSAR SOBRE ISSO!!!
+		tacArg = tacCreate(TAC_ARG_RECEIVE, tacBuff->res, 0, identifier);
 		params = tacJoin(tacJoin(params,tacBuff), tacArg);
-		//i++;
+		
 	}
-	
-	
-	
 
 	TAC* endFunc = tacCreate(TAC_FUNC_END, identifier, 0, 0);
 	return tacJoin(tacJoin(tacJoin(beginFunc,params),code2), endFunc);
@@ -354,7 +345,7 @@ TAC* makeFuncCall(AST *funcCall){
 	}
 
 	hash* tempCall = makeTemp();
-	tacCall = tacCreate(TAC_CALL, tempCall, funcCall->symbol,0); //não sei se precisa
+	tacCall = tacCreate(TAC_CALL, tempCall, funcCall->symbol,0);
 	return tacJoin(params,tacCall);
 }
 
