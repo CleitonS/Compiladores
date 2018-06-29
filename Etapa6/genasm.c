@@ -26,12 +26,13 @@ int genasm(TAC* tac){
 	printf("GENASM\n");
 	
 	for(; tac; tac = tac->next){
+		printf("for %d\n", tac->type);
 		switch(tac->type)
 		{
 			
-			case TAC_SYMBOL:
+			//case TAC_SYMBOL:
 	
-			break;
+			//break;
 			
 			case TAC_ADD:
 				fprintf(asmCode, "movl\t%s(%%rip), %%edx\n", tac->op1->yytext);
@@ -263,7 +264,7 @@ int genasm(TAC* tac){
 			case TAC_CALL :
 			break;
 			case TAC_DECINIT :
-				fprintf(asmData, "%s:\t.long\t%s\n", tac->res->yytext, tac->op1->yytext);			
+				fprintf(asmData, "%s:\t.long\t%s\n", tac->res->yytext, tac->op1?tac->op1->yytext:"0");			
 			break;
 			case TAC_DECVET :
 				fprintf(asmData, "%s:\n", tac->res->yytext);				

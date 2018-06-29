@@ -1,3 +1,5 @@
 .data
-a:	.long	_VarTemp0
-b:	.long	_VarTemp1
+a:	.long	20
+b:	.long	10
+_VarTemp3:	.long	0
+_VarTemp2:	.long	1

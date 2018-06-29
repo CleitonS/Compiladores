@@ -27,7 +27,7 @@ int b = 10;
 
 
 int main(){
-
+a = b + 1;
 
 
 

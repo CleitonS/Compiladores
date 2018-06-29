@@ -1,4 +1,5 @@
 int a = 20;
 int b = 10;
 int main (  ) { 
- }
+a = b+1;
+  }
