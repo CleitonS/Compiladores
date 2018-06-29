@@ -1,7 +1,0 @@
-int x = 0;
-int teste (  ) { 
- print "TESTE DE FUNCAO" ;
-  }
-int main (  ) { 
-teste();
-  }

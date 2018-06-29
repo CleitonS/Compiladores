@@ -1,7 +1,9 @@
-etapa6: y.tab.o lex.yy.o main.o hash.o ast.o semantic.o tac.o
-		gcc -o etapa6 y.tab.o lex.yy.o main.o hash.o ast.o semantic.o tac.o -std=c99 -Wall
+etapa6: y.tab.o lex.yy.o main.o hash.o ast.o semantic.o tac.o genasm.o
+		gcc -o etapa6 y.tab.o lex.yy.o main.o hash.o ast.o semantic.o tac.o genasm.o -std=c99 -Wall
 main.o: main.c
-		gcc -c main.c -std=c99 
+		gcc -c main.c -std=c99 		
+genasm.o: genasm.c
+		gcc -c genasm.c -std=c99 -Wall				
 tac.o: tac.c
 		gcc -c tac.c -std=c99 -Wall
 hash.o: hash.c

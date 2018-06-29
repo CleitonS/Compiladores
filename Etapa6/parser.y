@@ -19,6 +19,7 @@
 	extern int getLineNumber();
 	extern void set_NumArg(AST *node);
 	extern void check_NumArg(AST *node);
+	extern int genasm(TAC* tac);
 	//extern TAC* tacReverse(TAC*last);
 	//extern TAC* codeGenerator(AST* node);
 	//extern void tacPrintForward(TAC* tac);
@@ -114,7 +115,11 @@ program: declist	   {printAST_NODE($1);
 						set_NumArg($1);
 						check_NumArg($1);
 						check_operands($1);
-						tacPrintForward(tacReverse(codeGenerator($1)));} 	
+						TAC * TacBegin = tacReverse(codeGenerator($1));
+						tacPrintForward(TacBegin);
+						genasm(TacBegin);
+						
+						} 	
 	;
 	
 declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);} 	
@@ -184,7 +189,7 @@ ELEMENT: LIT_STRING	{$$ = astCreate(AST_SYMBSTRING,$1,0,0,0,0);}
 CONTROLFL: KW_IF '('EXPRES')' KW_THEN COMAND %prec IFELSE			{$$ = astCreate(AST_IF,0,$3,$6,0,0);} 
 		|KW_IF '('EXPRES')' KW_THEN COMAND KW_ELSE COMAND 			{$$ = astCreate(AST_IFE,0,$3,$6,$8,0);}
 		|KW_WHILE '('EXPRES')' COMAND				                {$$ = astCreate(AST_WHI,0,$3,$5,0,0);}
-		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);} /*FOR pode ser com um vetor???*/
+		|KW_FOR '('TK_IDENTIFIER '=' EXPRES KW_TO EXPRES')' COMAND  {$$ = astCreate(AST_FOR,$3,$5,$7,$9,0);} /*FOR pode ser com um vetvetor???*/
 		;		
 
 /*==============Expressões Aritméticas e Lógicas Tipo 2 Resolve os últimos reduce/reduce===============*/	

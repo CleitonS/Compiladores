@@ -1,5 +1,5 @@
 
-##VARIAVEIS
+##ARQUIVO DE VARIAVEIS
 .data
 x:	.long	20
 y:	.long	10
@@ -12,13 +12,27 @@ w:
 	.long	2
 	.long	3
 
+##FIM ARQUIVO DE VARIAVEIS
 
 
-text: 	.ascii "teste\0"
+##ARQUIVO DE LITERAIS
+	.def	__main;	.scl	2;	.type	32;	.endef
+	.section .rdata,"dr"
+	
+	
+.LC0: 	.ascii "TESTEdeESCRITA\0"
+.LC1:
+	.ascii "TESTEdeESCRITA222\0"
+	...
+	##OUTROS LITERAIS...	
+	...
+	
+	
+	.text
+	.globl	main
 
-.PRINT_NUMBER: 	.ascii "%d\0"
-.PRINT_STRING: 	.ascii "%s\0"
 
+##FIM ARQUIVO DE LITERAIS
 
 
 
@@ -36,7 +50,7 @@ main:
 	subq	$32, %rsp
 	.seh_stackalloc	32
 	.seh_endprologue
-	call	__main
+	
 	
 	
 	
@@ -55,6 +69,12 @@ main:
 	movl	y(%rip), %ecx	##OP2
 	idivl	%ecx
 	movl	%eax, z(%rip)	##Res
+	
+	
+## a = b;
+	movl	b(%rip), %eax
+	movl	%eax, a(%rip)
+	
 	
 ##	c = a > b; 
 	movl	a(%rip), %edx
@@ -123,6 +143,22 @@ main:
 	
 	
 	
+##c = !a;
+
+	movl	a(%rip), %eax
+	testl	%eax, %eax
+	sete	%al
+	movzbl	%al, %edx
+	leaq	c(%rip), %rax
+	movl	%edx, (%rax)
+	leaq	c(%rip), %rax
+
+## if(!a)	
+	movl	a(%rip), %eax
+	testl	%eax, %eax
+	jne	.L2	
+	
+	
 	
 ##PRINT_NUMBER
 	movl	x(%rip), %eax			      ##variavel x
@@ -149,6 +185,19 @@ main:
 .L2:
 	movl	$2, x(%rip)
 .L3:	
+	
+	
+	
+	
+## vec[a] = c;
+
+
+	movl	a(%rip), %eax
+	movl	c(%rip), %edx
+	cltq
+	leaq	0(,%rax,4), %rcx
+	leaq	vec(%rip), %rax
+	movl	%edx, (%rcx,%rax)
 	
 	
 	

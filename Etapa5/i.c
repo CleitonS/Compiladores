@@ -18,35 +18,28 @@ int i = 2;
 int d = 0;
 int vec[3]: 1 2 3;
 */
+#include <stdio.h>
 
-//#include <stdio.h>
-int x = 20;
-int y = 10;
-int z = 0;
-char text[] = "teste";
+int vec[3]= { 1, 2, 3};
+int a = 5;
+int b = 5;
+int c = 5;
 
 int main(){
-	if (x == 10)
-		x = 1;
-	else
-		x = 2;
-	
-	
-	/*printf("%s", text);*/
-	
-	
-	
-	
+
+vec[0] = a;
+vec[1] = b;
+vec[2] = c;
+
+printf("TESETE\n");
 	
 	
 
-
-	
 	
 	
 /*======== Atribuição a vetor =========================*/
 /*
-	
+	 
 	vec[a+1] = i * 5;
 */
 /*==========================================================*/

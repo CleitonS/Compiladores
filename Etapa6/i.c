@@ -18,15 +18,21 @@ int i = 2;
 int d = 0;
 int vec[3]: 1 2 3;
 */
-#include <stdio.h>
-int a = 1;
-int b = 0;
-int c;
+
+/*#include <stdio.h>*/
+/*int vec[3] ={ 1 ,2 ,3};*/
+
+int a = 20;
+int b = 10;
+
+
 int main(){
 
-c = (a || b);
 
-printf("%d\n", c);
+
+
+
+
 	
 	
 

@@ -35,7 +35,7 @@ void tacPrintSingle(TAC*tac)
 		case TAC_IFZ: fprintf(stderr, "TAC_IFZ"); break;
 		case TAC_LABEL: fprintf(stderr, "TAC_LABEL"); break;
 		case TAC_JUMP: fprintf(stderr, "TAC_JUMP"); break;
-		case TAC_EQUAL: fprintf(stderr, "TAC_EQUAL"); break;
+		//case TAC_EQUAL: fprintf(stderr, "TAC_EQUAL"); break;
 		case TAC_IFNZ: fprintf(stderr, "TAC_IFNZ"); break;
 		case TAC_LEQ: fprintf(stderr, "TAC_LEQ"); break;
 		case TAC_GEQ: fprintf(stderr, "TAC_GEQ"); break;
@@ -43,15 +43,15 @@ void tacPrintSingle(TAC*tac)
 		case TAC_NEQ: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_AND: fprintf(stderr, "TAC_NEQ"); break;
 		case TAC_OR: fprintf(stderr, "TAC_NEQ"); break;
-		case TAC_WHI: fprintf(stderr, "TAC_WHI"); break;
+		//case TAC_WHI: fprintf(stderr, "TAC_WHI"); break;
 		case TAC_RET: fprintf(stderr, "TAC_RET"); break;
 		case TAC_NOT: fprintf(stderr, "TAC_NOT"); break;
 		case TAC_PRI: fprintf(stderr, "TAC_PRI"); break;		
 		case TAC_READ: fprintf(stderr, "TAC_READ"); break;				
 		case TAC_ATRVEC: fprintf(stderr, "TAC_ATRVEC"); break;			
-		case TAC_DECVECLI: fprintf(stderr, "TAC_DECVECLI"); break;	
-		case TAC_INC: fprintf(stderr, "TAC_INC"); break;
-		case TAC_ZERO: fprintf(stderr, "TAC_ZERO"); break;
+		//case TAC_DECVECLI: fprintf(stderr, "TAC_DECVECLI"); break;	
+		//case TAC_INC: fprintf(stderr, "TAC_INC"); break;
+		//case TAC_ZERO: fprintf(stderr, "TAC_ZERO"); break;
 		case TAC_FUNCALL: fprintf(stderr, "TAC_FUNCALL"); break;
 		case TAC_FUNDEF: fprintf(stderr, "TAC_FUNDEF"); break;
 		case TAC_FUNC_START: fprintf(stderr, "TAC_FUNC_START"); break;
@@ -60,7 +60,11 @@ void tacPrintSingle(TAC*tac)
 		case TAC_ARG_CALL: fprintf(stderr, "TAC_ARG_CALL"); break;
 		case TAC_CALL: fprintf(stderr, "TAC_CALL"); break;
 		case TAC_DECVET: fprintf(stderr, "TAC_DECVET"); break;
-		case TAC_ATRVECINI: fprintf(stderr, "TAC_ATRVECINI"); break;		
+		case TAC_ATRVECINI: fprintf(stderr, "TAC_ATRVECINI"); break;	
+		case TAC_DECINIT: fprintf(stderr, "TAC_DECINIT"); break;	
+		
+		
+		
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
@@ -127,7 +131,7 @@ TAC* codeGenerator(AST* node)
 	//fprintf(stderr, "code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);
 	switch(node->type)
 	{
-		case	AST_SYMBOL: result = tacCreate(TAC_SYMBOL,node->symbol,0,0);
+		case	AST_SYMBOL: result = makeSymbol(node); //AST_SYMBOL: result = tacCreate(TAC_SYMBOL,node->symbol,0,0);
 			break;
 		case	AST_ADD: result = makeBinOp(TAC_ADD,code[0],code[1]);
 			break;
@@ -161,7 +165,7 @@ TAC* codeGenerator(AST* node)
 			break;
 		case	AST_ATRVEC: result = makeAtrVec(node->symbol,code[0],code[1]);
 			break;			
-		case	AST_DECINIT: {result = tacJoin(code[0], tacCreate(TAC_DECINIT, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
+		case	AST_DECINIT: {printf("hey\n"); result = tacJoin(code[0], tacCreate(TAC_DECINIT, node->symbol, code[1]?code[1]->res:0,0)); /*fprintf(stderr, "declaracao --> code0 %d   code1 %d   code2 %d   code3 %d   : %d\n", code[0],code[1],code[2],code[3]);*/}
 			break;			
 		case 	AST_IF: result = makeIfThen(code[0],code[1]);
 			break;
@@ -195,13 +199,33 @@ TAC* codeGenerator(AST* node)
 	return result;
 }
 
+
+
+TAC* makeSymbol(AST* node){
+	hash* varTemp = 0;
+	printf("makeSymbol\n");
+	
+	if(	  node->symbol->type == SYMBOL_TYPE_LIT_INT 
+	   || node->symbol->type == SYMBOL_TYPE_LIT_FLOAT 
+	   || node->symbol->type == SYMBOL_TYPE_LIT_CHAR){
+		   varTemp = makeTemp();
+		   printf("makeSymbol - 1\n");
+		   return tacJoin(tacCreate(TAC_DECINIT, varTemp, node->symbol,0), tacCreate(TAC_SYMBOL,varTemp,0,0)); 
+	   }
+	else
+		return tacCreate(TAC_SYMBOL,node->symbol,0,0);
+	
+	
+	
+}
+
 TAC* makeBinOp(int type, TAC* code0, TAC* code1)
 {
 	//tacJoin(code[0],tacJoin(code[1],tacCreate(TAC_ADD,makeTemp(),code[0]?code[0]->res:0,code[1]?code[1]->res:0)));
-	
-	TAC* newtac = tacCreate(type, makeTemp(), code0?code0->res:0,code1?code1->res:0);	
+	hash* varTemp = makeTemp();
+	TAC* newtac = tacCreate(type, varTemp, code0?code0->res:0,code1?code1->res:0);	
 	//fprintf(stderr, "NewTac: %s\n", newtac->res->yytext);
-	return tacJoin(code0,tacJoin(code1,newtac));
+		return tacJoin(tacJoin(tacJoin(tacCreate(TAC_DECINIT, varTemp, 0,0), code0),code1),newtac);
 }
 
 TAC* makeIfThen(TAC *code0, TAC *code1){
@@ -247,7 +271,7 @@ TAC* makeFor(hash* symbol, TAC *code0, TAC *code1, TAC *code2){
 	
 	assTac = tacCreate(TAC_ASS, symbol, code0->res,0);
 	beginLabelTac = tacCreate(TAC_LABEL, beginLabel,0,0);
-	equalTac = tacCreate(TAC_EQUAL, VarTemp, symbol,code1->res);
+	equalTac = tacCreate(TAC_EQU, VarTemp, symbol,code1->res);
 	ifTac = tacCreate(TAC_IFNZ,outLabel,VarTemp,0);
 	JumpTac = tacCreate(TAC_JUMP,beginLabel,0,0);
 	outLabelTac = tacCreate(TAC_LABEL, outLabel,0,0);
