@@ -201,7 +201,7 @@ main:
 	
 	
 	
-	
+	tacCreate(TAC_DECINIT, varTemp, 0,0)
 	
 ##END FUNC	
 	movl	$0, %eax
