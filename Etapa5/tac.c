@@ -59,6 +59,7 @@ void tacPrintSingle(TAC*tac)
 		case TAC_ARG_RECEIVE: fprintf(stderr, "TAC_ARG_RECEIVE"); break;
 		case TAC_ARG_CALL: fprintf(stderr, "TAC_ARG_CALL"); break;
 		case TAC_CALL: fprintf(stderr, "TAC_CALL"); break;
+		case TAC_DECINIT: fprintf(stderr, "TAC_DECINIT"); break;		
 		default: fprintf(stderr, "TAC_UNKNOWN"); break;
 	}
 	if (tac->res) fprintf(stderr, ",%s", tac->res->yytext);
