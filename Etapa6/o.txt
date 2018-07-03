@@ -1,5 +1,9 @@
 int a = 20;
 int b = 10;
+int c = 100;
 int main (  ) { 
-a = b+1;
+a = 1;
+if ( a== 0) then
+ print "TESTEIF"  ;
+ print "FIMTESTE"  ;
   }

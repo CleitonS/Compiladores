@@ -1,10 +1,14 @@
 .data
 a:	.long	20
 b:	.long	10
-_VarTemp3:	.long	0
-_VarTemp2:	.long	1
+c:	.long	100
+_VarTemp3:	.long	1
+_VarTemp5:	.long	0
+_VarTemp4:	.long	0
 .def	__main;	.scl	2;	.type	32;	.endef
 .section .rdata,"dr"
+_Label1:	.ascii "TESTEIF"
+_Label2:	.ascii "FIMTESTE"
 .text
 .globl	main
 .def	main;	.scl	2;	.type	32;	.endef
@@ -16,12 +20,24 @@ movq	%rsp, %rbp
 subq	$32, %rsp
 .seh_stackalloc	32
 .seh_endprologue
-movl	b(%rip), %edx
-movl	_VarTemp2(%rip), %ecx
-addl	%edx, %eax
-movl	%eax, _VarTemp3(%rip)
 movl	_VarTemp3(%rip), %eax
 movl	%eax, a(%rip)
+movl	a(%rip), %edx
+movl	_VarTemp4(%rip), %eax
+cmpl	%eax, %edx
+sete	%al
+movzbl	%al, %edx
+leaq	_VarTemp5(%rip), %rax
+movl	%edx, (%rax)
+leaq	_VarTemp5(%rip), %rax
+movl	_VarTemp5(%rip), %eax
+testl	%eax, %eax
+jne	_Label0
+leaq	_Label1(%rip), %rcx
+call	puts
+_Label0:
+leaq	_Label2(%rip), %rcx
+call	puts
 movl	$0, %eax
 addq	$32, %rsp
 popq	%rbp

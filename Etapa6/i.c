@@ -24,10 +24,28 @@ int vec[3]: 1 2 3;
 
 int a = 20;
 int b = 10;
+int c = 100;
 
 
 int main(){
-a = b + 1;
+/*
+a = b + c;
+a = b - c;
+a = b * c;
+a = b / c;
+a = b > c;
+a = b <= c;
+*/
+
+a = 1;
+
+if(a == 0) then
+	print "TESTEIF";
+
+
+	print "FIMTESTE";
+
+
 
 
 

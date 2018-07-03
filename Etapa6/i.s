@@ -8,38 +8,16 @@ a:
 	.align 4
 b:
 	.long	10
+	.globl	c
+	.align 4
+c:
+	.long	100
+	.def	__main;	.scl	2;	.type	32;	.endef
 	.section .rdata,"dr"
 .LC0:
-	.ascii "FOO\0"
+	.ascii "TESTS\0"
 	.text
-.LC1:
-	.ascii "MAIN\0"
-	.text	
-	
-	
-	
-	.def	foo;	.scl	2;	.type	32;	.endef
-	.seh_proc	foo
-foo:
-	pushq	%rbp
-	.seh_pushreg	%rbp
-	movq	%rsp, %rbp
-	.seh_setframe	%rbp, 0
-	subq	$32, %rsp
-	.seh_stackalloc	32
-	.seh_endprologue
-	leaq	.LC0(%rip), %rcx
-	call	puts
-	movl	$5, b(%rip)
-	nop
-	addq	$32, %rsp
-	popq	%rbp
-	ret
-	.seh_endproc
-	
-	
-	
-	
+	.globl	main
 	.def	main;	.scl	2;	.type	32;	.endef
 	.seh_proc	main
 main:
@@ -50,14 +28,18 @@ main:
 	subq	$32, %rsp
 	.seh_stackalloc	32
 	.seh_endprologue
-	
-	leaq	.LC1(%rip), %rcx
-	call	puts
-	call	foo
-	movl	$10, a(%rip)
+	call	__main
+	movl	b(%rip), %eax
+	movl	c(%rip), %ecx
+	cltd
+	idivl	%ecx
+	movl	%eax, a(%rip)
+	leaq	.LC0(%rip), %rcx
+	call	printf
 	movl	$0, %eax
 	addq	$32, %rsp
 	popq	%rbp
 	ret
 	.seh_endproc
-
+	.ident	"GCC: (tdm64-1) 5.1.0"
+	.def	printf;	.scl	2;	.type	32;	.endef

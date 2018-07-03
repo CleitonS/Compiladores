@@ -58,6 +58,7 @@ int genasm(TAC* tac){
 			case TAC_DIV:
 				fprintf(asmCode, "movl\t%s(%%rip), %%eax\n", tac->op1->yytext);
 				fprintf(asmCode, "movl\t%s(%%rip), %%ecx\n", tac->op2->yytext);
+				fprintf(asmCode, "cltd\n");
 				fprintf(asmCode, "idivl\t%%ecx\n");
 				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);	
 			break;
@@ -92,6 +93,10 @@ int genasm(TAC* tac){
 				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);				
 			
 			break;
+			
+			
+			/*TESTEI ATE AQUI*/
+			
 			case TAC_IFZ:
 				fprintf(asmCode, "movl\t%s(%%rip), %%eax\n", tac->op1->yytext);				
 				fprintf(asmCode, "testl\t%%eax, %%eax\n");
@@ -217,7 +222,7 @@ int genasm(TAC* tac){
 				
 				fprintf(asmCode, "leaq\t%s(%%rip), %%rcx\n", label->yytext);
 				fprintf(asmCode, "call\tputs\n");
-				fprintf(asmRData, "%s:\t.ascii \"%s\\0\"\n", label->yytext, tac->res->yytext );				
+				fprintf(asmRData, "%s:\t.ascii %s\n", label->yytext, tac->res->yytext );				
 			
 			break;
 			case TAC_READ :
