@@ -100,7 +100,7 @@ int genasm(TAC* tac){
 			case TAC_IFZ:
 				fprintf(asmCode, "movl\t%s(%%rip), %%eax\n", tac->op1->yytext);				
 				fprintf(asmCode, "testl\t%%eax, %%eax\n");
-				fprintf(asmCode, "jne\t%s\n", tac->res->yytext);
+				fprintf(asmCode, "jz\t%s\n", tac->res->yytext);
 			
 			break;
 			case TAC_LABEL :
@@ -112,7 +112,7 @@ int genasm(TAC* tac){
 			case TAC_IFNZ :
 				fprintf(asmCode, "movl\t%s(%%rip), %%eax\n", tac->op1->yytext);				
 				fprintf(asmCode, "testl\t%%eax, %%eax\n");
-				fprintf(asmCode, "je\t%s\n", tac->res->yytext);			
+				fprintf(asmCode, "jnz\t%s\n", tac->res->yytext);			
 			break;
 			case TAC_LEQ :
 			//res = op1 <= op2

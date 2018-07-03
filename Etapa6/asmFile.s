@@ -2,13 +2,13 @@
 a:	.long	20
 b:	.long	10
 c:	.long	100
-_VarTemp3:	.long	1
+_VarTemp3:	.long	0
 _VarTemp5:	.long	0
 _VarTemp4:	.long	0
 .def	__main;	.scl	2;	.type	32;	.endef
 .section .rdata,"dr"
-_Label1:	.ascii "TESTEIF"
-_Label2:	.ascii "FIMTESTE"
+_Label1:	.ascii "TESTEIF 1\0"
+_Label2:	.ascii "FIM"
 .text
 .globl	main
 .def	main;	.scl	2;	.type	32;	.endef
@@ -32,7 +32,7 @@ movl	%edx, (%rax)
 leaq	_VarTemp5(%rip), %rax
 movl	_VarTemp5(%rip), %eax
 testl	%eax, %eax
-jne	_Label0
+jz	_Label0
 leaq	_Label1(%rip), %rcx
 call	puts
 _Label0:

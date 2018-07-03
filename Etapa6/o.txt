@@ -2,8 +2,8 @@ int a = 20;
 int b = 10;
 int c = 100;
 int main (  ) { 
-a = 1;
+a = 0;
 if ( a== 0) then
- print "TESTEIF"  ;
- print "FIMTESTE"  ;
+ print "TESTEIF 1"  ;
+ print "FIM"  ;
   }

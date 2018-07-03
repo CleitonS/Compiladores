@@ -37,14 +37,13 @@ a = b > c;
 a = b <= c;
 */
 
-a = 1;
+a = 0;
 
 if(a == 0) then
-	print "TESTEIF";
+print "TESTEIF 1";
 
 
-	print "FIMTESTE";
-
+print"FIM";
 
 
 

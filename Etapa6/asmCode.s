@@ -19,7 +19,7 @@ movl	%edx, (%rax)
 leaq	_VarTemp5(%rip), %rax
 movl	_VarTemp5(%rip), %eax
 testl	%eax, %eax
-jne	_Label0
+jz	_Label0
 leaq	_Label1(%rip), %rcx
 call	puts
 _Label0:
