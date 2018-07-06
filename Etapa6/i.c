@@ -22,9 +22,16 @@ int vec[3]: 1 2 3;
 /*#include <stdio.h>*/
 /*int vec[3] ={ 1 ,2 ,3};*/
 
-int a = 20;
+int a = 10;
 int b = 10;
 int c = 100;
+int um = 1;
+
+
+
+int foo1(){
+	print "foo1\n";
+}
 
 
 int main(){
@@ -34,16 +41,27 @@ a = b - c;
 a = b * c;
 a = b / c;
 a = b > c;
-a = b <= c;
 */
 
-a = 0;
 
-if(a == 0) then
-print "TESTEIF 1";
+a = 1;
+while (a != 10){
+print "tes ";
+a = a + 1; }
 
 
-print"FIM";
+/*
+if(a == b) then
+	print "a e b iguais";
+
+
+if(a == c) then {
+	print "a e c iguais";
+}
+else{
+	print "a e c diferentes";
+}
+;*/
 
 
 

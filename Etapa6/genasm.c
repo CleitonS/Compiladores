@@ -26,7 +26,6 @@ int genasm(TAC* tac){
 	printf("GENASM\n");
 	
 	for(; tac; tac = tac->next){
-		printf("for %d\n", tac->type);
 		switch(tac->type)
 		{
 			
@@ -37,22 +36,22 @@ int genasm(TAC* tac){
 			case TAC_ADD:
 				fprintf(asmCode, "movl\t%s(%%rip), %%edx\n", tac->op1->yytext);
 				fprintf(asmCode, "movl\t%s(%%rip), %%ecx\n", tac->op2->yytext);
-				fprintf(asmCode, "addl\t%%edx, %%eax\n");
-				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);			
+				fprintf(asmCode, "addl\t%%edx, %%ecx\n");
+				fprintf(asmCode, "movl\t%%ecx, %s(%%rip)\n", tac->res->yytext);			
 			break;
 			
 			case TAC_SUB:
 				fprintf(asmCode, "movl\t%s(%%rip), %%edx\n", tac->op1->yytext);
 				fprintf(asmCode, "movl\t%s(%%rip), %%ecx\n", tac->op2->yytext);
-				fprintf(asmCode, "subl\t%%edx, %%eax\n");
-				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);				
+				fprintf(asmCode, "subl\t%%edx, %%ecx\n");
+				fprintf(asmCode, "movl\t%%ecx, %s(%%rip)\n", tac->res->yytext);				
 			break;
 			
 			case TAC_MUL:
 				fprintf(asmCode, "movl\t%s(%%rip), %%edx\n", tac->op1->yytext);
 				fprintf(asmCode, "movl\t%s(%%rip), %%ecx\n", tac->op2->yytext);
-				fprintf(asmCode, "imull\t%%edx, %%eax\n");
-				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);				
+				fprintf(asmCode, "imull\t%%edx, %%ecx\n");
+				fprintf(asmCode, "movl\t%%ecx, %s(%%rip)\n", tac->res->yytext);				
 			break;
 			
 			case TAC_DIV:
@@ -60,7 +59,7 @@ int genasm(TAC* tac){
 				fprintf(asmCode, "movl\t%s(%%rip), %%ecx\n", tac->op2->yytext);
 				fprintf(asmCode, "cltd\n");
 				fprintf(asmCode, "idivl\t%%ecx\n");
-				fprintf(asmCode, "movl\t%%eax, %s(%%rip)\n", tac->res->yytext);	
+				fprintf(asmCode, "movl\t%%ecx, %s(%%rip)\n", tac->res->yytext);	
 			break;
 			
 			case TAC_LESS:
@@ -219,10 +218,15 @@ int genasm(TAC* tac){
 			break;
 			case TAC_PRI :
 				label = makeLabel();
+				for(int i = 1; i < strlen(tac->res->yytext); i++){
+					if (tac->res->yytext[i] == '"')
+						tac->res->yytext[i] = ' ';
+				}
+				
 				
 				fprintf(asmCode, "leaq\t%s(%%rip), %%rcx\n", label->yytext);
 				fprintf(asmCode, "call\tputs\n");
-				fprintf(asmRData, "%s:\t.ascii %s\n", label->yytext, tac->res->yytext );				
+				fprintf(asmRData, "%s:\t.ascii %s\\0\"\n", label->yytext, tac->res->yytext );				
 			
 			break;
 			case TAC_READ :
