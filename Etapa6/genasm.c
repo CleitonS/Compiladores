@@ -204,8 +204,17 @@ int genasm(TAC* tac){
 				fprintf(asmCode, "leaq\t%s(%%rip), %%rax\n", tac->res->yytext);
 
 			break;
+			
+			
+			
 			case TAC_RET :
+				fprintf(asmCode, "movl\t%s(%%rip), %%eax\n", tac->res->yytext);
+				fprintf(asmCode, "addq\t$32, %%rsp\n");
+				fprintf(asmCode, "popq\t%%rbp\n");
+				fprintf(asmCode, "ret\n");			
 			break;
+			
+			
 			case TAC_NOT :
 				fprintf(asmCode, "movl	%s(%%rip), %%eax\n", tac->op1->yytext);
 				fprintf(asmCode, "testl\t%%eax, %%eax\n");

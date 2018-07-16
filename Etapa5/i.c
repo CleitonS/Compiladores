@@ -18,20 +18,56 @@ int i = 2;
 int d = 0;
 int vec[3]: 1 2 3;
 */
-#include <stdio.h>
 
-int vec[3]= { 1, 2, 3};
-int a = 5;
-int b = 5;
-int c = 5;
+/*#include <stdio.h>*/
+/*int vec[3] ={ 1 ,2 ,3};*/
+
+int a = 10;
+int b = 10;
+int c = 100;
+int um = 1;
+
+
+
+int foo1(){
+	print "foo1\n";
+}
+
 
 int main(){
+/*
+a = b + c;
+a = b - c;
+a = b * c;
+a = b / c;
+a = b > c;
+*/
 
-vec[0] = a;
-vec[1] = b;
-vec[2] = c;
 
-printf("TESETE\n");
+a = 1;
+while (a != 10){
+print "tes ";
+a = a + 1; }
+
+
+/*
+if(a == b) then
+	print "a e b iguais";
+
+
+if(a == c) then {
+	print "a e c iguais";
+}
+else{
+	print "a e c diferentes";
+}
+;*/
+
+
+
+
+
+
 	
 	
 

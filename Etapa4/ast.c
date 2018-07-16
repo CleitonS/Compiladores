@@ -1,6 +1,5 @@
-#ifndef __ASTC__
-#define __ASTC__
-
+//#ifndef __ASTC__
+//#define __ASTC__
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast.h"
@@ -353,4 +352,4 @@ void printAST_NODE(AST *node){
 		printAST_NODE(node->son[i]);	*/
 }
 
-#endif
+//#endif

@@ -1,10 +1,9 @@
-
 %{
-#include "hash.c"
-#include "ast.h"
-//#include "y.tab.h"
-#include "parser.tab.h"
 #include <stdio.h>
+//#include "hash.c"
+#include "hash.h"
+#include "ast.h"
+#include "y.tab.h"
 
 	int countLine = 1;
 	int running = 1;

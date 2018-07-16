@@ -1,6 +1,5 @@
-//#ifndef _HASHC_
-//#define _HASHC_
 #include "hash.h"
+#include "string.h"
 
 
 hash * Table[HASHSIZE];
@@ -28,28 +27,13 @@ int hashadress(char *yytext)
 	return adress-1;
 }
 
-hash * hashfind(char *yytext){
-	int adress = hashadress(yytext);
-	hash *node;
-	for(node=Table[adress];node; node = node->next)
-	{
-		if (strcmp(node->yytext, yytext) == 0)
-			return node;
-	}
-	return 0;
-}
-
 
 hash * hashinsert(int type, char *yytext)
 {
 	int adress;
 	hash * newnode=0;
-	if (hashfind(yytext) != 0)
-		return hashfind(yytext);
-
 	adress = hashadress(yytext);
 	newnode=(hash*)calloc(1,sizeof(hash));
-	newnode->type = type;
 	newnode->yytext=calloc(strlen(yytext)+1,sizeof(char));
 	
 	strcpy(newnode->yytext,yytext);
@@ -73,22 +57,3 @@ void hashprint()
 	
 }
 
-hash* makeTemp(void)
-{
-	static int serialNumber = 0 ;
-	static char buffer[64];
-	
-	sprintf(buffer,"_VarTemp%d",serialNumber++);
-	hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
-}
-
-hash* makeLabel(void)
-{
-	static int serialNumber = 0;
-	static char buffer[64];
-	
-	sprintf(buffer,"_Label%d", serialNumber++);
-	return hashinsert(SYMBOL_TYPE_ESCALAR,buffer);
-}
-
-//#endif

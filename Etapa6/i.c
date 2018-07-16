@@ -19,18 +19,20 @@ int d = 0;
 int vec[3]: 1 2 3;
 */
 
-/*#include <stdio.h>*/
+//#include <stdio.h>
 /*int vec[3] ={ 1 ,2 ,3};*/
 
 int a = 10;
 int b = 10;
 int c = 100;
 int um = 1;
+int a1 = 10;
+int a2 = 10;
 
 
+int foo1(int a1, int a2, int a3, int a4, int a5, int a6, int a7){
 
-int foo1(){
-	print "foo1\n";
+	return a;
 }
 
 
@@ -44,10 +46,7 @@ a = b > c;
 */
 
 
-a = 1;
-while (a != 10){
-print "tes ";
-a = a + 1; }
+foo1(1,2,3,4,5,6,7);
 
 
 /*

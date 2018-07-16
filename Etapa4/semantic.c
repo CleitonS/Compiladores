@@ -1,4 +1,3 @@
-
 #include "semantic.h"
 
 int num_pointers;

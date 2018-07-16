@@ -1,7 +1,15 @@
-int x = 0;
-int teste (  ) { 
- print "TESTE DE FUNCAO" ;
+int a = 10;
+int b = 10;
+int c = 100;
+int um = 1;
+int foo1 (  ) { 
+ print "foo1\n" ;
   }
 int main (  ) { 
-teste();
+a = 1;
+while ( a!= 10) 
+{ 
+ print "tes " ;
+a = a+1 ;
+  }
   }

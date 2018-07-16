@@ -3,14 +3,24 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>
-	#include "ast.c"
+	//#include "ast.c"
+	#include "ast.h"
+	#include "y.tab.h"
     #include "hash.h"
-	#include "semantic.c"
+	#include "tac.h"
+	//#include "tac.c"
+	#include "semantic.h"
+	//#include "semantic.c"	
 	//#include "main.c"
 	int yylex();
     void yyerror(char *msg);
 	extern AST *astCreate(int type, hash* symbol, AST *son0, AST *son1, AST *son2, AST *son3);
-extern void printAST_NODE(AST *node);
+	extern void printAST_NODE(AST *node);
+	//extern TAC* tacReverse(TAC*last);
+	//extern TAC* codeGenerator(AST* node);
+	//extern void tacPrintForward(TAC* tac);
+	
+	
 %}
 
 %union{
@@ -100,7 +110,8 @@ program: declist	   {printAST_NODE($1);
 						check_undeclarations($1);
 						set_NumArg($1);
 						check_NumArg($1);
-						check_operands($1);} 	
+						check_operands($1);
+						} 	
 	;
 	
 declist: dec declist  {$$ = astCreate(AST_LISTLINE,0,$1,$2,0,0);} 	
@@ -149,8 +160,8 @@ COMAND: TK_IDENTIFIER '=' EXPRES                     {$$ = astCreate(AST_ATR,$1,
 		|KW_READ TK_IDENTIFIER                       {$$ = astCreate(AST_READ,$2,0,0,0,0);}	 
 		|KW_PRINT LISTPRINT	                         {$$ = astCreate(AST_PRI,0,$2,0,0,0);}	 
 		|KW_RETURN EXPRES						     {$$ = astCreate(AST_RET,0,$2,0,0,0);}
-		|BODY										 
-		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} /*Antes estava: TK_IDENTIFIER OPERATOR_EQ EXPRES  ???*/
+		|BODY	
+		|TK_IDENTIFIER OPERATOR_EQ EXPRES		     {$$ = astCreate(AST_COMPARE,$1,$3,0,0,0);} 
 		|TK_IDENTIFIER '(' LSTARG ')'				 {$$ = astCreate(AST_FUN,$1,$3,0,0,0);}
 		|										     {$$ = 0;}	
 		;

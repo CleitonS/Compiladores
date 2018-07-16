@@ -1,6 +1,8 @@
 #ifndef _AST_
 #define _AST_
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "hash.h"
 #define MAX_SONS 4
 

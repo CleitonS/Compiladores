@@ -1,15 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-extern int Running;
+//extern int Running;
 extern FILE * yyin;
-extern char * yytext;
-extern int isRunning(void);
-extern int getLineNumber();
-extern int yylex();
-extern void hashprint();
-extern FILE *TreeFile;
-int yyparse ();
+//extern char * yytext;
+//extern int isRunning(void);
+//extern int getLineNumber();
+//extern int yylex();
+//extern void hashprint();
+//extern FILE *TreeFile;
+//int yyparse ();
+
 #include "ast.h"
+//#include "lex.yy.c"
+#include "hash.h"
+#include "y.tab.h"
+#include "semantic.h"
+#include "tac.h"
+
 /*
 extern AST *root;
 extern void printAST_NODE(AST *node);
